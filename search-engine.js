@@ -508,11 +508,16 @@ function showItemDetails(encodedItem) {
 
     detailsHTML += '<div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8;">';
 
-    // Show each field
+    // Show each field (including empty ones as "None" for shop system compatibility)
     if (fieldsToShow.length > 0) {
         fieldsToShow.forEach(field => {
             const value = item.data[field];
-            const formattedValue = formatFieldValue(field, value);
+            let formattedValue = formatFieldValue(field, value);
+
+            // Convert "---" to "None" for better shop system reference
+            if (formattedValue === '---') {
+                formattedValue = 'None';
+            }
 
             // Format field name nicely: EssCost → Essence Cost, StreetIndex → Street Index
             let displayName = field
@@ -523,15 +528,15 @@ function showItemDetails(encodedItem) {
                 .replace(/^./, str => str.toUpperCase())
                 .trim();
 
-            if (formattedValue !== '---') {
-                detailsHTML += `<div style="margin-bottom: 8px;">
-                    <span style="color: var(--text-muted);">${displayName}:</span>
-                    <span style="color: var(--primary-neon);">${formattedValue}</span>
-                </div>`;
-            }
+            // Show ALL fields, even empty ones
+            const valueColor = (formattedValue === 'None') ? 'var(--text-muted)' : 'var(--primary-neon)';
+            detailsHTML += `<div style="margin-bottom: 8px;">
+                <span style="color: var(--text-muted);">${displayName}:</span>
+                <span style="color: ${valueColor};">${formattedValue}</span>
+            </div>`;
         });
     } else {
-        detailsHTML += '<div style="color: var(--text-muted); text-align: center; padding: 20px;">No additional details available</div>';
+        detailsHTML += '<div style="color: var(--text-muted); text-align: center; padding: 20px;">No details available</div>';
     }
 
     detailsHTML += '</div>';
