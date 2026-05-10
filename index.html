@@ -938,6 +938,7 @@
             <!-- Console Tabs -->
             <div class="console-tabs">
                 <button class="console-tab active" onclick="switchTab(event, 'conditions')">📊 CONDITIONS</button>
+                <button class="console-tab" onclick="switchTab(event, 'reference')">📚 REFERENCE</button>
                 <button class="console-tab" onclick="switchTab(event, 'mission')">📋 MISSION</button>
                 <button class="console-tab" onclick="switchTab(event, 'notes')">📝 NOTES</button>
             </div>
@@ -1002,6 +1003,25 @@
                 </div>
             </div>
 
+            <!-- Reference Tab -->
+            <div id="reference-tab" class="console-content">
+                <div style="display: flex; flex-direction: column; gap: 10px; height: 100%;">
+                    <!-- Search Box -->
+                    <div style="padding: 8px; border: 1px solid var(--primary-neon); border-radius: 2px; background: rgba(0, 255, 136, 0.05);">
+                        <input type="text" id="refSearchInput" placeholder="🔍 Search skills, spells, gear, cyberware..."
+                               style="width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--primary-neon); color: var(--text-primary); padding: 6px; border-radius: 2px; font-family: 'IBM Plex Mono', monospace; font-size: 9px;"
+                               oninput="performSearch(this.value)">
+                    </div>
+
+                    <!-- Results Area -->
+                    <div id="refResults" style="flex: 1; overflow-y: auto; border: 1px solid var(--primary-neon); border-radius: 2px; background: rgba(0, 0, 0, 0.2);">
+                        <div style="padding: 12px; color: var(--text-muted); text-align: center; font-size: 9px;">
+                            Type to search for skills, spells, equipment, cyberware, and more...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Mission Tab (Placeholder) -->
             <div id="mission-tab" class="console-content">
                 <div style="color: var(--text-muted); font-size: 10px; padding: 20px; text-align: center;">
@@ -1020,6 +1040,7 @@
 
 <script src="weather-engine.js"></script>
 <script src="time-engine.js"></script>
+<script src="search-engine.js"></script>
 <script>
     let geoJsonLayers = [];
     let canvas;
