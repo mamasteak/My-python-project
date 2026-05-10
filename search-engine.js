@@ -323,7 +323,77 @@ function displaySearchResults(results, query) {
     resultsDiv.innerHTML = html;
 }
 
-// Show item details in modal
+// Item display templates - what fields to show for each type
+const itemTemplates = {
+    'Skill': {
+        fields: ['Specializations'],
+        format: 'skill'
+    },
+    'Spell': {
+        fields: ['Drain', 'Type', 'Duration', 'Class'],
+        format: 'spell'
+    },
+    'Adept Power': {
+        fields: ['Cost'],
+        format: 'power'
+    },
+    'Cyberware': {
+        fields: ['EssCost', 'Cost', 'StreetIndex', 'Mods'],
+        format: 'cyber'
+    },
+    'Bioware': {
+        fields: ['BioIndex', 'Cost', 'StreetIndex'],
+        format: 'bio'
+    },
+    'Gear': {
+        fields: ['Cost', 'Availability', 'Weight'],
+        format: 'gear'
+    },
+    'Vehicle': {
+        fields: ['Handling', 'Speed/Accel', 'Body/Armor', 'Cost'],
+        format: 'vehicle'
+    },
+    'Totem': {
+        fields: ['environment', 'advantages', 'disadvantages'],
+        format: 'totem'
+    },
+    'Program': {
+        fields: ['Type', 'Rating'],
+        format: 'program'
+    },
+    'Cyberdeck': {
+        fields: ['Cost', 'MPU', 'Programs'],
+        format: 'cyber'
+    }
+};
+
+// Format field values for display
+function formatFieldValue(key, value) {
+    if (value === null || value === undefined || value === '') {
+        return '---';
+    }
+
+    // Handle arrays
+    if (Array.isArray(value)) {
+        if (key.toLowerCase().includes('concentration') || key.toLowerCase().includes('specialization')) {
+            return value.map(v => {
+                if (typeof v === 'object' && v.name) return v.name;
+                return v;
+            }).join(', ');
+        }
+        return value.join(', ');
+    }
+
+    // Handle objects (for concentrations)
+    if (typeof value === 'object') {
+        if (value.name) return value.name;
+        return JSON.stringify(value).slice(0, 50) + '...';
+    }
+
+    return String(value).trim();
+}
+
+// Show item details in draggable modal
 function showItemDetails(index) {
     const results = [];
     results.push(...srData.skills);
@@ -361,35 +431,61 @@ function showItemDetails(index) {
         background: rgba(0, 0, 0, 0.95);
         border: 2px solid var(--primary-neon);
         border-radius: 4px;
-        padding: 20px;
+        padding: 0;
         max-width: 500px;
         max-height: 80vh;
-        overflow-y: auto;
+        overflow: hidden;
         box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        display: flex;
+        flex-direction: column;
+        cursor: grab;
     `;
 
-    // Build details text
-    let detailsText = `${item.name}\n`;
-    detailsText += `${item.type} • ${item.category}\n`;
-    detailsText += '─'.repeat(40) + '\n\n';
+    // Get template for this item type
+    const template = itemTemplates[item.type] || { fields: [], format: 'default' };
 
-    // Display all attributes in readable format
-    Object.entries(item.data).forEach(([key, value]) => {
-        if (value !== null && value !== undefined && value !== '') {
-            detailsText += `${key}: ${value}\n`;
-        }
+    // Build details content
+    let detailsHTML = '';
+
+    // Get relevant fields to display
+    const fieldsToShow = template.fields.filter(f => item.data[f] !== undefined);
+
+    detailsHTML += '<div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8;">';
+
+    // Show each field
+    fieldsToShow.forEach(field => {
+        const value = item.data[field];
+        const formattedValue = formatFieldValue(field, value);
+
+        // Format field name: EssCost → Essence Cost
+        let displayName = field
+            .replace(/([A-Z])/g, ' $1')
+            .replace(/^./, str => str.toUpperCase())
+            .trim();
+
+        detailsHTML += `<div style="margin-bottom: 8px;">
+            <span style="color: var(--text-muted);">${displayName}:</span>
+            <span style="color: var(--primary-neon);">${formattedValue}</span>
+        </div>`;
     });
 
+    detailsHTML += '</div>';
+
+    // Build modal HTML
     modal.innerHTML = `
-        <div style="color: var(--primary-neon); font-size: 13px; font-weight: 600; margin-bottom: 12px;">${item.name}</div>
-        <div style="color: var(--text-muted); font-size: 9px; margin-bottom: 12px;">${item.type} • ${item.category}</div>
-        <div style="border-top: 1px solid rgba(0, 255, 136, 0.2); margin-bottom: 12px;"></div>
-        <div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap; font-family: 'IBM Plex Mono', monospace;">
-            ${detailsText}
+        <div style="padding: 12px; border-bottom: 1px solid rgba(0, 255, 136, 0.2); display: flex; align-items: center; gap: 8px; cursor: grab; user-select: none;" class="modal-drag-handle">
+            <span style="color: var(--text-muted); font-size: 8px;">⋮⋮</span>
+            <div style="flex: 1;">
+                <div style="color: var(--primary-neon); font-size: 12px; font-weight: 600;">${item.name}</div>
+                <div style="color: var(--text-muted); font-size: 8px;">${item.type} • ${item.category}</div>
+            </div>
+            <button onclick="this.closest('[style*=fixed]').remove()" style="background: none; border: none; color: var(--primary-neon); cursor: pointer; font-size: 14px; padding: 4px 8px;">✕</button>
         </div>
-        <div style="margin-top: 16px; text-align: center;">
-            <button onclick="this.closest('div').closest('div').parentElement.remove()"
-                    style="padding: 6px 16px; background: rgba(0, 255, 136, 0.1); border: 1px solid var(--primary-neon); color: var(--primary-neon); cursor: pointer; border-radius: 2px; font-size: 9px;">
+        <div style="padding: 16px; overflow-y: auto; flex: 1;">
+            ${detailsHTML}
+        </div>
+        <div style="padding: 12px; border-top: 1px solid rgba(0, 255, 136, 0.2); text-align: center;">
+            <button onclick="this.closest('[style*=fixed]').remove()" style="padding: 6px 16px; background: rgba(0, 255, 136, 0.1); border: 1px solid var(--primary-neon); color: var(--primary-neon); cursor: pointer; border-radius: 2px; font-size: 9px; font-weight: 600;">
                 CLOSE
             </button>
         </div>
@@ -398,11 +494,46 @@ function showItemDetails(index) {
     modalOverlay.appendChild(modal);
     document.body.appendChild(modalOverlay);
 
+    // Make modal draggable
+    makeModalDraggable(modal, modalOverlay);
+
     // Close on overlay click
     modalOverlay.onclick = (e) => {
         if (e.target === modalOverlay) {
             modalOverlay.remove();
         }
+    };
+}
+
+// Make modal draggable
+function makeModalDraggable(modal, overlay) {
+    const dragHandle = modal.querySelector('.modal-drag-handle');
+    let isDragging = false;
+    let currentX;
+    let currentY;
+    let initialX;
+    let initialY;
+
+    dragHandle.onmousedown = (e) => {
+        isDragging = true;
+        initialX = e.clientX - modal.offsetLeft;
+        initialY = e.clientY - modal.offsetTop;
+        dragHandle.style.cursor = 'grabbing';
+    };
+
+    document.onmousemove = (e) => {
+        if (isDragging) {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+            modal.style.position = 'absolute';
+            modal.style.left = currentX + 'px';
+            modal.style.top = currentY + 'px';
+        }
+    };
+
+    document.onmouseup = () => {
+        isDragging = false;
+        dragHandle.style.cursor = 'grab';
     };
 }
 
