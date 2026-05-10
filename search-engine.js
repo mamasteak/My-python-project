@@ -1,5 +1,6 @@
 // Shadowrun 2E Reference Search Engine
 // Searches across all foundry-sr2 data files
+// Rebuild trigger: v3
 
 let srData = {
     skills: [],
