@@ -1,0 +1,342 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "game": "Shadowrun 2 Simulator",
+    "region": "Bangkok, Thailand",
+    "last_updated": "2026-05-10"
+  },
+  "seasons": {
+    "hot_season": {
+      "name": "Hot Season",
+      "months": [3, 4, 5],
+      "description": "Extremely hot and humid, afternoon thunderstorms common",
+      "base_temperature_range": [30, 35],
+      "humidity_range": [65, 85]
+    },
+    "rainy_season": {
+      "name": "Rainy Season",
+      "months": [6, 7, 8, 9, 10],
+      "description": "Monsoon rains, frequent heavy downpours, flooding possible",
+      "base_temperature_range": [25, 30],
+      "humidity_range": [80, 95]
+    },
+    "cool_season": {
+      "name": "Cool Season",
+      "months": [11, 12, 1, 2],
+      "description": "Mild temperatures, low humidity, minimal rain",
+      "base_temperature_range": [20, 28],
+      "humidity_range": [50, 70]
+    }
+  },
+  "weather_conditions": {
+    "clear": {
+      "id": "clear",
+      "name": "Clear Skies",
+      "severity": 0,
+      "description": "Sunny, bright visibility, no precipitation",
+      "probability_weights": {
+        "hot_season": 25,
+        "rainy_season": 5,
+        "cool_season": 40
+      },
+      "game_effects": {
+        "driving_modifier": 0,
+        "visibility_penalty": 0,
+        "visibility_distance_m": 1000,
+        "stealth_bonus": -2,
+        "thermal_vision_bonus": 0,
+        "drone_operation_bonus": 2,
+        "physical_exertion_penalty": -1,
+        "heat_damage_risk": true
+      },
+      "narrative": "Clear skies overhead - good visibility but exposed. Everyone can see you."
+    },
+    "partly_cloudy": {
+      "id": "partly_cloudy",
+      "name": "Partly Cloudy",
+      "severity": 0,
+      "description": "Mix of sun and clouds, normal visibility",
+      "probability_weights": {
+        "hot_season": 30,
+        "rainy_season": 15,
+        "cool_season": 35
+      },
+      "game_effects": {
+        "driving_modifier": 0,
+        "visibility_penalty": 0,
+        "visibility_distance_m": 900,
+        "stealth_bonus": -1,
+        "thermal_vision_bonus": 0,
+        "drone_operation_bonus": 1,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false
+      },
+      "narrative": "Clouds drift across the sky. Decent visibility, some shadows to work with."
+    },
+    "overcast": {
+      "id": "overcast",
+      "name": "Overcast",
+      "severity": 1,
+      "description": "Heavy cloud cover, threatening rain, reduced visibility",
+      "probability_weights": {
+        "hot_season": 20,
+        "rainy_season": 35,
+        "cool_season": 20
+      },
+      "game_effects": {
+        "driving_modifier": 0,
+        "visibility_penalty": -1,
+        "visibility_distance_m": 700,
+        "stealth_bonus": 1,
+        "thermal_vision_bonus": -1,
+        "drone_operation_bonus": 0,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false,
+        "incoming_weather_warning": "Rain expected within 1-2 hours"
+      },
+      "narrative": "Storm clouds gathering on the horizon. The air feels heavy. Rain coming soon."
+    },
+    "light_rain": {
+      "id": "light_rain",
+      "name": "Light Rain",
+      "severity": 1,
+      "description": "Gentle, intermittent rain, wet streets but manageable",
+      "probability_weights": {
+        "hot_season": 15,
+        "rainy_season": 25,
+        "cool_season": 5
+      },
+      "game_effects": {
+        "driving_modifier": 0,
+        "visibility_penalty": -1,
+        "visibility_distance_m": 600,
+        "stealth_bonus": 0,
+        "thermal_vision_bonus": -1,
+        "drone_operation_bonus": -1,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false,
+        "auditory_detection_penalty": 1,
+        "blood_trail_difficulty": 1
+      },
+      "narrative": "Light rain patters against windows and pavement. Not too bad - still drivable."
+    },
+    "heavy_rain": {
+      "id": "heavy_rain",
+      "name": "Heavy Rain",
+      "severity": 2,
+      "description": "Sustained heavy downpour, significantly reduced visibility, hazardous driving",
+      "probability_weights": {
+        "hot_season": 10,
+        "rainy_season": 20,
+        "cool_season": 0
+      },
+      "game_effects": {
+        "driving_modifier": -2,
+        "visibility_penalty": -2,
+        "visibility_distance_m": 300,
+        "stealth_bonus": 1,
+        "thermal_vision_bonus": -2,
+        "drone_operation_bonus": -2,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false,
+        "auditory_detection_penalty": 2,
+        "blood_trail_difficulty": 3,
+        "flooding_risk": "low",
+        "vehicle_accident_roll_required": true
+      },
+      "narrative": "Torrential rain pounds down! Visibility is shot, streets are slick. This is dangerous."
+    },
+    "thunderstorm": {
+      "id": "thunderstorm",
+      "name": "Thunderstorm",
+      "severity": 3,
+      "description": "Active thunderstorm with lightning, extreme downpour, near-impossible driving",
+      "probability_weights": {
+        "hot_season": 0,
+        "rainy_season": 5,
+        "cool_season": 0
+      },
+      "game_effects": {
+        "driving_modifier": -3,
+        "visibility_penalty": -3,
+        "visibility_distance_m": 150,
+        "stealth_bonus": 2,
+        "thermal_vision_bonus": -3,
+        "drone_operation_bonus": -3,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false,
+        "auditory_detection_penalty": 3,
+        "blood_trail_difficulty": 4,
+        "flooding_risk": "medium",
+        "electronic_surge_risk": true,
+        "vehicle_accident_roll_required": true,
+        "lightning_strike_risk": true,
+        "drone_shutdown_risk": true
+      },
+      "narrative": "Lightning tears across the sky! Thunder shakes the buildings! Driving is suicidal. This is chaos."
+    },
+    "monsoon_downpour": {
+      "id": "monsoon_downpour",
+      "name": "Monsoon Downpour",
+      "severity": 4,
+      "description": "Catastrophic rainfall, flash flooding, streets impassable in places",
+      "probability_weights": {
+        "hot_season": 0,
+        "rainy_season": 5,
+        "cool_season": 0
+      },
+      "game_effects": {
+        "driving_modifier": -4,
+        "visibility_penalty": -3,
+        "visibility_distance_m": 100,
+        "stealth_bonus": 3,
+        "thermal_vision_bonus": -4,
+        "drone_operation_bonus": -4,
+        "physical_exertion_penalty": 0,
+        "heat_damage_risk": false,
+        "auditory_detection_penalty": 4,
+        "blood_trail_difficulty": 5,
+        "flooding_risk": "high",
+        "electronic_surge_risk": true,
+        "vehicle_accident_roll_required": true,
+        "street_blockages": true,
+        "vehicle_disabled_risk": true
+      },
+      "narrative": "The monsoon rains are biblical! Water rushes through the streets! Some routes are completely flooded. The city is shutting down."
+    },
+    "smog": {
+      "id": "smog",
+      "name": "Air Pollution / Smog",
+      "severity": 1,
+      "description": "Heavy smog and poor air quality, reduced visibility",
+      "probability_weights": {
+        "hot_season": 15,
+        "rainy_season": 10,
+        "cool_season": 5
+      },
+      "game_effects": {
+        "driving_modifier": -1,
+        "visibility_penalty": -2,
+        "visibility_distance_m": 400,
+        "stealth_bonus": 1,
+        "thermal_vision_bonus": 1,
+        "drone_operation_bonus": 0,
+        "physical_exertion_penalty": -1,
+        "respiratory_damage": true,
+        "thermal_vision_advantage": true
+      },
+      "narrative": "The city is choked in smog. Visibility sucks, and you can barely breathe. Good thing for air filters in your gear."
+    },
+    "fog": {
+      "id": "fog",
+      "name": "Fog",
+      "severity": 1,
+      "description": "Dense fog, severely limited visibility",
+      "probability_weights": {
+        "hot_season": 5,
+        "rainy_season": 10,
+        "cool_season": 15
+      },
+      "game_effects": {
+        "driving_modifier": -1,
+        "visibility_penalty": -3,
+        "visibility_distance_m": 250,
+        "stealth_bonus": 2,
+        "thermal_vision_bonus": -2,
+        "drone_operation_bonus": -1,
+        "physical_exertion_penalty": 0,
+        "auditory_detection_penalty": 1
+      },
+      "narrative": "Fog rolls through the streets like something out of a noir film. You can barely see ten meters ahead."
+    }
+  },
+
+  "environmental_hazards": {
+    "flooding": {
+      "name": "Flash Flooding",
+      "severity_threshold": 2,
+      "effects": {
+        "street_blockages": true,
+        "vehicle_disabled": true,
+        "pedestrian_damage": 1
+      },
+      "description": "Streets become impassable, sewage backups, water damage to electronics"
+    },
+    "electrical_surge": {
+      "name": "Electrical Surge / Lightning",
+      "severity_threshold": 3,
+      "effects": {
+        "drone_shutdown": true,
+        "vehicle_systems_failure": true,
+        "cyberware_damage": true,
+        "wireless_interference": true
+      },
+      "description": "Lightning strikes disable electronics and wireless systems"
+    },
+    "heat_exhaustion": {
+      "name": "Heat Exhaustion",
+      "severity_threshold": 0,
+      "temperature_threshold": 33,
+      "effects": {
+        "physical_exertion_penalty": -1,
+        "fatigue_acceleration": true
+      },
+      "description": "High temperatures cause exhaustion in non-augmented runners"
+    },
+    "visibility_hazard": {
+      "name": "Visibility Hazard",
+      "severity_threshold": 1,
+      "effects": {
+        "vehicle_accident_risk": true,
+        "pursuit_difficulty": 1
+      },
+      "description": "Poor visibility increases accident risk"
+    }
+  },
+  "weather_modifiers": {
+    "stealth_actions": {
+      "clear": 0,
+      "partly_cloudy": -1,
+      "overcast": 1,
+      "light_rain": 0,
+      "heavy_rain": 1,
+      "thunderstorm": 2,
+      "monsoon_downpour": 3,
+      "smog": 1,
+      "fog": 2
+    },
+    "surveillance": {
+      "clear": 2,
+      "partly_cloudy": 1,
+      "overcast": 0,
+      "light_rain": -1,
+      "heavy_rain": -2,
+      "thunderstorm": -3,
+      "monsoon_downpour": -4,
+      "smog": -2,
+      "fog": -3
+    },
+    "drone_operations": {
+      "clear": 2,
+      "partly_cloudy": 1,
+      "overcast": 0,
+      "light_rain": -1,
+      "heavy_rain": -2,
+      "thunderstorm": -3,
+      "monsoon_downpour": -4,
+      "smog": 0,
+      "fog": -1
+    },
+    "vehicle_handling": {
+      "clear": 0,
+      "partly_cloudy": 0,
+      "overcast": 0,
+      "light_rain": 0,
+      "heavy_rain": -2,
+      "thunderstorm": -3,
+      "monsoon_downpour": -4,
+      "smog": -1,
+      "fog": -1
+    }
+  }
+}
