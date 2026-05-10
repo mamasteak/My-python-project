@@ -478,6 +478,16 @@ function showItemDetails(encodedItem) {
         fieldsToShow = gearAttributes[item.category] || [];
     }
 
+    // For cyberware items - consistent fields across all 15 categories
+    else if (item.type === 'Cyberware') {
+        fieldsToShow = ['EssCost', 'Cost', 'StreetIndex', 'Mods'];
+    }
+
+    // For bioware items - consistent fields across all 5 categories
+    else if (item.type === 'Bioware') {
+        fieldsToShow = ['BioIndex', 'Cost', 'StreetIndex', 'Mods'];
+    }
+
     // If no fields determined yet, use template defaults
     if (fieldsToShow.length === 0) {
         const template = itemTemplates[item.type] || { fields: [], format: 'default' };
@@ -504,8 +514,11 @@ function showItemDetails(encodedItem) {
             const value = item.data[field];
             const formattedValue = formatFieldValue(field, value);
 
-            // Format field name: EssCost → Essence Cost
+            // Format field name nicely: EssCost → Essence Cost, StreetIndex → Street Index
             let displayName = field
+                .replace(/EssCost/g, 'Essence Cost')
+                .replace(/BioIndex/g, 'Bio Index')
+                .replace(/StreetIndex/g, 'Street Index')
                 .replace(/([A-Z])/g, ' $1')
                 .replace(/^./, str => str.toUpperCase())
                 .trim();
