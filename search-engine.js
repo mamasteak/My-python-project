@@ -22,7 +22,7 @@ async function loadShadowrunData() {
 
     try {
         // Load skills
-        const skillsResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/skills.json');
+        const skillsResponse = await fetch('data/skills.json');
         if (skillsResponse.ok) {
             const skillsData = await skillsResponse.json();
             srData.skills = Object.values(skillsData).map(skill => ({
@@ -35,7 +35,7 @@ async function loadShadowrunData() {
         }
 
         // Load spells
-        const spellsResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/spells.json');
+        const spellsResponse = await fetch('data/spells.json');
         if (spellsResponse.ok) {
             const spellsData = await spellsResponse.json();
             srData.spells = spellsData.map(spell => ({
@@ -51,7 +51,7 @@ async function loadShadowrunData() {
         }
 
         // Load adept powers
-        const powersResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/AdeptPowers.json');
+        const powersResponse = await fetch('data/AdeptPowers.json');
         if (powersResponse.ok) {
             const powersData = await powersResponse.json();
             srData.adeptPowers = powersData.map(power => ({
@@ -65,7 +65,7 @@ async function loadShadowrunData() {
         }
 
         // Load cyberware
-        const cyberResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/cyberware.json');
+        const cyberResponse = await fetch('data/cyberware.json');
         if (cyberResponse.ok) {
             const cyberData = await cyberResponse.json();
             let cyberCount = 0;
@@ -87,7 +87,7 @@ async function loadShadowrunData() {
         }
 
         // Load bioware
-        const bioResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/bioware.json');
+        const bioResponse = await fetch('data/bioware.json');
         if (bioResponse.ok) {
             const bioData = await bioResponse.json();
             let bioCount = 0;
@@ -109,7 +109,7 @@ async function loadShadowrunData() {
         }
 
         // Load gear
-        const gearResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/gear.json');
+        const gearResponse = await fetch('data/gear.json');
         if (gearResponse.ok) {
             const gearData = await gearResponse.json();
             let gearCount = 0;
@@ -132,7 +132,7 @@ async function loadShadowrunData() {
         }
 
         // Load vehicles
-        const vehiclesResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/vehicles.json');
+        const vehiclesResponse = await fetch('data/vehicles.json');
         if (vehiclesResponse.ok) {
             const vehiclesData = await vehiclesResponse.json();
             let vehicleCount = 0;
@@ -152,7 +152,7 @@ async function loadShadowrunData() {
         }
 
         // Load totems
-        const totemResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/totems.json');
+        const totemResponse = await fetch('data/totems.json');
         if (totemResponse.ok) {
             const totemData = await totemResponse.json();
             srData.totems = totemData.map(totem => ({
@@ -165,7 +165,7 @@ async function loadShadowrunData() {
         }
 
         // Load programs
-        const programResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/programs.json');
+        const programResponse = await fetch('data/programs.json');
         if (programResponse.ok) {
             const programData = await programResponse.json();
             srData.programs = programData.map(prog => ({
@@ -178,7 +178,7 @@ async function loadShadowrunData() {
         }
 
         // Load cyberdecks
-        const cyberdeckResponse = await fetch('/root/.claude/uploads/27bfb27a-c865-4fed-a70c-d0c8d3389f6a/foundry-sr2-main/data/cyberdeck.json');
+        const cyberdeckResponse = await fetch('data/cyberdeck.json');
         if (cyberdeckResponse.ok) {
             const cyberdeckData = await cyberdeckResponse.json();
             let cdCount = 0;
