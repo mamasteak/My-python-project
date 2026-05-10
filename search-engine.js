@@ -19,182 +19,234 @@ let isDataLoaded = false;
 // Load all foundry data files
 async function loadShadowrunData() {
     console.log('Loading Shadowrun 2E data...');
+    console.log('Current page URL:', window.location.href);
+    console.log('Attempting to fetch from: data/skills.json');
 
     try {
         // Load skills
-        const skillsResponse = await fetch('data/skills.json');
+        const skillsResponse = await fetch('/My-python-project/data/skills.json');
+        console.log('Skills fetch response:', skillsResponse.status, skillsResponse.ok);
         if (skillsResponse.ok) {
-            const skillsData = await skillsResponse.json();
-            srData.skills = Object.values(skillsData).map(skill => ({
-                name: skill.name,
-                type: 'Skill',
-                category: 'Skills',
-                data: skill
-            }));
-            console.log(`✓ Loaded ${srData.skills.length} skills`);
+            try {
+                const skillsData = await skillsResponse.json();
+                srData.skills = Object.values(skillsData).map(skill => ({
+                    name: skill.name,
+                    type: 'Skill',
+                    category: 'Skills',
+                    data: skill
+                }));
+                console.log(`✓ Loaded ${srData.skills.length} skills`);
+            } catch (e) {
+                console.error('Error parsing skills.json:', e);
+            }
+        } else {
+            console.error('Failed to load skills.json:', skillsResponse.status, skillsResponse.statusText);
         }
 
         // Load spells
-        const spellsResponse = await fetch('data/spells.json');
+        const spellsResponse = await fetch('/My-python-project/data/spells.json');
         if (spellsResponse.ok) {
-            const spellsData = await spellsResponse.json();
-            srData.spells = spellsData.map(spell => ({
-                name: spell.Name,
-                type: 'Spell',
-                category: 'Magic',
-                drain: spell.Drain,
-                spellType: spell.Type,
-                duration: spell.Duration,
-                data: spell
-            }));
-            console.log(`✓ Loaded ${srData.spells.length} spells`);
+            try {
+                const spellsData = await spellsResponse.json();
+                if (Array.isArray(spellsData)) {
+                    srData.spells = spellsData.map(spell => ({
+                        name: (spell.Name || '').trim(),
+                        type: 'Spell',
+                        category: 'Magic',
+                        drain: spell.Drain || '---',
+                        spellType: spell.Type || '---',
+                        duration: spell.Duration || '---',
+                        data: spell
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.spells.length} spells`);
+            } catch (e) {
+                console.error('Error parsing spells.json:', e);
+            }
         }
 
         // Load adept powers
-        const powersResponse = await fetch('data/AdeptPowers.json');
+        const powersResponse = await fetch('/My-python-project/data/AdeptPowers.json');
         if (powersResponse.ok) {
-            const powersData = await powersResponse.json();
-            srData.adeptPowers = powersData.map(power => ({
-                name: power.Name,
-                type: 'Adept Power',
-                category: 'Magic',
-                cost: power.Cost,
-                data: power
-            }));
-            console.log(`✓ Loaded ${srData.adeptPowers.length} adept powers`);
+            try {
+                const powersData = await powersResponse.json();
+                if (Array.isArray(powersData)) {
+                    srData.adeptPowers = powersData.map(power => ({
+                        name: power.Name,
+                        type: 'Adept Power',
+                        category: 'Magic',
+                        cost: power.Cost || '---',
+                        data: power
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.adeptPowers.length} adept powers`);
+            } catch (e) {
+                console.error('Error parsing AdeptPowers.json:', e);
+            }
         }
 
         // Load cyberware
-        const cyberResponse = await fetch('data/cyberware.json');
+        const cyberResponse = await fetch('/My-python-project/data/cyberware.json');
         if (cyberResponse.ok) {
             const cyberData = await cyberResponse.json();
             let cyberCount = 0;
-            Object.entries(cyberData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.cyberware.push({
-                        name: item.Name,
-                        type: 'Cyberware',
-                        category: category,
-                        essence: item.EssCost,
-                        cost: item.Cost,
-                        streetIndex: item.StreetIndex,
-                        data: item
-                    });
-                    cyberCount++;
+            try {
+                Object.entries(cyberData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.cyberware.push({
+                                name: item.Name,
+                                type: 'Cyberware',
+                                category: category,
+                                essence: item.EssCost || '---',
+                                cost: item.Cost || '---',
+                                streetIndex: item.StreetIndex || '---',
+                                data: item
+                            });
+                            cyberCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${cyberCount} cyberware items`);
+                console.log(`✓ Loaded ${cyberCount} cyberware items`);
+            } catch (e) {
+                console.error('Error parsing cyberware.json:', e);
+            }
         }
 
         // Load bioware
-        const bioResponse = await fetch('data/bioware.json');
+        const bioResponse = await fetch('/My-python-project/data/bioware.json');
         if (bioResponse.ok) {
             const bioData = await bioResponse.json();
             let bioCount = 0;
-            Object.entries(bioData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.bioware.push({
-                        name: item.Name,
-                        type: 'Bioware',
-                        category: category,
-                        bioIndex: item.BioIndex,
-                        cost: item.Cost,
-                        streetIndex: item.StreetIndex,
-                        data: item
-                    });
-                    bioCount++;
+            try {
+                Object.entries(bioData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.bioware.push({
+                                name: item.Name,
+                                type: 'Bioware',
+                                category: category,
+                                bioIndex: item.BioIndex || '---',
+                                cost: item.Cost || '---',
+                                streetIndex: item.StreetIndex || '---',
+                                data: item
+                            });
+                            bioCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${bioCount} bioware items`);
+                console.log(`✓ Loaded ${bioCount} bioware items`);
+            } catch (e) {
+                console.error('Error parsing bioware.json:', e);
+            }
         }
 
         // Load gear
-        const gearResponse = await fetch('data/gear.json');
+        const gearResponse = await fetch('/My-python-project/data/gear.json');
         if (gearResponse.ok) {
             const gearData = await gearResponse.json();
             let gearCount = 0;
-            Object.entries(gearData).forEach(([category, categoryData]) => {
-                if (categoryData.entries) {
-                    categoryData.entries.forEach(item => {
-                        srData.gear.push({
-                            name: item.Name,
-                            type: 'Gear',
-                            category: category,
-                            cost: item.Cost,
-                            availability: item.Availability,
-                            data: item
+            try {
+                Object.entries(gearData).forEach(([category, categoryData]) => {
+                    if (categoryData && Array.isArray(categoryData.entries)) {
+                        categoryData.entries.forEach(item => {
+                            srData.gear.push({
+                                name: item.Name,
+                                type: 'Gear',
+                                category: category,
+                                cost: item.Cost || '---',
+                                availability: item.Availability || '---',
+                                data: item
+                            });
+                            gearCount++;
                         });
-                        gearCount++;
-                    });
-                }
-            });
-            console.log(`✓ Loaded ${gearCount} gear items`);
+                    }
+                });
+                console.log(`✓ Loaded ${gearCount} gear items`);
+            } catch (e) {
+                console.error('Error parsing gear.json:', e);
+            }
         }
 
         // Load vehicles
-        const vehiclesResponse = await fetch('data/vehicles.json');
+        const vehiclesResponse = await fetch('/My-python-project/data/vehicles.json');
         if (vehiclesResponse.ok) {
             const vehiclesData = await vehiclesResponse.json();
-            let vehicleCount = 0;
-            Object.entries(vehiclesData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.vehicles.push({
-                        name: item.Name,
-                        type: 'Vehicle',
-                        category: category,
-                        cost: item.Cost,
-                        data: item
-                    });
-                    vehicleCount++;
-                });
-            });
-            console.log(`✓ Loaded ${vehicleCount} vehicles`);
+            // vehicles.json is an array, not an object with categories
+            srData.vehicles = vehiclesData.map(vehicle => ({
+                name: vehicle.name,
+                type: 'Vehicle',
+                category: 'Vehicles',
+                cost: vehicle['$Cost'] || vehicle.Cost,
+                data: vehicle
+            }));
+            console.log(`✓ Loaded ${srData.vehicles.length} vehicles`);
         }
 
         // Load totems
-        const totemResponse = await fetch('data/totems.json');
+        const totemResponse = await fetch('/My-python-project/data/totems.json');
         if (totemResponse.ok) {
-            const totemData = await totemResponse.json();
-            srData.totems = totemData.map(totem => ({
-                name: totem.Name,
-                type: 'Totem',
-                category: 'Magic',
-                data: totem
-            }));
-            console.log(`✓ Loaded ${srData.totems.length} totems`);
+            try {
+                const totemData = await totemResponse.json();
+                // totems.json has {"TOTEMS": [...]} structure
+                if (totemData.TOTEMS && Array.isArray(totemData.TOTEMS)) {
+                    srData.totems = totemData.TOTEMS.map(totem => ({
+                        name: totem.name,
+                        type: 'Totem',
+                        category: 'Magic',
+                        environment: totem.environment || '---',
+                        data: totem
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.totems.length} totems`);
+            } catch (e) {
+                console.error('Error parsing totems.json:', e);
+            }
         }
 
         // Load programs
-        const programResponse = await fetch('data/programs.json');
+        const programResponse = await fetch('/My-python-project/data/programs.json');
         if (programResponse.ok) {
-            const programData = await programResponse.json();
-            srData.programs = programData.map(prog => ({
-                name: prog.Name,
-                type: 'Program',
-                category: 'Hacking',
-                data: prog
-            }));
-            console.log(`✓ Loaded ${srData.programs.length} programs`);
+            try {
+                const programData = await programResponse.json();
+                if (Array.isArray(programData)) {
+                    srData.programs = programData.map(prog => ({
+                        name: prog.Name,
+                        type: 'Program',
+                        category: 'Hacking',
+                        data: prog
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.programs.length} programs`);
+            } catch (e) {
+                console.error('Error parsing programs.json:', e);
+            }
         }
 
         // Load cyberdecks
-        const cyberdeckResponse = await fetch('data/cyberdeck.json');
+        const cyberdeckResponse = await fetch('/My-python-project/data/cyberdeck.json');
         if (cyberdeckResponse.ok) {
-            const cyberdeckData = await cyberdeckResponse.json();
-            let cdCount = 0;
-            Object.entries(cyberdeckData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.cyberdeck.push({
-                        name: item.Name,
-                        type: 'Cyberdeck',
-                        category: category,
-                        cost: item.Cost,
-                        data: item
-                    });
-                    cdCount++;
+            try {
+                const cyberdeckData = await cyberdeckResponse.json();
+                let cdCount = 0;
+                Object.entries(cyberdeckData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.cyberdeck.push({
+                                name: item.Name,
+                                type: 'Cyberdeck',
+                                category: category,
+                                cost: item.Cost || '---',
+                                data: item
+                            });
+                            cdCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${cdCount} cyberdecks`);
+                console.log(`✓ Loaded ${cdCount} cyberdecks`);
+            } catch (e) {
+                console.error('Error parsing cyberdeck.json:', e);
+            }
         }
 
         isDataLoaded = true;
@@ -202,6 +254,8 @@ async function loadShadowrunData() {
         return true;
     } catch (error) {
         console.error('Error loading Shadowrun data:', error);
+        // Show error message in UI
+        document.getElementById('refResults').innerHTML = `<div style="padding: 12px; color: #ff0080; font-size: 9px;">ERROR: Data files not loading. Check console. Error: ${error.message}</div>`;
         return false;
     }
 }
