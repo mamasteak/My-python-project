@@ -36,7 +36,9 @@ async function loadShadowrunData() {
             }));
             console.log(`✓ Loaded ${srData.skills.length} skills`);
         } else {
-            console.error('Failed to load skills.json:', skillsResponse.status);
+            console.error('Failed to load skills.json:', skillsResponse.status, skillsResponse.statusText);
+            // Set placeholder data if fetch fails
+            srData.skills = [{name: 'ERROR: Skills not loaded', type: 'Error', category: 'System', data: {}}];
         }
 
         // Load spells
@@ -207,6 +209,8 @@ async function loadShadowrunData() {
         return true;
     } catch (error) {
         console.error('Error loading Shadowrun data:', error);
+        // Show error message in UI
+        document.getElementById('refResults').innerHTML = `<div style="padding: 12px; color: #ff0080; font-size: 9px;">ERROR: Data files not loading. Check console. Error: ${error.message}</div>`;
         return false;
     }
 }
