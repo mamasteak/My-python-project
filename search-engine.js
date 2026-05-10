@@ -340,21 +340,70 @@ function showItemDetails(index) {
     const item = results[index];
     if (!item) return;
 
-    let detailsHTML = `<div style="color: var(--primary-neon); font-size: 11px; font-weight: 600; margin-bottom: 12px;">${item.name}</div>`;
-    detailsHTML += `<div style="color: var(--text-muted); font-size: 8px; margin-bottom: 8px;">TYPE: ${item.type} • CATEGORY: ${item.category}</div>`;
-    detailsHTML += '<hr style="border: none; border-top: 1px solid rgba(0, 255, 136, 0.2); margin: 8px 0;">';
-    detailsHTML += '<div style="font-size: 9px; color: var(--text-secondary); line-height: 1.6;">';
+    // Create modal overlay
+    const modalOverlay = document.createElement('div');
+    modalOverlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10000;
+    `;
 
-    // Display all attributes
+    // Create modal content
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+        background: rgba(0, 0, 0, 0.95);
+        border: 2px solid var(--primary-neon);
+        border-radius: 4px;
+        padding: 20px;
+        max-width: 500px;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    `;
+
+    // Build details text
+    let detailsText = `${item.name}\n`;
+    detailsText += `${item.type} • ${item.category}\n`;
+    detailsText += '─'.repeat(40) + '\n\n';
+
+    // Display all attributes in readable format
     Object.entries(item.data).forEach(([key, value]) => {
         if (value !== null && value !== undefined && value !== '') {
-            detailsHTML += `<div><span style="color: var(--text-muted);">${key}:</span> <span style="color: var(--primary-neon);">${value}</span></div>`;
+            detailsText += `${key}: ${value}\n`;
         }
     });
 
-    detailsHTML += '</div>';
+    modal.innerHTML = `
+        <div style="color: var(--primary-neon); font-size: 13px; font-weight: 600; margin-bottom: 12px;">${item.name}</div>
+        <div style="color: var(--text-muted); font-size: 9px; margin-bottom: 12px;">${item.type} • ${item.category}</div>
+        <div style="border-top: 1px solid rgba(0, 255, 136, 0.2); margin-bottom: 12px;"></div>
+        <div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8; white-space: pre-wrap; font-family: 'IBM Plex Mono', monospace;">
+            ${detailsText}
+        </div>
+        <div style="margin-top: 16px; text-align: center;">
+            <button onclick="this.closest('div').closest('div').parentElement.remove()"
+                    style="padding: 6px 16px; background: rgba(0, 255, 136, 0.1); border: 1px solid var(--primary-neon); color: var(--primary-neon); cursor: pointer; border-radius: 2px; font-size: 9px;">
+                CLOSE
+            </button>
+        </div>
+    `;
 
-    alert(`${item.name}\n\n${detailsHTML}`);
+    modalOverlay.appendChild(modal);
+    document.body.appendChild(modalOverlay);
+
+    // Close on overlay click
+    modalOverlay.onclick = (e) => {
+        if (e.target === modalOverlay) {
+            modalOverlay.remove();
+        }
+    };
 }
 
 // Initialize on page load
