@@ -27,18 +27,20 @@ async function loadShadowrunData() {
         const skillsResponse = await fetch('/My-python-project/data/skills.json');
         console.log('Skills fetch response:', skillsResponse.status, skillsResponse.ok);
         if (skillsResponse.ok) {
-            const skillsData = await skillsResponse.json();
-            srData.skills = Object.values(skillsData).map(skill => ({
-                name: skill.name,
-                type: 'Skill',
-                category: 'Skills',
-                data: skill
-            }));
-            console.log(`✓ Loaded ${srData.skills.length} skills`);
+            try {
+                const skillsData = await skillsResponse.json();
+                srData.skills = Object.values(skillsData).map(skill => ({
+                    name: skill.name,
+                    type: 'Skill',
+                    category: 'Skills',
+                    data: skill
+                }));
+                console.log(`✓ Loaded ${srData.skills.length} skills`);
+            } catch (e) {
+                console.error('Error parsing skills.json:', e);
+            }
         } else {
             console.error('Failed to load skills.json:', skillsResponse.status, skillsResponse.statusText);
-            // Set placeholder data if fetch fails
-            srData.skills = [{name: 'ERROR: Skills not loaded', type: 'Error', category: 'System', data: {}}];
         }
 
         // Load spells
@@ -66,15 +68,21 @@ async function loadShadowrunData() {
         // Load adept powers
         const powersResponse = await fetch('/My-python-project/data/AdeptPowers.json');
         if (powersResponse.ok) {
-            const powersData = await powersResponse.json();
-            srData.adeptPowers = powersData.map(power => ({
-                name: power.Name,
-                type: 'Adept Power',
-                category: 'Magic',
-                cost: power.Cost,
-                data: power
-            }));
-            console.log(`✓ Loaded ${srData.adeptPowers.length} adept powers`);
+            try {
+                const powersData = await powersResponse.json();
+                if (Array.isArray(powersData)) {
+                    srData.adeptPowers = powersData.map(power => ({
+                        name: power.Name,
+                        type: 'Adept Power',
+                        category: 'Magic',
+                        cost: power.Cost || '---',
+                        data: power
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.adeptPowers.length} adept powers`);
+            } catch (e) {
+                console.error('Error parsing AdeptPowers.json:', e);
+            }
         }
 
         // Load cyberware
@@ -178,14 +186,22 @@ async function loadShadowrunData() {
         // Load totems
         const totemResponse = await fetch('/My-python-project/data/totems.json');
         if (totemResponse.ok) {
-            const totemData = await totemResponse.json();
-            srData.totems = totemData.map(totem => ({
-                name: totem.Name,
-                type: 'Totem',
-                category: 'Magic',
-                data: totem
-            }));
-            console.log(`✓ Loaded ${srData.totems.length} totems`);
+            try {
+                const totemData = await totemResponse.json();
+                // totems.json has {"TOTEMS": [...]} structure
+                if (totemData.TOTEMS && Array.isArray(totemData.TOTEMS)) {
+                    srData.totems = totemData.TOTEMS.map(totem => ({
+                        name: totem.name,
+                        type: 'Totem',
+                        category: 'Magic',
+                        environment: totem.environment || '---',
+                        data: totem
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.totems.length} totems`);
+            } catch (e) {
+                console.error('Error parsing totems.json:', e);
+            }
         }
 
         // Load programs
