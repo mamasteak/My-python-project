@@ -24,7 +24,7 @@ async function loadShadowrunData() {
 
     try {
         // Load skills
-        const skillsResponse = await fetch('data/skills.json');
+        const skillsResponse = await fetch('/My-python-project/data/skills.json');
         console.log('Skills fetch response:', skillsResponse.status, skillsResponse.ok);
         if (skillsResponse.ok) {
             const skillsData = await skillsResponse.json();
@@ -40,7 +40,7 @@ async function loadShadowrunData() {
         }
 
         // Load spells
-        const spellsResponse = await fetch('data/spells.json');
+        const spellsResponse = await fetch('/My-python-project/data/spells.json');
         if (spellsResponse.ok) {
             const spellsData = await spellsResponse.json();
             srData.spells = spellsData.map(spell => ({
@@ -56,7 +56,7 @@ async function loadShadowrunData() {
         }
 
         // Load adept powers
-        const powersResponse = await fetch('data/AdeptPowers.json');
+        const powersResponse = await fetch('/My-python-project/data/AdeptPowers.json');
         if (powersResponse.ok) {
             const powersData = await powersResponse.json();
             srData.adeptPowers = powersData.map(power => ({
@@ -70,7 +70,7 @@ async function loadShadowrunData() {
         }
 
         // Load cyberware
-        const cyberResponse = await fetch('data/cyberware.json');
+        const cyberResponse = await fetch('/My-python-project/data/cyberware.json');
         if (cyberResponse.ok) {
             const cyberData = await cyberResponse.json();
             let cyberCount = 0;
@@ -92,7 +92,7 @@ async function loadShadowrunData() {
         }
 
         // Load bioware
-        const bioResponse = await fetch('data/bioware.json');
+        const bioResponse = await fetch('/My-python-project/data/bioware.json');
         if (bioResponse.ok) {
             const bioData = await bioResponse.json();
             let bioCount = 0;
@@ -114,7 +114,7 @@ async function loadShadowrunData() {
         }
 
         // Load gear
-        const gearResponse = await fetch('data/gear.json');
+        const gearResponse = await fetch('/My-python-project/data/gear.json');
         if (gearResponse.ok) {
             const gearData = await gearResponse.json();
             let gearCount = 0;
@@ -137,7 +137,7 @@ async function loadShadowrunData() {
         }
 
         // Load vehicles
-        const vehiclesResponse = await fetch('data/vehicles.json');
+        const vehiclesResponse = await fetch('/My-python-project/data/vehicles.json');
         if (vehiclesResponse.ok) {
             const vehiclesData = await vehiclesResponse.json();
             let vehicleCount = 0;
@@ -157,7 +157,7 @@ async function loadShadowrunData() {
         }
 
         // Load totems
-        const totemResponse = await fetch('data/totems.json');
+        const totemResponse = await fetch('/My-python-project/data/totems.json');
         if (totemResponse.ok) {
             const totemData = await totemResponse.json();
             srData.totems = totemData.map(totem => ({
@@ -170,7 +170,7 @@ async function loadShadowrunData() {
         }
 
         // Load programs
-        const programResponse = await fetch('data/programs.json');
+        const programResponse = await fetch('/My-python-project/data/programs.json');
         if (programResponse.ok) {
             const programData = await programResponse.json();
             srData.programs = programData.map(prog => ({
@@ -183,7 +183,7 @@ async function loadShadowrunData() {
         }
 
         // Load cyberdecks
-        const cyberdeckResponse = await fetch('data/cyberdeck.json');
+        const cyberdeckResponse = await fetch('/My-python-project/data/cyberdeck.json');
         if (cyberdeckResponse.ok) {
             const cyberdeckData = await cyberdeckResponse.json();
             let cdCount = 0;
