@@ -963,7 +963,7 @@
                             <button class="quick-btn" onclick="advanceBy6Hours()">6H</button>
                             <button class="quick-btn" onclick="advanceBy1Day()">1D</button>
                             <button class="quick-btn" onclick="advanceBy1Week()">1W</button>
-                            <button class="quick-btn reset" onclick="resetGameTime()">RST</button>
+                            <button class="quick-btn reset" onclick="resetToGameStart()">RST</button>
                         </div>
                     </div>
 
@@ -1366,15 +1366,24 @@
     // ===== TIME & WEATHER DISPLAY FUNCTIONS =====
     function updateTopWeatherDisplay() {
         try {
-            if (typeof getCurrentWeather === 'function' && typeof getTimeDisplay === 'function') {
-                const weather = getCurrentWeather();
-                const time = getTimeDisplay();
+            if (typeof getCurrentWeather !== 'function' || typeof getTimeDisplay !== 'function') {
+                console.debug('Engines not ready yet...');
+                return;
+            }
+
+            const weather = getCurrentWeather();
+            const time = getTimeDisplay();
+
+            if (weather && weather.weather) {
                 document.getElementById('topWeatherCondition').textContent = weather.weather.name.substring(0, 8);
                 document.getElementById('topWeatherTemp').textContent = weather.temperature + '°C';
+            }
+
+            if (time) {
                 document.getElementById('topWeatherTime').textContent = time.time;
             }
         } catch (error) {
-            console.log('Weather engine not ready');
+            console.debug('Display update error:', error.message);
         }
     }
 
@@ -1382,27 +1391,31 @@
         try {
             if (typeof getTimeDisplay === 'function') {
                 const timeData = getTimeDisplay();
-                document.getElementById('condTime').value = timeData.time;
-                document.getElementById('condDate').textContent = timeData.date;
+                if (timeData && timeData.time) {
+                    document.getElementById('condTime').value = timeData.time;
+                    document.getElementById('condDate').textContent = timeData.date;
+                }
             }
 
             if (typeof getCurrentWeather === 'function') {
                 const weather = getCurrentWeather();
-                document.getElementById('condHumidity').textContent = weather.humidity + '%';
-                document.getElementById('condVisibility').textContent = weather.weather.gameEffects.visibility_distance_m + 'm';
+                if (weather && weather.weather && weather.weather.gameEffects) {
+                    document.getElementById('condHumidity').textContent = weather.humidity + '%';
+                    document.getElementById('condVisibility').textContent = weather.weather.gameEffects.visibility_distance_m + 'm';
+                }
             }
 
             if (typeof getEnvironmentalHazards === 'function') {
                 const hazards = getEnvironmentalHazards();
                 const hazardsList = document.getElementById('condHazards');
-                if (hazards.length === 0) {
+                if (hazards && hazards.length === 0) {
                     hazardsList.textContent = 'No hazards';
-                } else {
+                } else if (hazards && hazards.length > 0) {
                     hazardsList.innerHTML = hazards.map(h => `• ${h.name}`).join(' | ');
                 }
             }
         } catch (error) {
-            console.log('Weather engine not ready yet');
+            console.debug('Conditions display update error:', error.message);
         }
     }
 
@@ -1442,54 +1455,70 @@
     function advanceBy10Minutes() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(0, 10);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
+        } else {
+            console.error('Time engine not loaded');
         }
     }
 
     function advanceBy30Minutes() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(0, 30);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
         }
     }
 
     function advanceBy1Hour() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(1, 0);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
         }
     }
 
     function advanceBy6Hours() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(6, 0);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
         }
     }
 
     function advanceBy1Day() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(24, 0);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
         }
     }
 
     function advanceBy1Week() {
         if (typeof advanceGameTime === 'function') {
             advanceGameTime(168, 0);
-            updateAllWeatherDisplays();
+            setTimeout(updateAllWeatherDisplays, 100);
         }
     }
 
-    function resetGameTime() {
-        if (typeof resetTime === 'function') {
-            resetTime();
-            updateAllWeatherDisplays();
+    function resetToGameStart() {
+        // Call the time-engine's resetGameTime function (not this wrapper)
+        if (typeof window.resetGameTime === 'function' && window.resetGameTime !== resetToGameStart) {
+            window.resetGameTime();
+            setTimeout(updateAllWeatherDisplays, 100);
+        } else if (typeof advanceGameTime === 'function') {
+            // Fallback: reset manually
+            advanceGameTime(-1000000, 0);
+            setTimeout(updateAllWeatherDisplays, 100);
+        } else {
+            console.error('Cannot reset - time engine not loaded');
         }
     }
 
     // ===== WEATHER CONTROL FUNCTIONS =====
     function changeWeather(weatherKey) {
+        console.log('Changing weather to:', weatherKey);
+
+        if (!weatherData) {
+            console.error('Weather data not loaded yet. Please wait...');
+            return;
+        }
+
         if (weatherKey === '') {
             if (typeof clearWeatherOverride === 'function') {
                 clearWeatherOverride();
@@ -1497,12 +1526,16 @@
             if (typeof regenerateWeather === 'function') {
                 regenerateWeather();
             }
+            console.log('Weather reset to random');
         } else {
             if (typeof setWeatherManually === 'function') {
                 setWeatherManually(weatherKey);
+                console.log('Weather set to:', weatherKey);
             }
         }
-        updateAllWeatherDisplays();
+
+        // Force immediate update
+        setTimeout(updateAllWeatherDisplays, 100);
     }
 
     function setTempManually() {
@@ -1679,14 +1712,51 @@
         redraw();
     }
 
-    // Initialize on page load
-    window.addEventListener('load', () => {
+    // Initialize on page load - wait for all engines to be ready
+    let initializationComplete = false;
+
+    async function initializeApp() {
+        // Wait for weather data to load (max 5 seconds)
+        let attempts = 0;
+        while (!weatherData && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (!weatherData) {
+            console.error('⚠️ Weather data failed to load from weather_data.json');
+            console.error('Make sure weather_data.json exists in the same folder as index.html');
+        } else {
+            console.log('✓ Weather engine loaded successfully');
+        }
+
+        if (typeof getCurrentGameMonth !== 'function') {
+            console.error('⚠️ Time engine not loaded');
+        } else {
+            console.log('✓ Time engine loaded successfully');
+        }
+
+        // Initialize canvas
         initCanvas();
+
+        // Initial display updates
         updateAllWeatherDisplays();
         updateConditionsDisplay();
-        setInterval(updateAllWeatherDisplays, 1000);
-        setInterval(updateConditionsDisplay, 1000);
-    });
+
+        // Set up periodic updates (every second)
+        setInterval(() => {
+            if (weatherData) {
+                updateAllWeatherDisplays();
+                updateConditionsDisplay();
+            }
+        }, 1000);
+
+        initializationComplete = true;
+        console.log('✓ Shadowrun Bangkok Operations System ONLINE');
+    }
+
+    // Start initialization when page loads
+    window.addEventListener('load', initializeApp);
 </script>
 </body>
 </html>
