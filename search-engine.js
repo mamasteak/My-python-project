@@ -446,18 +446,36 @@ function showItemDetails(encodedItem) {
     // Get display fields based on item type and metadata
     let fieldsToShow = [];
 
-    // For gear items, use the category's defined attributes
-    if (item.type === 'Gear') {
-        // Find the gear category in srData and get its attributes
-        const gearCategories = {};
-        Object.values(srData.gear).forEach(gear => {
-            if (gear.category && !gearCategories[gear.category]) {
-                gearCategories[gear.category] = true;
-            }
-        });
+    // For gear items, use the category's defined attributes from gear.json
+    if (item.type === 'Gear' && item.category) {
+        // ALL 23 gear categories with their attributes from gear.json
+        const gearAttributes = {
+            'Edged weapon': ['Concealability', 'Reach', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Bow and crossbow': ['Concealability', 'Str.Min.', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Firearms': ['Concealability', 'Ammunition', 'Mode', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index', 'Accessories'],
+            'Rockets and Missiles': ['Intelligence', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Grenades': ['Concealability', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Ammunition': ['Concealability', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Firearms Accessories': ['Mount', 'Concealability', 'Rating', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Explosives': ['Concealability', 'Rating', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Clothing and Armor': ['Concealability', 'Ballistic', 'Impact', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'S+S Vision Enhancers': ['Concealability', 'Magnification', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Surveillance and Security': ['Concealability', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Cyberdecks': ['Persona', 'Hardening', 'Memory', 'Storage', 'Load', 'I/O', 'Availability', 'Cost', 'Street Index'],
+            'Cyberdeck Other': ['Availability', 'Cost', 'Street Index'],
+            'Biotech': ['Rating', 'Availability', 'Weight', 'Cost', 'Street Index'],
+            'Lifestyle Extras': ['Concealability', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Lifestyle': ['Concealability', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Magical Equipment': ['Availability', 'Cost', 'Street Index'],
+            'Vehiclegear': ['Availability', 'Cost', 'Street Index'],
+            'VehicleFire': ['Type', 'Ammunition', 'Mode', 'Damage', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Chips': ['Type', 'Rating', 'Memory', 'Availability', 'Cost', 'Street Index'],
+            'Stuff With Ratings': ['Concealability', 'Rating', 'Weight', 'Availability', 'Cost', 'Street Index'],
+            'Drugs': ['Addiction', 'Tolerance', 'Strength', 'Availability', 'Cost', 'Street Index'],
+            'Vehicle modifications': ['Cost', 'Equipment', 'CF']
+        };
 
-        // Get attributes from the original data if available
-        fieldsToShow = (item.data.attributes || []).filter(attr => attr && attr.trim());
+        fieldsToShow = gearAttributes[item.category] || [];
     }
 
     // If no fields determined yet, use template defaults
