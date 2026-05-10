@@ -443,17 +443,39 @@ function showItemDetails(encodedItem) {
     // Build details content
     let detailsHTML = '';
 
-    // Get relevant fields to display
-    let fieldsToShow = template.fields.filter(f => item.data[f] !== undefined);
+    // Get display fields based on item type and metadata
+    let fieldsToShow = [];
 
-    // If no fields to show, show all non-empty fields
+    // For gear items, use the category's defined attributes
+    if (item.type === 'Gear') {
+        // Find the gear category in srData and get its attributes
+        const gearCategories = {};
+        Object.values(srData.gear).forEach(gear => {
+            if (gear.category && !gearCategories[gear.category]) {
+                gearCategories[gear.category] = true;
+            }
+        });
+
+        // Get attributes from the original data if available
+        fieldsToShow = (item.data.attributes || []).filter(attr => attr && attr.trim());
+    }
+
+    // If no fields determined yet, use template defaults
+    if (fieldsToShow.length === 0) {
+        const template = itemTemplates[item.type] || { fields: [], format: 'default' };
+        fieldsToShow = template.fields.filter(f => item.data[f] !== undefined);
+    }
+
+    // If still no fields, show all non-empty fields
     if (fieldsToShow.length === 0) {
         fieldsToShow = Object.keys(item.data).filter(f =>
             item.data[f] !== null &&
             item.data[f] !== undefined &&
             item.data[f] !== '' &&
-            !f.startsWith('_')
-        );
+            !f.startsWith('_') &&
+            f !== 'attributes' &&
+            f !== 'Name'
+        ).slice(0, 10); // Limit to 10 fields
     }
 
     detailsHTML += '<div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8;">';
@@ -470,10 +492,12 @@ function showItemDetails(encodedItem) {
                 .replace(/^./, str => str.toUpperCase())
                 .trim();
 
-            detailsHTML += `<div style="margin-bottom: 8px;">
-                <span style="color: var(--text-muted);">${displayName}:</span>
-                <span style="color: var(--primary-neon);">${formattedValue}</span>
-            </div>`;
+            if (formattedValue !== '---') {
+                detailsHTML += `<div style="margin-bottom: 8px;">
+                    <span style="color: var(--text-muted);">${displayName}:</span>
+                    <span style="color: var(--primary-neon);">${formattedValue}</span>
+                </div>`;
+            }
         });
     } else {
         detailsHTML += '<div style="color: var(--text-muted); text-align: center; padding: 20px;">No additional details available</div>';
