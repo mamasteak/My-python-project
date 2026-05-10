@@ -19,10 +19,13 @@ let isDataLoaded = false;
 // Load all foundry data files
 async function loadShadowrunData() {
     console.log('Loading Shadowrun 2E data...');
+    console.log('Current page URL:', window.location.href);
+    console.log('Attempting to fetch from: data/skills.json');
 
     try {
         // Load skills
         const skillsResponse = await fetch('data/skills.json');
+        console.log('Skills fetch response:', skillsResponse.status, skillsResponse.ok);
         if (skillsResponse.ok) {
             const skillsData = await skillsResponse.json();
             srData.skills = Object.values(skillsData).map(skill => ({
@@ -32,6 +35,8 @@ async function loadShadowrunData() {
                 data: skill
             }));
             console.log(`✓ Loaded ${srData.skills.length} skills`);
+        } else {
+            console.error('Failed to load skills.json:', skillsResponse.status);
         }
 
         // Load spells
