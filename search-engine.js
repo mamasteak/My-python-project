@@ -449,26 +449,40 @@ function showItemDetails(index) {
     let detailsHTML = '';
 
     // Get relevant fields to display
-    const fieldsToShow = template.fields.filter(f => item.data[f] !== undefined);
+    let fieldsToShow = template.fields.filter(f => item.data[f] !== undefined);
+
+    // If no fields to show, show all non-empty fields
+    if (fieldsToShow.length === 0) {
+        fieldsToShow = Object.keys(item.data).filter(f =>
+            item.data[f] !== null &&
+            item.data[f] !== undefined &&
+            item.data[f] !== '' &&
+            !f.startsWith('_')
+        );
+    }
 
     detailsHTML += '<div style="font-size: 9px; color: var(--text-secondary); line-height: 1.8;">';
 
     // Show each field
-    fieldsToShow.forEach(field => {
-        const value = item.data[field];
-        const formattedValue = formatFieldValue(field, value);
+    if (fieldsToShow.length > 0) {
+        fieldsToShow.forEach(field => {
+            const value = item.data[field];
+            const formattedValue = formatFieldValue(field, value);
 
-        // Format field name: EssCost → Essence Cost
-        let displayName = field
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase())
-            .trim();
+            // Format field name: EssCost → Essence Cost
+            let displayName = field
+                .replace(/([A-Z])/g, ' $1')
+                .replace(/^./, str => str.toUpperCase())
+                .trim();
 
-        detailsHTML += `<div style="margin-bottom: 8px;">
-            <span style="color: var(--text-muted);">${displayName}:</span>
-            <span style="color: var(--primary-neon);">${formattedValue}</span>
-        </div>`;
-    });
+            detailsHTML += `<div style="margin-bottom: 8px;">
+                <span style="color: var(--text-muted);">${displayName}:</span>
+                <span style="color: var(--primary-neon);">${formattedValue}</span>
+            </div>`;
+        });
+    } else {
+        detailsHTML += '<div style="color: var(--text-muted); text-align: center; padding: 20px;">No additional details available</div>';
+    }
 
     detailsHTML += '</div>';
 
@@ -506,7 +520,7 @@ function showItemDetails(index) {
     };
 }
 
-// Make modal draggable
+// Make modal draggable (supports mouse and touch)
 function makeModalDraggable(modal, overlay) {
     const dragHandle = modal.querySelector('.modal-drag-handle');
     let isDragging = false;
@@ -515,27 +529,41 @@ function makeModalDraggable(modal, overlay) {
     let initialX;
     let initialY;
 
-    dragHandle.onmousedown = (e) => {
-        isDragging = true;
-        initialX = e.clientX - modal.offsetLeft;
-        initialY = e.clientY - modal.offsetTop;
-        dragHandle.style.cursor = 'grabbing';
-    };
+    // Mouse events
+    dragHandle.onmousedown = startDrag;
+    document.onmousemove = moveDrag;
+    document.onmouseup = stopDrag;
 
-    document.onmousemove = (e) => {
+    // Touch events (for iPad/mobile)
+    dragHandle.ontouchstart = startDrag;
+    document.ontouchmove = moveDrag;
+    document.ontouchend = stopDrag;
+
+    function startDrag(e) {
+        isDragging = true;
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        initialX = clientX - modal.offsetLeft;
+        initialY = clientY - modal.offsetTop;
+        dragHandle.style.cursor = 'grabbing';
+    }
+
+    function moveDrag(e) {
         if (isDragging) {
-            currentX = e.clientX - initialX;
-            currentY = e.clientY - initialY;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            currentX = clientX - initialX;
+            currentY = clientY - initialY;
             modal.style.position = 'absolute';
             modal.style.left = currentX + 'px';
             modal.style.top = currentY + 'px';
         }
-    };
+    }
 
-    document.onmouseup = () => {
+    function stopDrag() {
         isDragging = false;
         dragHandle.style.cursor = 'grab';
-    };
+    }
 }
 
 // Initialize on page load
