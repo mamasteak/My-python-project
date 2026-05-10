@@ -44,17 +44,23 @@ async function loadShadowrunData() {
         // Load spells
         const spellsResponse = await fetch('/My-python-project/data/spells.json');
         if (spellsResponse.ok) {
-            const spellsData = await spellsResponse.json();
-            srData.spells = spellsData.map(spell => ({
-                name: spell.Name,
-                type: 'Spell',
-                category: 'Magic',
-                drain: spell.Drain,
-                spellType: spell.Type,
-                duration: spell.Duration,
-                data: spell
-            }));
-            console.log(`✓ Loaded ${srData.spells.length} spells`);
+            try {
+                const spellsData = await spellsResponse.json();
+                if (Array.isArray(spellsData)) {
+                    srData.spells = spellsData.map(spell => ({
+                        name: (spell.Name || '').trim(),
+                        type: 'Spell',
+                        category: 'Magic',
+                        drain: spell.Drain || '---',
+                        spellType: spell.Type || '---',
+                        duration: spell.Duration || '---',
+                        data: spell
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.spells.length} spells`);
+            } catch (e) {
+                console.error('Error parsing spells.json:', e);
+            }
         }
 
         // Load adept powers
@@ -76,21 +82,27 @@ async function loadShadowrunData() {
         if (cyberResponse.ok) {
             const cyberData = await cyberResponse.json();
             let cyberCount = 0;
-            Object.entries(cyberData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.cyberware.push({
-                        name: item.Name,
-                        type: 'Cyberware',
-                        category: category,
-                        essence: item.EssCost,
-                        cost: item.Cost,
-                        streetIndex: item.StreetIndex,
-                        data: item
-                    });
-                    cyberCount++;
+            try {
+                Object.entries(cyberData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.cyberware.push({
+                                name: item.Name,
+                                type: 'Cyberware',
+                                category: category,
+                                essence: item.EssCost || '---',
+                                cost: item.Cost || '---',
+                                streetIndex: item.StreetIndex || '---',
+                                data: item
+                            });
+                            cyberCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${cyberCount} cyberware items`);
+                console.log(`✓ Loaded ${cyberCount} cyberware items`);
+            } catch (e) {
+                console.error('Error parsing cyberware.json:', e);
+            }
         }
 
         // Load bioware
@@ -98,21 +110,27 @@ async function loadShadowrunData() {
         if (bioResponse.ok) {
             const bioData = await bioResponse.json();
             let bioCount = 0;
-            Object.entries(bioData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.bioware.push({
-                        name: item.Name,
-                        type: 'Bioware',
-                        category: category,
-                        bioIndex: item.BioIndex,
-                        cost: item.Cost,
-                        streetIndex: item.StreetIndex,
-                        data: item
-                    });
-                    bioCount++;
+            try {
+                Object.entries(bioData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.bioware.push({
+                                name: item.Name,
+                                type: 'Bioware',
+                                category: category,
+                                bioIndex: item.BioIndex || '---',
+                                cost: item.Cost || '---',
+                                streetIndex: item.StreetIndex || '---',
+                                data: item
+                            });
+                            bioCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${bioCount} bioware items`);
+                console.log(`✓ Loaded ${bioCount} bioware items`);
+            } catch (e) {
+                console.error('Error parsing bioware.json:', e);
+            }
         }
 
         // Load gear
@@ -120,42 +138,41 @@ async function loadShadowrunData() {
         if (gearResponse.ok) {
             const gearData = await gearResponse.json();
             let gearCount = 0;
-            Object.entries(gearData).forEach(([category, categoryData]) => {
-                if (categoryData.entries) {
-                    categoryData.entries.forEach(item => {
-                        srData.gear.push({
-                            name: item.Name,
-                            type: 'Gear',
-                            category: category,
-                            cost: item.Cost,
-                            availability: item.Availability,
-                            data: item
+            try {
+                Object.entries(gearData).forEach(([category, categoryData]) => {
+                    if (categoryData && Array.isArray(categoryData.entries)) {
+                        categoryData.entries.forEach(item => {
+                            srData.gear.push({
+                                name: item.Name,
+                                type: 'Gear',
+                                category: category,
+                                cost: item.Cost || '---',
+                                availability: item.Availability || '---',
+                                data: item
+                            });
+                            gearCount++;
                         });
-                        gearCount++;
-                    });
-                }
-            });
-            console.log(`✓ Loaded ${gearCount} gear items`);
+                    }
+                });
+                console.log(`✓ Loaded ${gearCount} gear items`);
+            } catch (e) {
+                console.error('Error parsing gear.json:', e);
+            }
         }
 
         // Load vehicles
         const vehiclesResponse = await fetch('/My-python-project/data/vehicles.json');
         if (vehiclesResponse.ok) {
             const vehiclesData = await vehiclesResponse.json();
-            let vehicleCount = 0;
-            Object.entries(vehiclesData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.vehicles.push({
-                        name: item.Name,
-                        type: 'Vehicle',
-                        category: category,
-                        cost: item.Cost,
-                        data: item
-                    });
-                    vehicleCount++;
-                });
-            });
-            console.log(`✓ Loaded ${vehicleCount} vehicles`);
+            // vehicles.json is an array, not an object with categories
+            srData.vehicles = vehiclesData.map(vehicle => ({
+                name: vehicle.name,
+                type: 'Vehicle',
+                category: 'Vehicles',
+                cost: vehicle['$Cost'] || vehicle.Cost,
+                data: vehicle
+            }));
+            console.log(`✓ Loaded ${srData.vehicles.length} vehicles`);
         }
 
         // Load totems
@@ -174,34 +191,46 @@ async function loadShadowrunData() {
         // Load programs
         const programResponse = await fetch('/My-python-project/data/programs.json');
         if (programResponse.ok) {
-            const programData = await programResponse.json();
-            srData.programs = programData.map(prog => ({
-                name: prog.Name,
-                type: 'Program',
-                category: 'Hacking',
-                data: prog
-            }));
-            console.log(`✓ Loaded ${srData.programs.length} programs`);
+            try {
+                const programData = await programResponse.json();
+                if (Array.isArray(programData)) {
+                    srData.programs = programData.map(prog => ({
+                        name: prog.Name,
+                        type: 'Program',
+                        category: 'Hacking',
+                        data: prog
+                    }));
+                }
+                console.log(`✓ Loaded ${srData.programs.length} programs`);
+            } catch (e) {
+                console.error('Error parsing programs.json:', e);
+            }
         }
 
         // Load cyberdecks
         const cyberdeckResponse = await fetch('/My-python-project/data/cyberdeck.json');
         if (cyberdeckResponse.ok) {
-            const cyberdeckData = await cyberdeckResponse.json();
-            let cdCount = 0;
-            Object.entries(cyberdeckData).forEach(([category, items]) => {
-                items.forEach(item => {
-                    srData.cyberdeck.push({
-                        name: item.Name,
-                        type: 'Cyberdeck',
-                        category: category,
-                        cost: item.Cost,
-                        data: item
-                    });
-                    cdCount++;
+            try {
+                const cyberdeckData = await cyberdeckResponse.json();
+                let cdCount = 0;
+                Object.entries(cyberdeckData).forEach(([category, items]) => {
+                    if (Array.isArray(items)) {
+                        items.forEach(item => {
+                            srData.cyberdeck.push({
+                                name: item.Name,
+                                type: 'Cyberdeck',
+                                category: category,
+                                cost: item.Cost || '---',
+                                data: item
+                            });
+                            cdCount++;
+                        });
+                    }
                 });
-            });
-            console.log(`✓ Loaded ${cdCount} cyberdecks`);
+                console.log(`✓ Loaded ${cdCount} cyberdecks`);
+            } catch (e) {
+                console.error('Error parsing cyberdeck.json:', e);
+            }
         }
 
         isDataLoaded = true;
