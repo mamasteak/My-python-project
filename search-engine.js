@@ -308,7 +308,7 @@ function displaySearchResults(results, query) {
         const costLabel = item.type === 'Spell' ? item.drain : (item.type === 'Adept Power' ? item.cost + ' pts' : cost + '¥');
 
         html += `
-            <div onclick="showItemDetails(${index})" style="padding: 6px 8px; border-bottom: 1px solid rgba(0, 255, 136, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--text-secondary); transition: all 0.2s;">
+            <div onclick="showItemDetails('${btoa(JSON.stringify(item))}')" style="padding: 6px 8px; border-bottom: 1px solid rgba(0, 255, 136, 0.1); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--text-secondary); transition: all 0.2s;">
                 <div>
                     <div style="color: var(--primary-neon); font-weight: 600;">${item.name}</div>
                     <div style="font-size: 8px; color: var(--text-muted);">${item.type} • ${item.category}</div>
@@ -395,20 +395,15 @@ function formatFieldValue(key, value) {
 }
 
 // Show item details in draggable modal
-function showItemDetails(index) {
-    const results = [];
-    results.push(...srData.skills);
-    results.push(...srData.spells);
-    results.push(...srData.adeptPowers);
-    results.push(...srData.cyberware);
-    results.push(...srData.bioware);
-    results.push(...srData.gear);
-    results.push(...srData.vehicles);
-    results.push(...srData.totems);
-    results.push(...srData.programs);
-    results.push(...srData.cyberdeck);
+function showItemDetails(encodedItem) {
+    let item;
+    try {
+        item = JSON.parse(atob(encodedItem));
+    } catch (e) {
+        console.error('Error decoding item:', e);
+        return;
+    }
 
-    const item = results[index];
     if (!item) return;
 
     // Create modal overlay
