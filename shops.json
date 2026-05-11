@@ -1,0 +1,2254 @@
+{
+  "shops": [
+    {
+      "id": "shop_1",
+      "subdistrict_thai": "แขวงท่าแร้ง",
+      "district_thai": "เขตบางเขน",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "K",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_2",
+      "subdistrict_thai": "แขวงทรายกองดินใต้",
+      "district_thai": "เขตคลองสามวา",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_3",
+      "subdistrict_thai": "แขวงทรายกองดิน",
+      "district_thai": "เขตคลองสามวา",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "K",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_4",
+      "subdistrict_thai": "แขวงมักกะสัน",
+      "district_thai": "เขตราชเทวี",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Sage",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_5",
+      "subdistrict_thai": "แขวงตลาดยอด",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Sage",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_6",
+      "subdistrict_thai": "แขวงบ้านช่างหล่อ",
+      "district_thai": "เขตบางกอกน้อย",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Doc Som",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_7",
+      "subdistrict_thai": "แขวงพระบรมมหาราชวัง",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Net",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_8",
+      "subdistrict_thai": "แขวงทุ่งพญาไท",
+      "district_thai": "เขตราชเทวี",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Net",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_9",
+      "subdistrict_thai": "แขวงวัดสามพระยา",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Jazz",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_10",
+      "subdistrict_thai": "แขวงบ้านพานถม",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Sage",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_11",
+      "subdistrict_thai": "แขวงถนนพญาไท",
+      "district_thai": "เขตราชเทวี",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Jack",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_12",
+      "subdistrict_thai": "แขวงชนะสงคราม",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_13",
+      "subdistrict_thai": "แขวงศิริราช",
+      "district_thai": "เขตบางกอกน้อย",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Roux",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_14",
+      "subdistrict_thai": "แขวงบางกะปิ",
+      "district_thai": "เขตห้วยขวาง",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Chai",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_15",
+      "subdistrict_thai": "แขวงวัดโสมนัส",
+      "district_thai": "เขตป้อมปราบศัตรูพ่าย",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "K",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_16",
+      "subdistrict_thai": "แขวงสามวาตะวันตก",
+      "district_thai": "เขตคลองสามวา",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Jack",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_17",
+      "subdistrict_thai": "แขวงคลองถนน",
+      "district_thai": "เขตสายไหม",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Mama",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_18",
+      "subdistrict_thai": "แขวงออเงิน",
+      "district_thai": "เขตสายไหม",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Somchai",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_19",
+      "subdistrict_thai": "แขวงทุ่งสองห้อง",
+      "district_thai": "เขตหลักสี่",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Master",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_20",
+      "subdistrict_thai": "แขวงหนองจอก",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Chai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_21",
+      "subdistrict_thai": "แขวงอนุสาวรีย์",
+      "district_thai": "เขตบางเขน",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "K",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_22",
+      "subdistrict_thai": "แขวงคู้ฝั่งเหนือ",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Ghost",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_23",
+      "subdistrict_thai": "แขวงตลาดบางเขน",
+      "district_thai": "เขตหลักสี่",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Ghost",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_24",
+      "subdistrict_thai": "แขวงบางขุนพรหม",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Noi",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_25",
+      "subdistrict_thai": "แขวงบวรนิเวศ",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Colonel",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_26",
+      "subdistrict_thai": "แขวงบางพรม",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Somchai",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_27",
+      "subdistrict_thai": "แขวงบางเชือกหนัง",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Mama",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_28",
+      "subdistrict_thai": "แขวงบางชัน",
+      "district_thai": "เขตคลองสามวา",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Roux",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_29",
+      "subdistrict_thai": "แขวงถนนเพชรบุรี",
+      "district_thai": "เขตราชเทวี",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Chai",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_30",
+      "subdistrict_thai": "แขวงกระทุ่มราย",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Sage",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_31",
+      "subdistrict_thai": "แขวงโคกแฝด",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Roux",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_32",
+      "subdistrict_thai": "แขวงลาดยาว",
+      "district_thai": "เขตจตุจักร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Somchai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_33",
+      "subdistrict_thai": "แขวงเสนานิคม",
+      "district_thai": "เขตจตุจักร",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Auntie",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_34",
+      "subdistrict_thai": "แขวงรามอินทรา",
+      "district_thai": "เขตคันนายาว",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "K",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_35",
+      "subdistrict_thai": "แขวงแสนแสบ",
+      "district_thai": "เขตมีนบุรี",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Sarge",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_36",
+      "subdistrict_thai": "แขวงจรเข้บัว",
+      "district_thai": "เขตลาดพร้าว",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Roux",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_37",
+      "subdistrict_thai": "แขวงวงศ์สว่าง",
+      "district_thai": "เขตบางซื่อ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Noi",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_38",
+      "subdistrict_thai": "แขวงคลองสิบ",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Master",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_39",
+      "subdistrict_thai": "แขวงดอนเมือง",
+      "district_thai": "เขตดอนเมือง",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Chai",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_40",
+      "subdistrict_thai": "แขวงวัดอรุณ",
+      "district_thai": "เขตบางกอกใหญ่",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Sarge",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_41",
+      "subdistrict_thai": "แขวงป้อมปราบ",
+      "district_thai": "เขตป้อมปราบศัตรูพ่าย",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Ghost",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_42",
+      "subdistrict_thai": "แขวงคลองขวาง",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Noi",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_43",
+      "subdistrict_thai": "แขวงคลองตันเหนือ",
+      "district_thai": "เขตวัฒนา",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Somchai",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_44",
+      "subdistrict_thai": "แขวงสัมพันธวงศ์",
+      "district_thai": "เขตสัมพันธวงศ์",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Ghost",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_45",
+      "subdistrict_thai": "แขวงสะพานสอง",
+      "district_thai": "เขตวังทองหลาง",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Jazz",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_46",
+      "subdistrict_thai": "แขวงศาลาธรรมสพน์",
+      "district_thai": "เขตทวีวัฒนา",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Dr. Poi",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_47",
+      "subdistrict_thai": "แขวงลำปลาทิว",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Doc Som",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_48",
+      "subdistrict_thai": "แขวงดินแดง",
+      "district_thai": "เขตดินแดง",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Noi",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_49",
+      "subdistrict_thai": "แขวงคลองเจ้าคุณสิงห์",
+      "district_thai": "เขตวังทองหลาง",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Jack",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_50",
+      "subdistrict_thai": "แขวงฉิมพลี",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Jack",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_51",
+      "subdistrict_thai": "แขวงวัดท่าพระ",
+      "district_thai": "เขตบางกอกใหญ่",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Auntie",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_52",
+      "subdistrict_thai": "แขวงลำผักชี",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Net",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_53",
+      "subdistrict_thai": "แขวงจอมพล",
+      "district_thai": "เขตจตุจักร",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Master",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_54",
+      "subdistrict_thai": "แขวงนวมินทร์",
+      "district_thai": "เขตบึงกุ่ม",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Ghost",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_55",
+      "subdistrict_thai": "แขวงลำต้อยติ่ง",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Mama",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_56",
+      "subdistrict_thai": "แขวงบางซื่อ",
+      "district_thai": "เขตบางซื่อ",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Somchai",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_57",
+      "subdistrict_thai": "แขวงสมเด็จเจ้าพระยา",
+      "district_thai": "เขตคลองสาน",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Jack",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_58",
+      "subdistrict_thai": "แขวงประเวศ",
+      "district_thai": "เขตประเวศ",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Doc Som",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_59",
+      "subdistrict_thai": "แขวงมหาพฤฒาราม",
+      "district_thai": "เขตบางรัก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "K",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_60",
+      "subdistrict_thai": "แขวงสี่แยกมหานาค",
+      "district_thai": "เขตดุสิต",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Colonel",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_61",
+      "subdistrict_thai": "แขวงสนามบิน",
+      "district_thai": "เขตดอนเมือง",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Roux",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_62",
+      "subdistrict_thai": "แขวงสีกัน",
+      "district_thai": "เขตดอนเมือง",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "K",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_63",
+      "subdistrict_thai": "แขวงคลองสิบสอง",
+      "district_thai": "เขตหนองจอก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Ghost",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_64",
+      "subdistrict_thai": "แขวงสายไหม",
+      "district_thai": "เขตสายไหม",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Somchai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_65",
+      "subdistrict_thai": "แขวงสวนจิตรลดา",
+      "district_thai": "เขตดุสิต",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Sarge",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_66",
+      "subdistrict_thai": "แขวงหัวหมาก",
+      "district_thai": "เขตบางกะปิ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_67",
+      "subdistrict_thai": "แขวงทับยาว",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Sarge",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_68",
+      "subdistrict_thai": "แขวงบางขุนศรี",
+      "district_thai": "เขตบางกอกน้อย",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Sage",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_69",
+      "subdistrict_thai": "แขวงขุมทอง",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Chai",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_70",
+      "subdistrict_thai": "แขวงสี่พระยา",
+      "district_thai": "เขตบางรัก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Sage",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_71",
+      "subdistrict_thai": "แขวงลาดกระบัง",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Colonel",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_72",
+      "subdistrict_thai": "แขวงบางรัก",
+      "district_thai": "เขตบางรัก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Chai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_73",
+      "subdistrict_thai": "แขวงบางแคเหนือ",
+      "district_thai": "เขตบางแค",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Roux",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_74",
+      "subdistrict_thai": "แขวงนวลจันทร์",
+      "district_thai": "เขตบึงกุ่ม",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Doc Som",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_75",
+      "subdistrict_thai": "แขวงลาดพร้าว",
+      "district_thai": "เขตลาดพร้าว",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Net",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_76",
+      "subdistrict_thai": "แขวงมีนบุรี",
+      "district_thai": "เขตมีนบุรี",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Ghost",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_77",
+      "subdistrict_thai": "แขวงจันทรเกษม",
+      "district_thai": "เขตจตุจักร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Doc Som",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_78",
+      "subdistrict_thai": "แขวงจตุจักร",
+      "district_thai": "เขตจตุจักร",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Somchai",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_79",
+      "subdistrict_thai": "แขวงคลองจั่น",
+      "district_thai": "เขตบางกะปิ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_80",
+      "subdistrict_thai": "แขวงคลองกุ่ม",
+      "district_thai": "เขตบึงกุ่ม",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Auntie",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_81",
+      "subdistrict_thai": "แขวงบางอ้อ",
+      "district_thai": "เขตบางพลัด",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Somchai",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_82",
+      "subdistrict_thai": "แขวงสามเสนนอก",
+      "district_thai": "เขตห้วยขวาง",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Net",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_83",
+      "subdistrict_thai": "แขวงหนองค้างพลู",
+      "district_thai": "เขตหนองแขม",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "K",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_84",
+      "subdistrict_thai": "แขวงคลองสาน",
+      "district_thai": "เขตคลองสาน",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Roux",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_85",
+      "subdistrict_thai": "แขวงหิรัญรูจี",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Master",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_86",
+      "subdistrict_thai": "แขวงบางจาก",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Mama",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_87",
+      "subdistrict_thai": "แขวงคลองตัน",
+      "district_thai": "เขตคลองเตย",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Sage",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_88",
+      "subdistrict_thai": "แขวงวังใหม่",
+      "district_thai": "เขตปทุมวัน",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Mama",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_89",
+      "subdistrict_thai": "แขวงปทุมวัน",
+      "district_thai": "เขตปทุมวัน",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Jazz",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_90",
+      "subdistrict_thai": "แขวงลุมพินี",
+      "district_thai": "เขตปทุมวัน",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Roux",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_91",
+      "subdistrict_thai": "แขวงคลองเตยเหนือ",
+      "district_thai": "เขตวัฒนา",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Colonel",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_92",
+      "subdistrict_thai": "แขวงวังบูรพาภิรมย์",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Chai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_93",
+      "subdistrict_thai": "แขวงปากคลองภาษีเจริญ",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Net",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_94",
+      "subdistrict_thai": "แขวงสุริยวงศ์",
+      "district_thai": "เขตบางรัก",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_95",
+      "subdistrict_thai": "แขวงวังทองหลาง",
+      "district_thai": "เขตวังทองหลาง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Dr. Poi",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_96",
+      "subdistrict_thai": "แขวงบางด้วน",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "K",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_97",
+      "subdistrict_thai": "แขวงสีลม",
+      "district_thai": "เขตบางรัก",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Chai",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_98",
+      "subdistrict_thai": "แขวงถนนนครไชยศรี",
+      "district_thai": "เขตดุสิต",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Ghost",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_99",
+      "subdistrict_thai": "แขวงตลิ่งชัน",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Ghost",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_100",
+      "subdistrict_thai": "แขวงสะพานสูง",
+      "district_thai": "เขตสะพานสูง",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "K",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_101",
+      "subdistrict_thai": "แขวงบางพลัด",
+      "district_thai": "เขตบางพลัด",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Doc Som",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_102",
+      "subdistrict_thai": "แขวงสามเสนใน",
+      "district_thai": "เขตพญาไท",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Colonel",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_103",
+      "subdistrict_thai": "แขวงวัดพระยาไกร",
+      "district_thai": "เขตบางคอแหลม",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Jazz",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_104",
+      "subdistrict_thai": "แขวงดอกไม้",
+      "district_thai": "เขตประเวศ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Roux",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_105",
+      "subdistrict_thai": "แขวงห้วยขวาง",
+      "district_thai": "เขตห้วยขวาง",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Noi",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_106",
+      "subdistrict_thai": "แขวงบางบำหรุ",
+      "district_thai": "เขตบางพลัด",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "K",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_107",
+      "subdistrict_thai": "แขวงท่าข้าม",
+      "district_thai": "เขตบางขุนเทียน",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Mama",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_108",
+      "subdistrict_thai": "แขวงดาวคะนอง",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Chai",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_109",
+      "subdistrict_thai": "แขวงบางแค",
+      "district_thai": "เขตบางแค",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Sage",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_110",
+      "subdistrict_thai": "แขวงหลักสอง",
+      "district_thai": "เขตบางแค",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Jazz",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_111",
+      "subdistrict_thai": "แขวงบางขุนเทียน",
+      "district_thai": "เขตจอมทอง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Mama",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_112",
+      "subdistrict_thai": "แขวงบางจาก",
+      "district_thai": "เขตพระโขนง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Roux",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_113",
+      "subdistrict_thai": "แขวงบางโคล่",
+      "district_thai": "เขตบางคอแหลม",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Jack",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_114",
+      "subdistrict_thai": "แขวงคูหาสวรรค์",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Jazz",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_115",
+      "subdistrict_thai": "แขวงบางแวก",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Mama",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_116",
+      "subdistrict_thai": "แขวงสำราญราษฎร์",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Auntie",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_117",
+      "subdistrict_thai": "แขวงคลองเตย",
+      "district_thai": "เขตคลองเตย",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Jack",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_118",
+      "subdistrict_thai": "แขวงอรุณอัมรินทร์",
+      "district_thai": "เขตบางกอกน้อย",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Sarge",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_119",
+      "subdistrict_thai": "แขวงวชิรพยาบาล",
+      "district_thai": "เขตดุสิต",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Doc Som",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_120",
+      "subdistrict_thai": "แขวงบางยี่ขัน",
+      "district_thai": "เขตบางพลัด",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Net",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_121",
+      "subdistrict_thai": "แขวงคลองสามประเวศ",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "K",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_122",
+      "subdistrict_thai": "แขวงดุสิต",
+      "district_thai": "เขตดุสิต",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_123",
+      "subdistrict_thai": "แขวงคลองชักพระ",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "K",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_124",
+      "subdistrict_thai": "แขวงบางระมาด",
+      "district_thai": "เขตตลิ่งชัน",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Master",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_125",
+      "subdistrict_thai": "แขวงคลองสองต้นนุ่น",
+      "district_thai": "เขตลาดกระบัง",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Ghost",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_126",
+      "subdistrict_thai": "แขวงบางขุนนนท์",
+      "district_thai": "เขตบางกอกน้อย",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Roux",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_127",
+      "subdistrict_thai": "แขวงทวีวัฒนา",
+      "district_thai": "เขตทวีวัฒนา",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Mama",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_128",
+      "subdistrict_thai": "แขวงรองเมือง",
+      "district_thai": "เขตปทุมวัน",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Sarge",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_129",
+      "subdistrict_thai": "แขวงบางไผ่",
+      "district_thai": "เขตบางแค",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Net",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_130",
+      "subdistrict_thai": "แขวงวัดเทพศิรินทร์",
+      "district_thai": "เขตป้อมปราบศัตรูพ่าย",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Doc Som",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_131",
+      "subdistrict_thai": "แขวงวัดราชบพิธ",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Somchai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_132",
+      "subdistrict_thai": "แขวงสวนหลวง",
+      "district_thai": "เขตสวนหลวง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "K",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_133",
+      "subdistrict_thai": "แขวงวัดกัลยาณ์",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Dr. Poi",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_134",
+      "subdistrict_thai": "แขวงตลาดน้อย",
+      "district_thai": "เขตสัมพันธวงศ์",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Master",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_135",
+      "subdistrict_thai": "แขวงแสมดำ",
+      "district_thai": "เขตบางขุนเทียน",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Jack",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_136",
+      "subdistrict_thai": "แขวงยานนาวา",
+      "district_thai": "เขตสาทร",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Chai",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_137",
+      "subdistrict_thai": "แขวงสำเหร่",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Noi",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_138",
+      "subdistrict_thai": "แขวงบางลำภูล่าง",
+      "district_thai": "เขตคลองสาน",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Colonel",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_139",
+      "subdistrict_thai": "แขวงจักรวรรดิ์",
+      "district_thai": "เขตสัมพันธวงศ์",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Jazz",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_140",
+      "subdistrict_thai": "แขวงทุ่งวัดดอน",
+      "district_thai": "เขตสาทร",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Somchai",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_141",
+      "subdistrict_thai": "แขวงคลองมหานาค",
+      "district_thai": "เขตป้อมปราบศัตรูพ่าย",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_142",
+      "subdistrict_thai": "แขวงศาลเจ้าพ่อเสือ",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_143",
+      "subdistrict_thai": "แขวงบ้านบาตร",
+      "district_thai": "เขตป้อมปราบศัตรูพ่าย",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Noi",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_144",
+      "subdistrict_thai": "แขวงเสาชิงช้า",
+      "district_thai": "เขตพระนคร",
+      "shop_name": "แขวง Hacker",
+      "shop_type": "Hacker Haven",
+      "npc_vendor": "Sarge",
+      "description": "Local hacker haven",
+      "inventory_categories": [
+        "Programs",
+        "Cyberdecks"
+      ]
+    },
+    {
+      "id": "shop_145",
+      "subdistrict_thai": "แขวงพระโขนงเหนือ",
+      "district_thai": "เขตวัฒนา",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Jazz",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_146",
+      "subdistrict_thai": "แขวงพระโขนง",
+      "district_thai": "เขตคลองเตย",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_147",
+      "subdistrict_thai": "แขวงบางหว้า",
+      "district_thai": "เขตภาษีเจริญ",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Chai",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_148",
+      "subdistrict_thai": "แขวงตลาดพลู",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Noi",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_149",
+      "subdistrict_thai": "แขวงบางคอแหลม",
+      "district_thai": "เขตบางคอแหลม",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Ghost",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_150",
+      "subdistrict_thai": "แขวงหนองบอน",
+      "district_thai": "เขตประเวศ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Jack",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_151",
+      "subdistrict_thai": "แขวงจอมทอง",
+      "district_thai": "เขตจอมทอง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_152",
+      "subdistrict_thai": "แขวงหนองแขม",
+      "district_thai": "เขตหนองแขม",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Ghost",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_153",
+      "subdistrict_thai": "แขวงบางโพงพาง",
+      "district_thai": "เขตยานนาวา",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Jack",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_154",
+      "subdistrict_thai": "แขวงบางปะกอก",
+      "district_thai": "เขตราษฎร์บูรณะ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Chai",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_155",
+      "subdistrict_thai": "แขวงบางบอน",
+      "district_thai": "เขตบางบอน",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Sage",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_156",
+      "subdistrict_thai": "แขวงบางมด",
+      "district_thai": "เขตจอมทอง",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Dr. Poi",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_157",
+      "subdistrict_thai": "แขวงราษฎร์บูรณะ",
+      "district_thai": "เขตราษฎร์บูรณะ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Chai",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_158",
+      "subdistrict_thai": "แขวงบางนา",
+      "district_thai": "เขตบางนา",
+      "shop_name": "แขวง Drug",
+      "shop_type": "Drug Dealer",
+      "npc_vendor": "Sarge",
+      "description": "Local drug dealer",
+      "inventory_categories": [
+        "Drugs"
+      ]
+    },
+    {
+      "id": "shop_159",
+      "subdistrict_thai": "แขวงบุคคโล",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Dr. Poi",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_160",
+      "subdistrict_thai": "แขวงช่องนนทรีย์",
+      "district_thai": "เขตยานนาวา",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Mama",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_161",
+      "subdistrict_thai": "แขวงคลองต้นไทร",
+      "district_thai": "เขตคลองสาน",
+      "shop_name": "แขวง Black",
+      "shop_type": "Black Market Arms",
+      "npc_vendor": "Master",
+      "description": "Local black market arms",
+      "inventory_categories": [
+        "Firearms",
+        "Ammunition",
+        "Explosives",
+        "Edged weapon"
+      ]
+    },
+    {
+      "id": "shop_162",
+      "subdistrict_thai": "แขวงบางยี่เรือ",
+      "district_thai": "เขตธนบุรี",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_163",
+      "subdistrict_thai": "แขวงทุ่งมหาเมฆ",
+      "district_thai": "เขตสาทร",
+      "shop_name": "แขวง Corporate",
+      "shop_type": "Corporate Supplier",
+      "npc_vendor": "Auntie",
+      "description": "Local corporate supplier",
+      "inventory_categories": [
+        "Surveillance and Security",
+        "Cyberdeck Other"
+      ]
+    },
+    {
+      "id": "shop_164",
+      "subdistrict_thai": "แขวงบางค้อ",
+      "district_thai": "เขตจอมทอง",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Mama",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    },
+    {
+      "id": "shop_165",
+      "subdistrict_thai": "แขวงทุ่งครุ",
+      "district_thai": "เขตทุ่งครุ",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Master",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_166",
+      "subdistrict_thai": "แขวงคันนายาว",
+      "district_thai": "เขตคันนายาว",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Pawn Shop",
+      "npc_vendor": "Uncle Prem",
+      "description": "Local street pawn shop",
+      "inventory_categories": [
+        "Clothing and Armor",
+        "Surveillance and Security",
+        "Lifestyle"
+      ]
+    },
+    {
+      "id": "shop_167",
+      "subdistrict_thai": "แขวงสามวาตะวันออก",
+      "district_thai": "เขตคลองสามวา",
+      "shop_name": "แขวง Chop",
+      "shop_type": "Chop Shop",
+      "npc_vendor": "Auntie",
+      "description": "Local chop shop",
+      "inventory_categories": [
+        "Vehicles",
+        "Vehicle modifications"
+      ]
+    },
+    {
+      "id": "shop_168",
+      "subdistrict_thai": "แขวงพลับพลา",
+      "district_thai": "เขตวังทองหลาง",
+      "shop_name": "แขวง Street",
+      "shop_type": "Street Doc Clinic",
+      "npc_vendor": "Sarge",
+      "description": "Local street doc clinic",
+      "inventory_categories": [
+        "Bioware"
+      ]
+    },
+    {
+      "id": "shop_169",
+      "subdistrict_thai": "แขวงบางมด",
+      "district_thai": "เขตทุ่งครุ",
+      "shop_name": "แขวง Exotic",
+      "shop_type": "Exotic Equipment",
+      "npc_vendor": "Mama",
+      "description": "Local exotic equipment",
+      "inventory_categories": [
+        "Magical Equipment",
+        "Stuff With Ratings"
+      ]
+    }
+  ]
+}
