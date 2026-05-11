@@ -1177,11 +1177,26 @@
         /* SHOP INVENTORY */
         .shop-inventory {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-            padding: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 8px;
+            padding: 8px;
             overflow-y: auto;
+            overflow-x: hidden;
             height: 100%;
+            align-content: start;
+        }
+
+        .shop-inventory::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .shop-inventory::-webkit-scrollbar-track {
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .shop-inventory::-webkit-scrollbar-thumb {
+            background: var(--primary-neon);
+            border-radius: 3px;
         }
 
         .shop-item {
@@ -1406,15 +1421,15 @@
             </div>
             <div class="coords-center">
                 <div class="coords-display map-only" id="coordsDisplay">X: 0 | Y: 0</div>
-                <div class="shop-register shop-only" style="display: none;">
+                <div class="shop-register shop-only">
                     <span class="register-total">Cart Total: <strong id="registerTotal">¥0</strong></span>
                     <span class="register-items">Items: <strong id="registerItems">0</strong></span>
                 </div>
             </div>
             <div class="controls-right">
                 <button class="control-btn secondary map-only" onclick="clearMap()">🗑️ CLEAR</button>
-                <button class="control-btn shop-only" onclick="confirmPurchase()" style="display: none; background: rgba(0, 255, 136, 0.15); border-color: var(--primary-neon); color: var(--primary-neon);">✓ CHECKOUT</button>
-                <button class="control-btn secondary shop-only" onclick="clearCart()" style="display: none; background: rgba(255, 0, 128, 0.15); border-color: var(--secondary-neon); color: var(--secondary-neon);">⊘ CLEAR</button>
+                <button class="control-btn shop-only" onclick="confirmPurchase()" style="background: rgba(0, 255, 136, 0.15); border-color: var(--primary-neon); color: var(--primary-neon);">✓ CHECKOUT</button>
+                <button class="control-btn secondary shop-only" onclick="clearCart()" style="background: rgba(255, 0, 128, 0.15); border-color: var(--secondary-neon); color: var(--secondary-neon);">⊘ CLEAR</button>
             </div>
         </div>
 
