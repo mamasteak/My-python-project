@@ -1573,6 +1573,11 @@
                                 <option value="">-- SELECT CHARACTER --</option>
                             </select>
                         </div>
+                        <div class="shop-row" style="display: flex; gap: 4px; flex-wrap: wrap;">
+                            <button id="newCharBtn" class="shop-button" onclick="createNewCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">NEW</button>
+                            <button id="saveCharBtn" class="shop-button" onclick="saveCurrentCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">SAVE</button>
+                            <button id="exportCharBtn" class="shop-button" onclick="exportCurrentCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">EXPORT</button>
+                        </div>
                         <div class="shop-row">
                             <span class="balance-info">Balance: <strong id="playerBalance">--</strong></span>
                         </div>
@@ -1599,11 +1604,86 @@
         </div>
     </div>
 
-<script src="weather-engine.js"></script>
-<script src="time-engine.js"></script>
-<script src="search-engine.js"></script>
-<script src="shop-engine.js"></script>
-<script src="stock-manager.js"></script>
+<script src="weather-engine.js?v=2" onerror="console.error('❌ weather-engine.js failed to load')"></script>
+<script src="time-engine.js?v=2" onerror="console.error('❌ time-engine.js failed to load')"></script>
+<script src="search-engine.js?v=2" onerror="console.error('❌ search-engine.js failed to load')"></script>
+<script>
+// Load character schema and storage modules
+async function loadCharacterModules() {
+    try {
+        const [schemaCode, storageCode] = await Promise.all([
+            fetch('./character-schema.js?v=1').then(r => r.text()),
+            fetch('./character-storage.js?v=1').then(r => r.text())
+        ]);
+
+        console.log('📋 Executing character schema...');
+        eval(schemaCode);
+        console.log('📋 Executing character storage...');
+        eval(storageCode);
+    } catch (e) {
+        console.error('❌ Failed to load character modules:', e);
+    }
+}
+
+loadCharacterModules();
+</script>
+<script>
+// Load shop-engine.js dynamically to bypass caching issues
+fetch('./shop-engine.js?v=100')
+    .then(r => r.text())
+    .then(code => {
+        console.log('🏪 shop-engine.js fetched, executing...');
+        eval(code);
+        console.log('✓ shop-engine.js executed');
+    })
+    .catch(e => console.error('❌ Failed to load shop-engine.js:', e));
+</script>
+<script>
+    console.log('After shop-engine.js load:');
+    console.log('  typeof ShopEngine:', typeof ShopEngine);
+    console.log('  ShopEngine:', ShopEngine ? 'defined' : 'UNDEFINED');
+    if (typeof ShopEngine !== 'undefined') {
+        console.log('  ShopEngine.initialize:', typeof ShopEngine.initialize);
+    }
+
+    // Show in debug panel too
+    setTimeout(() => {
+        const debugContent = document.getElementById('debugContent');
+        if (debugContent) {
+            debugContent.innerHTML += `<div style="margin-top: 4px; border-top: 1px solid #666; padding-top: 4px;">
+<div style="color: #00ff88;">After shop-engine:</div>
+<div>ShopEngine: ${typeof ShopEngine !== 'undefined' ? '✓' : '✗'}</div>
+            </div>`;
+        }
+    }, 100);
+</script>
+<script src="stock-manager.js?v=2" onerror="console.error('❌ stock-manager.js failed to load')"></script>
+<script>
+    // Debug: Check if scripts loaded
+    const scripts = {
+        WeatherEngine: typeof WeatherEngine !== 'undefined',
+        TimeEngine: typeof TimeEngine !== 'undefined',
+        SearchEngine: typeof SearchEngine !== 'undefined',
+        ShopEngine: typeof ShopEngine !== 'undefined',
+        StockManager: typeof StockManager !== 'undefined'
+    };
+
+    console.log('Script load check:');
+    let debugHTML = '';
+    Object.entries(scripts).forEach(([name, loaded]) => {
+        const status = loaded ? '✓' : '✗';
+        console.log(`  ${name}: ${status}`);
+        debugHTML += `<div>${status} ${name}</div>`;
+    });
+
+    // Show debug panel if ShopEngine failed
+    if (!scripts.ShopEngine) {
+        const debugPanel = document.getElementById('debugPanel');
+        const debugContent = document.getElementById('debugContent');
+        debugPanel.style.display = 'block';
+        debugContent.innerHTML = debugHTML;
+    }
+</script>
 <script>
     let geoJsonLayers = [];
     let canvas;
@@ -2450,13 +2530,148 @@
         updatePlayerBalance();
     }
 
-    // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
-    document.addEventListener('DOMContentLoaded', async () => {
+    // Character Management Functions
+    function createNewCharacter() {
+        if (typeof CharacterStorage === 'undefined' || typeof CharacterSchema === 'undefined') {
+            alert('Character system not ready yet');
+            return;
+        }
+
+        const name = prompt('Enter character name:');
+        if (!name) return;
+
+        const newChar = CharacterSchema.createNewCharacter(name);
+        const result = CharacterStorage.saveCharacter(newChar);
+
+        if (result.success) {
+            characters[newChar.id] = {
+                id: newChar.id,
+                name: newChar.name,
+                balance: newChar.balance,
+                metatype: newChar.metatype
+            };
+
+            // Update player select dropdown
+            const playerSelect = document.getElementById('playerSelect');
+            const option = document.createElement('option');
+            option.value = newChar.id;
+            option.textContent = newChar.name + ' (¥' + newChar.balance.toLocaleString() + ')';
+            playerSelect.appendChild(option);
+            playerSelect.value = newChar.id;
+            updatePlayerBalance();
+
+            console.log(`✓ Character "${name}" created`);
+            alert(`Character "${name}" created!`);
+        } else {
+            alert('Failed to create character: ' + (result.errors ? result.errors.join(', ') : result.error));
+        }
+    }
+
+    function saveCurrentCharacter() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '') {
+            alert('Please select a character first');
+            return;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            alert('Character system not ready yet');
+            return;
+        }
+
+        const player = characters[playerKey];
+        const characterData = {
+            ...CharacterSchema.createNewCharacter(player.name),
+            id: player.id,
+            balance: player.balance,
+            metatype: player.metatype,
+            name: player.name
+        };
+
+        const result = CharacterStorage.saveCharacter(characterData);
+        if (result.success) {
+            alert(`Character "${player.name}" saved!`);
+        } else {
+            alert('Failed to save character: ' + (result.errors ? result.errors.join(', ') : result.error));
+        }
+    }
+
+    function exportCurrentCharacter() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '') {
+            alert('Please select a character first');
+            return;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            alert('Character system not ready yet');
+            return;
+        }
+
+        const player = characters[playerKey];
+        const characterData = {
+            ...CharacterSchema.createNewCharacter(player.name),
+            id: player.id,
+            balance: player.balance,
+            metatype: player.metatype,
+            name: player.name
+        };
+
+        CharacterStorage.downloadCharacterAsJSON(characterData);
+    }
+
+    // Initialize character system - load characters from storage
+    async function initializeCharacterSystem() {
+        let attempts = 0;
+        while (typeof CharacterStorage === 'undefined' && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            console.warn('⚠️ CharacterStorage not available, will use empty character list');
+            return {};
+        }
+
+        console.log('📋 Loading characters from storage...');
+        const storedCharacters = CharacterStorage.getAllCharacters();
+        console.log(`📋 Found ${storedCharacters.length} characters in storage`);
+
+        const result = {};
+        storedCharacters.forEach(character => {
+            result[character.id] = {
+                id: character.id,
+                name: character.name,
+                balance: character.balance,
+                metatype: character.metatype
+            };
+        });
+
+        return result;
+    }
+
+    // Initialize shop - wait for ShopEngine to be available
+    async function initializeShopSystem() {
         const districtSelect = document.getElementById('subDistrictSelect');
 
         try {
+            // Wait for ShopEngine to be defined (with timeout)
+            let attempts = 0;
+            while (typeof ShopEngine === 'undefined' && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
             if (typeof ShopEngine === 'undefined') {
-                throw new Error('ShopEngine failed to load — check shop-engine.js is accessible');
+                throw new Error('ShopEngine failed to load after waiting — check shop-engine.js is accessible');
+            }
+
+            // Initialize character system and load characters
+            const loadedCharacters = await initializeCharacterSystem();
+            if (Object.keys(loadedCharacters).length > 0) {
+                Object.assign(characters, loadedCharacters);
             }
 
             // Initialize shop engine and wait for data to load
@@ -2527,6 +2742,11 @@
                 districtSelect.innerHTML = '<option value="">-- LOAD FAILED --</option>';
             }
         }
+    }
+
+    // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
+    document.addEventListener('DOMContentLoaded', async () => {
+        await initializeShopSystem();
     });
 
     // ===== SIDEBAR & FILE HANDLING =====

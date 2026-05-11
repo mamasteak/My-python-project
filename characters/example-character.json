@@ -1,0 +1,86 @@
+{
+  "id": "char_example_001",
+  "name": "Example Runner",
+  "metatype": "human",
+  "attributes": {
+    "body": {
+      "base": 3,
+      "modified": 3
+    },
+    "quickness": {
+      "base": 3,
+      "modified": 3
+    },
+    "strength": {
+      "base": 3,
+      "modified": 3
+    },
+    "charisma": {
+      "base": 3,
+      "modified": 3
+    },
+    "intelligence": {
+      "base": 3,
+      "modified": 3
+    },
+    "willpower": {
+      "base": 3,
+      "modified": 3
+    },
+    "essence": {
+      "base": 6,
+      "current": 6
+    },
+    "magic": {
+      "value": 0
+    },
+    "reaction": {
+      "base": 3,
+      "modified": 3
+    }
+  },
+  "health": {
+    "physical": {
+      "current": 0,
+      "max": 10
+    },
+    "stun": {
+      "current": 0,
+      "max": 10
+    }
+  },
+  "pools": {
+    "combat": {
+      "current": 5,
+      "max": 5
+    },
+    "spell": {
+      "current": 0,
+      "max": 0
+    },
+    "hacking": {
+      "current": 0,
+      "max": 0
+    },
+    "karma": {
+      "current": 0,
+      "total": 0
+    }
+  },
+  "balance": 50000,
+  "equipment": {
+    "weapons": [],
+    "armor": [],
+    "gear": [],
+    "cyberware": [],
+    "bioware": []
+  },
+  "skills": [],
+  "magic": {
+    "awakened": false,
+    "tradition": null,
+    "spells": []
+  },
+  "createdAt": "2026-05-11T00:00:00.000Z",
+  "lastModified": "2026-05-11T00:00:00.000Z"
+}

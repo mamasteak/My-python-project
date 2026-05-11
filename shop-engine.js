@@ -260,17 +260,30 @@ function capitalizeWords(str) {
     return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
-// Default playable characters
-const defaultCharacters = {
-    jax: { name: 'Jax', balance: 50000 },
-    noi: { name: 'Noi', balance: 35000 },
-    roux: { name: 'Roux', balance: 45000 },
-    jazz: { name: 'Jazz', balance: 40000 }
-};
-
-// Get playable characters
+// Get playable characters from storage
 function getCharacters() {
-    return defaultCharacters;
+    if (typeof CharacterStorage === 'undefined') {
+        console.warn('⚠️ CharacterStorage not available, returning empty characters');
+        return {};
+    }
+
+    const characters = CharacterStorage.getAllCharacters();
+    const result = {};
+
+    characters.forEach((character, index) => {
+        result[character.id] = {
+            id: character.id,
+            name: character.name,
+            balance: character.balance,
+            metatype: character.metatype
+        };
+    });
+
+    if (Object.keys(result).length === 0) {
+        console.warn('⚠️ No characters found in storage');
+    }
+
+    return result;
 }
 
 // Format currency
