@@ -1413,6 +1413,11 @@
                     <p style="color: var(--text-muted);">Combat calculator coming soon...</p>
                 </div>
             </div>
+            <!-- DEBUG PANEL -->
+            <div id="debugPanel" style="position: fixed; bottom: 200px; right: 10px; background: #000; border: 1px solid #ff0080; padding: 8px; font-size: 8px; color: #00ff88; max-width: 200px; display: none; z-index: 999; font-family: monospace;">
+                <div style="margin-bottom: 4px; color: #ffff00;">⚙️ SCRIPT STATUS</div>
+                <div id="debugContent"></div>
+            </div>
         </div>
 
         <div class="controls-bar" id="controlsBar" data-view="map">
@@ -1599,11 +1604,37 @@
         </div>
     </div>
 
-<script src="weather-engine.js"></script>
-<script src="time-engine.js"></script>
-<script src="search-engine.js"></script>
-<script src="shop-engine.js"></script>
-<script src="stock-manager.js"></script>
+<script src="weather-engine.js" onerror="console.error('❌ weather-engine.js failed to load')"></script>
+<script src="time-engine.js" onerror="console.error('❌ time-engine.js failed to load')"></script>
+<script src="search-engine.js" onerror="console.error('❌ search-engine.js failed to load')"></script>
+<script src="shop-engine.js" onerror="console.error('❌ shop-engine.js failed to load')"></script>
+<script src="stock-manager.js" onerror="console.error('❌ stock-manager.js failed to load')"></script>
+<script>
+    // Debug: Check if scripts loaded
+    const scripts = {
+        WeatherEngine: typeof WeatherEngine !== 'undefined',
+        TimeEngine: typeof TimeEngine !== 'undefined',
+        SearchEngine: typeof SearchEngine !== 'undefined',
+        ShopEngine: typeof ShopEngine !== 'undefined',
+        StockManager: typeof StockManager !== 'undefined'
+    };
+
+    console.log('Script load check:');
+    let debugHTML = '';
+    Object.entries(scripts).forEach(([name, loaded]) => {
+        const status = loaded ? '✓' : '✗';
+        console.log(`  ${name}: ${status}`);
+        debugHTML += `<div>${status} ${name}</div>`;
+    });
+
+    // Show debug panel if ShopEngine failed
+    if (!scripts.ShopEngine) {
+        const debugPanel = document.getElementById('debugPanel');
+        const debugContent = document.getElementById('debugContent');
+        debugPanel.style.display = 'block';
+        debugContent.innerHTML = debugHTML;
+    }
+</script>
 <script>
     let geoJsonLayers = [];
     let canvas;
