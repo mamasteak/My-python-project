@@ -176,19 +176,6 @@ function capitalizeWords(str) {
     return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
-// Default playable characters
-const defaultCharacters = {
-    jax: { name: 'Jax', balance: 50000 },
-    noi: { name: 'Noi', balance: 35000 },
-    roux: { name: 'Roux', balance: 45000 },
-    jazz: { name: 'Jazz', balance: 40000 }
-};
-
-// Get playable characters
-function getCharacters() {
-    return defaultCharacters;
-}
-
 // Format currency
 function formatCurrency(amount) {
     return '¥' + amount.toLocaleString();
@@ -212,7 +199,6 @@ window.ShopEngine = {
     getShopsByDistrict,
     getShopByName,
     generateShopInventory,
-    getCharacters,
     formatCurrency,
     searchShops,
     shopsDatabase,
