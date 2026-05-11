@@ -12,6 +12,7 @@ async function initializeShopEngine() {
         console.log('🏪 Initializing Shop Engine...');
 
         // Load shops.json
+        console.log('Loading shops.json...');
         const shopsResponse = await fetch('./shops.json');
         if (!shopsResponse.ok) throw new Error(`shops.json returned ${shopsResponse.status}`);
         const shopsJson = await shopsResponse.json();
@@ -19,10 +20,37 @@ async function initializeShopEngine() {
         console.log(`✓ Loaded ${shopsDatabase.length} shops`);
 
         // Load subdistricts.json
-        const subResponse = await fetch('./subdistricts.json');
-        if (!subResponse.ok) throw new Error(`subdistricts.json returned ${subResponse.status}`);
-        subDistrictsData = await subResponse.json();
-        console.log(`✓ Loaded ${subDistrictsData.length} subdistricts`);
+        console.log('Loading subdistricts.json...');
+        try {
+            const subResponse = await fetch('./subdistricts.json');
+            if (!subResponse.ok) throw new Error(`subdistricts.json returned ${subResponse.status}`);
+            const subJson = await subResponse.json();
+            subDistrictsData = Array.isArray(subJson) ? subJson : subJson.subdistricts || [];
+            console.log(`✓ Loaded ${subDistrictsData.length} subdistricts from file`);
+        } catch (subError) {
+            console.warn('⚠️ Failed to load subdistricts.json, extracting from shops data:', subError.message);
+            // Fallback: extract subdistricts from shops data
+            const subDistrictSet = new Set();
+            const districtSet = new Set();
+            shopsDatabase.forEach(shop => {
+                if (shop.subdistrict_thai) subDistrictSet.add(shop.subdistrict_thai);
+                if (shop.district_thai) districtSet.add(shop.district_thai);
+            });
+            subDistrictsData = Array.from(subDistrictSet).map((subdistrict, index) => {
+                const matchingShop = shopsDatabase.find(s => s.subdistrict_thai === subdistrict);
+                return {
+                    subdistrict: subdistrict,
+                    district: matchingShop ? matchingShop.district_thai : 'Unknown'
+                };
+            });
+            console.log(`✓ Extracted ${subDistrictsData.length} subdistricts from shops data`);
+        }
+
+        if (subDistrictsData.length === 0) {
+            console.warn('⚠️ No subdistricts found - shop system may not work correctly');
+        } else {
+            console.log('Sample subdistricts:', subDistrictsData.slice(0, 2));
+        }
 
         // Load SR2 data files for inventory (non-fatal if they fail)
         await loadSR2Data();
@@ -30,7 +58,8 @@ async function initializeShopEngine() {
         console.log('✓ Shop Engine initialized');
         return true;
     } catch (error) {
-        console.error('Error initializing shop engine:', error);
+        console.error('❌ Error initializing shop engine:', error.message);
+        console.error('Full error:', error);
         throw error;
     }
 }
@@ -59,12 +88,28 @@ async function loadSR2Data() {
 // Get unique subdistricts for dropdown
 function getUniqueSubDistricts() {
     const districts = {};
+
+    if (!Array.isArray(subDistrictsData) || subDistrictsData.length === 0) {
+        console.warn('⚠️ subDistrictsData is empty or invalid');
+        return districts;
+    }
+
     subDistrictsData.forEach(sub => {
+        if (!sub || !sub.district) {
+            console.warn('⚠️ Invalid subdistrict entry:', sub);
+            return;
+        }
+
         if (!districts[sub.district]) {
             districts[sub.district] = [];
         }
-        districts[sub.district].push(sub.subdistrict);
+
+        if (sub.subdistrict) {
+            districts[sub.district].push(sub.subdistrict);
+        }
     });
+
+    console.log(`Unique districts found: ${Object.keys(districts).length}`, Object.keys(districts).slice(0, 3));
     return districts;
 }
 
