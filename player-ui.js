@@ -90,7 +90,7 @@ const PlayerUI = {
       html += `
         <div class="player-item">
           <div class="player-info">
-            <div class="player-name">${char.name}</div>
+            <div class="player-name" onclick="PlayerUI.showCharacterSheet('${char.id}')" style="cursor: pointer; user-select: none;">${char.name}</div>
             <div class="player-meta">${char.metatype || 'Human'} • ¥${balance.toLocaleString()}</div>
           </div>
           <div class="player-actions-row">
@@ -388,6 +388,194 @@ const PlayerUI = {
 
     CharacterStorage.downloadCharacterAsJSON(character);
     console.log(`✓ Exported character: ${character.name}`);
+  },
+
+  // Show character sheet display
+  showCharacterSheet(characterId) {
+    const character = CharacterStorage.loadCharacter(characterId);
+    if (!character) {
+      alert('⚠️ Could not load character');
+      return;
+    }
+
+    const essence = character.attributes.essence.current || 6;
+    const karma = character.karma.current || 0;
+
+    const sheetHTML = `
+      <div id="charSheetModal" class="char-sheet-overlay">
+        <div class="char-sheet-modal" style="position: absolute; left: 100px; top: 50px;">
+          <div class="char-sheet-header" style="cursor: move; background: linear-gradient(90deg, #00ff88 0%, #00d4ff 100%); user-select: none;">
+            <h2>${character.name}</h2>
+            <button class="char-sheet-close" onclick="PlayerUI.closeCharacterSheet()">✕</button>
+          </div>
+
+          <div class="char-sheet-tabs">
+            <button class="char-sheet-tab-btn active" onclick="PlayerUI.switchSheetTab('overview')">Overview</button>
+            <button class="char-sheet-tab-btn" onclick="PlayerUI.switchSheetTab('attributes')">Attributes</button>
+            <button class="char-sheet-tab-btn" onclick="PlayerUI.switchSheetTab('skills')">Skills</button>
+            <button class="char-sheet-tab-btn" onclick="PlayerUI.switchSheetTab('equipment')">Equipment</button>
+          </div>
+
+          <div class="char-sheet-content">
+            <!-- OVERVIEW TAB -->
+            <div id="sheet-overview" class="char-sheet-tab-content active">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px;">
+                <div class="stat-block">
+                  <div class="stat-label">Metatype</div>
+                  <div class="stat-value">${character.metatype || 'Human'}</div>
+                </div>
+                <div class="stat-block">
+                  <div class="stat-label">Balance</div>
+                  <div class="stat-value">¥${character.balance.toLocaleString()}</div>
+                </div>
+                <div class="stat-block">
+                  <div class="stat-label">Essence</div>
+                  <div class="stat-value">${essence.toFixed(2)}/6</div>
+                </div>
+                <div class="stat-block">
+                  <div class="stat-label">Karma</div>
+                  <div class="stat-value">${karma}</div>
+                </div>
+                <div class="stat-block">
+                  <div class="stat-label">Awakened</div>
+                  <div class="stat-value">${character.magic.awakened ? '✓ Yes' : 'No'}</div>
+                </div>
+                <div class="stat-block">
+                  <div class="stat-label">Adept</div>
+                  <div class="stat-value">${character.adept.isAdept ? '✓ Yes' : 'No'}</div>
+                </div>
+              </div>
+              ${character.details.biography ? `
+                <div style="padding: 0 12px 12px 12px; border-top: 1px solid var(--secondary-neon); margin-top: 8px;">
+                  <div style="color: var(--text-muted); font-size: 9px; margin-bottom: 4px;">BIOGRAPHY</div>
+                  <div style="color: var(--text-bright); font-size: 10px; line-height: 1.4;">${character.details.biography}</div>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- ATTRIBUTES TAB -->
+            <div id="sheet-attributes" class="char-sheet-tab-content">
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px;">
+                ${['body', 'quickness', 'strength', 'charisma', 'intelligence', 'willpower'].map(attr => {
+                  const base = character.attributes[attr].base || 0;
+                  const modified = character.attributes[attr].modified || base;
+                  return `
+                    <div class="attr-block">
+                      <div class="attr-label">${attr.toUpperCase().substring(0, 3)}</div>
+                      <div class="attr-display">
+                        <span style="color: var(--primary-neon);">${modified}</span>
+                        ${modified !== base ? `<span style="color: var(--text-muted); font-size: 8px;">(${base})</span>` : ''}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- SKILLS TAB -->
+            <div id="sheet-skills" class="char-sheet-tab-content">
+              ${character.skills.length > 0 ? `
+                <div style="padding: 12px;">
+                  ${character.skills.map(skill => `
+                    <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--secondary-neon);">
+                      <div style="color: var(--text-bright); font-size: 10px;">
+                        <strong>${skill.baseName}</strong>${skill.concentration ? ` (${skill.concentration})` : ''}${skill.specialization ? ` [${skill.specialization}]` : ''}
+                      </div>
+                      <div style="color: var(--primary-neon); font-size: 10px; font-weight: bold;">${skill.ratings.base || 0}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              ` : `
+                <div style="padding: 12px; color: var(--text-muted); font-size: 10px;">No skills added yet</div>
+              `}
+            </div>
+
+            <!-- EQUIPMENT TAB -->
+            <div id="sheet-equipment" class="char-sheet-tab-content">
+              <div style="padding: 12px;">
+                ${['weapons', 'armor', 'gear', 'cyberware', 'bioware'].map(equipType => {
+                  const items = character.equipment[equipType] || [];
+                  return items.length > 0 ? `
+                    <div style="margin-bottom: 12px;">
+                      <div style="color: var(--primary-neon); font-size: 10px; font-weight: bold; margin-bottom: 4px;">${equipType.toUpperCase()}</div>
+                      ${items.map(item => `
+                        <div style="color: var(--text-bright); font-size: 9px; padding: 2px 0; padding-left: 12px;">• ${item.name || 'Unknown'}</div>
+                      `).join('')}
+                    </div>
+                  ` : '';
+                }).join('')}
+                ${['weapons', 'armor', 'gear', 'cyberware', 'bioware'].every(t => (!character.equipment[t] || character.equipment[t].length === 0)) ? `
+                  <div style="color: var(--text-muted); font-size: 10px;">No equipment</div>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', sheetHTML);
+    this.makeModalDraggable('charSheetModal');
+    console.log(`✓ Opened character sheet: ${character.name}`);
+  },
+
+  // Switch sheet tabs
+  switchSheetTab(tabName) {
+    document.querySelectorAll('.char-sheet-tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelectorAll('.char-sheet-tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    const tabElement = document.getElementById(`sheet-${tabName}`);
+    if (tabElement) {
+      tabElement.classList.add('active');
+    }
+
+    event.target.classList.add('active');
+  },
+
+  // Close character sheet
+  closeCharacterSheet() {
+    const modal = document.getElementById('charSheetModal');
+    if (modal) {
+      modal.remove();
+    }
+  },
+
+  // Make modal draggable
+  makeModalDraggable(modalId) {
+    const modal = document.getElementById(modalId);
+    if (!modal) return;
+
+    const header = modal.querySelector('.char-sheet-header');
+    if (!header) return;
+
+    let offsetX = 0;
+    let offsetY = 0;
+    let isDragging = false;
+
+    header.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      const rect = modal.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+
+      const x = e.clientX - offsetX;
+      const y = e.clientY - offsetY;
+
+      modal.style.left = Math.max(0, Math.min(x, window.innerWidth - modal.offsetWidth)) + 'px';
+      modal.style.top = Math.max(0, Math.min(y, window.innerHeight - modal.offsetHeight)) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
   }
 };
 

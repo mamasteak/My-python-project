@@ -1607,6 +1607,153 @@
             background: rgba(0, 255, 136, 0.1);
             box-shadow: 0 0 6px var(--primary-neon);
         }
+
+        /* Character Sheet Display */
+        .char-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .char-sheet-modal {
+            background: linear-gradient(135deg, var(--darker-bg) 0%, #0d0f2d 100%);
+            border: 2px solid var(--primary-neon);
+            border-radius: 6px;
+            width: 70%;
+            max-width: 900px;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            overflow: hidden;
+        }
+
+        .char-sheet-header {
+            padding: 12px 16px;
+            border-bottom: 2px solid var(--secondary-neon);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: move;
+            user-select: none;
+        }
+
+        .char-sheet-header h2 {
+            margin: 0;
+            color: #000;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .char-sheet-close {
+            background: none;
+            border: none;
+            color: #000;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .char-sheet-close:hover {
+            transform: scale(1.2);
+        }
+
+        .char-sheet-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--secondary-neon);
+            padding: 0 8px;
+            gap: 4px;
+            background: rgba(255, 0, 128, 0.02);
+        }
+
+        .char-sheet-tab-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 10px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .char-sheet-tab-btn.active {
+            color: var(--primary-neon);
+            border-bottom-color: var(--primary-neon);
+        }
+
+        .char-sheet-tab-btn:hover {
+            color: var(--tertiary-neon);
+        }
+
+        .char-sheet-content {
+            flex: 1;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .char-sheet-tab-content {
+            display: none;
+        }
+
+        .char-sheet-tab-content.active {
+            display: block;
+        }
+
+        .stat-block {
+            padding: 8px;
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid var(--primary-neon);
+            border-radius: 4px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 8px;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-value {
+            color: var(--primary-neon);
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 6px var(--primary-neon);
+        }
+
+        .attr-block {
+            padding: 8px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--tertiary-neon);
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .attr-label {
+            color: var(--text-muted);
+            font-size: 8px;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
+        .attr-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
     </style>
 </head>
 <body>
