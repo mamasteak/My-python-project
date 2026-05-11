@@ -232,19 +232,31 @@ const PlayerUI = {
 
     document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-    // Setup toggle handlers
-    const awokenedCheckbox = document.querySelector('input[name="awakened"]');
-    const adeptCheckbox = document.querySelector('input[name="isAdept"]');
+    // Setup toggle handlers with small delay to ensure DOM is ready
+    setTimeout(() => {
+      const awokenedCheckbox = document.querySelector('#playerRegisterModal input[name="awakened"]');
+      const adeptCheckbox = document.querySelector('#playerRegisterModal input[name="isAdept"]');
 
-    awokenedCheckbox.addEventListener('change', (e) => {
-      document.getElementById('magicOptions').style.display = e.target.checked ? 'block' : 'none';
-    });
+      if (awokenedCheckbox) {
+        awokenedCheckbox.addEventListener('change', (e) => {
+          const magicOptions = document.getElementById('magicOptions');
+          if (magicOptions) {
+            magicOptions.style.display = e.target.checked ? 'block' : 'none';
+          }
+        });
+      }
 
-    adeptCheckbox.addEventListener('change', (e) => {
-      document.getElementById('adeptOptions').style.display = e.target.checked ? 'block' : 'none';
-    });
+      if (adeptCheckbox) {
+        adeptCheckbox.addEventListener('change', (e) => {
+          const adeptOptions = document.getElementById('adeptOptions');
+          if (adeptOptions) {
+            adeptOptions.style.display = e.target.checked ? 'block' : 'none';
+          }
+        });
+      }
 
-    console.log('✓ Registration modal opened');
+      console.log('✓ Registration modal opened with toggle handlers');
+    }, 50);
   },
 
   // Switch form tab
@@ -256,8 +268,15 @@ const PlayerUI = {
       btn.classList.remove('active');
     });
 
-    document.getElementById(tabName).classList.add('active');
-    event.target.classList.add('active');
+    const tabElement = document.getElementById(tabName);
+    if (tabElement) {
+      tabElement.classList.add('active');
+    }
+
+    // Mark the clicked button as active
+    if (event && event.target) {
+      event.target.classList.add('active');
+    }
   },
 
   // Close registration modal
@@ -271,43 +290,59 @@ const PlayerUI = {
   // Handle character creation
   handleCharacterCreation() {
     const form = document.getElementById('playerRegistrationForm');
-    if (!form) return;
+    if (!form) {
+      alert('⚠️ Form not found');
+      return;
+    }
 
-    const charName = form.charName.value.trim();
+    // Get form values safely
+    const charName = (document.querySelector('input[name="charName"]')?.value || '').trim();
     if (!charName) {
       alert('⚠️ Please enter a character name');
       return;
     }
 
-    const metatype = form.metatype.value;
-    const playerName = form.playerName.value || '';
+    const metatype = document.querySelector('select[name="metatype"]')?.value || 'human';
+    const playerName = (document.querySelector('input[name="playerName"]')?.value || '').trim();
 
     // Create character via schema
     const character = CharacterSchema.createNewCharacter(charName, metatype);
 
-    // Set attributes
-    character.attributes.body.base = parseInt(form.body.value) || 3;
-    character.attributes.quickness.base = parseInt(form.quickness.value) || 3;
-    character.attributes.strength.base = parseInt(form.strength.value) || 3;
-    character.attributes.charisma.base = parseInt(form.charisma.value) || 3;
-    character.attributes.intelligence.base = parseInt(form.intelligence.value) || 3;
-    character.attributes.willpower.base = parseInt(form.willpower.value) || 3;
+    // Set attributes from form
+    character.attributes.body.base = parseInt(document.querySelector('input[name="body"]')?.value || 3);
+    character.attributes.quickness.base = parseInt(document.querySelector('input[name="quickness"]')?.value || 3);
+    character.attributes.strength.base = parseInt(document.querySelector('input[name="strength"]')?.value || 3);
+    character.attributes.charisma.base = parseInt(document.querySelector('input[name="charisma"]')?.value || 3);
+    character.attributes.intelligence.base = parseInt(document.querySelector('input[name="intelligence"]')?.value || 3);
+    character.attributes.willpower.base = parseInt(document.querySelector('input[name="willpower"]')?.value || 3);
 
     // Apply magic if awakened
-    if (form.awakened.checked) {
+    const awakenedCheck = document.querySelector('input[name="awakened"]');
+    if (awakenedCheck?.checked) {
       character.magic.awakened = true;
-      character.magic.tradition = form.tradition.value || null;
-      character.attributes.magic.base = parseInt(form.magicRating.value) || 1;
+      character.magic.tradition = document.querySelector('select[name="tradition"]')?.value || null;
+      character.attributes.magic.base = parseInt(document.querySelector('input[name="magicRating"]')?.value || 1);
+      character.attributes.magic.current = character.attributes.magic.base;
     }
 
     // Apply adept if selected
-    if (form.isAdept.checked) {
+    const adeptCheck = document.querySelector('input[name="isAdept"]');
+    if (adeptCheck?.checked) {
       character.adept.isAdept = true;
-      character.adept.powerPoints = parseInt(form.powerPoints.value) || 0;
+      character.adept.powerPoints = parseInt(document.querySelector('input[name="powerPoints"]')?.value || 0);
     }
 
     // Add player name if provided
-    character.details.player = playerName;
+    if (playerName) {
+      character.details.player = playerName;
+    }
+
+    // Update modified attributes (copy from base)
+    Object.keys(character.attributes).forEach(attr => {
+      if (character.attributes[attr].base !== undefined && character.attributes[attr].modified === undefined) {
+        character.attributes[attr].modified = character.attributes[attr].base;
+      }
+    });
 
     // Save character
     const result = CharacterStorage.saveCharacter(character);
@@ -315,7 +350,7 @@ const PlayerUI = {
     if (result.success) {
       console.log(`✓ Character "${charName}" created successfully`);
 
-      // Export to JSON
+      // Auto-save to JSON file immediately
       CharacterStorage.downloadCharacterAsJSON(character);
 
       // Close modal
@@ -324,7 +359,7 @@ const PlayerUI = {
       // Refresh player list
       this.renderPlayerList();
 
-      alert(`✅ Character "${charName}" created!\nFile exported as ${charName}.json`);
+      alert(`✅ Character "${charName}" created!\n✓ Saved to localStorage\n✓ Exported as ${charName}.json`);
     } else {
       alert(`❌ Failed to create character: ${result.errors ? result.errors.join(', ') : result.error}`);
     }
