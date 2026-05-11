@@ -989,18 +989,32 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             background: rgba(0, 0, 0, 0.2);
             border: 1px solid var(--secondary-neon);
             border-radius: 2px;
-            padding: 8px;
+            padding: 6px;
             min-height: 0;
+            overflow-y: auto;
+        }
+
+        .shop-box::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .shop-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .shop-box::-webkit-scrollbar-thumb {
+            background: var(--secondary-neon);
+            border-radius: 2px;
         }
 
         .shop-row {
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            gap: 2px;
             font-size: 8px;
             color: var(--text-muted);
         }
@@ -1012,6 +1026,7 @@
             letter-spacing: 0.5px;
             white-space: nowrap;
             flex-shrink: 0;
+            font-size: 7px;
         }
 
         .shop-select {
