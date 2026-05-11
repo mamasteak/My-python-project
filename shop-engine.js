@@ -1,6 +1,8 @@
 // Shop Engine for Bangkok Shadowrun Campaign
 // Loads shop data from JSON files and generates inventory dynamically
 
+console.log('🏪 SHOP ENGINE SCRIPT LOADING...');
+
 let shopsDatabase = [];
 let subDistrictsData = [];
 let inventoryCache = {};
@@ -291,6 +293,7 @@ function searchShops(query) {
 }
 
 // Export for use in HTML
+console.log('🏪 EXPORTING SHOP ENGINE...');
 window.ShopEngine = {
     initialize: initializeShopEngine,
     getUniqueSubDistricts,
@@ -305,4 +308,4 @@ window.ShopEngine = {
     srData
 };
 
-console.log('Shop Engine ready');
+console.log('✓ Shop Engine ready');
