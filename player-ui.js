@@ -257,120 +257,165 @@ const PlayerUI = {
 
   // Save character inline
   saveCharacterInline() {
-    const charName = document.getElementById('inlineCharName').value.trim();
-    if (!charName) {
-      alert('⚠️ Please enter character name');
-      return;
-    }
-
-    const character = CharacterSchema.createNewCharacter(charName, document.getElementById('inlineMetatype').value);
-
-    // Set basics
-    character.balance = parseInt(document.getElementById('inlineBalance').value) || 50000;
-
-    // Set attributes
-    character.attributes.body.base = parseInt(document.getElementById('inlineBody').value) || 3;
-    character.attributes.quickness.base = parseInt(document.getElementById('inlineQuickness').value) || 3;
-    character.attributes.strength.base = parseInt(document.getElementById('inlineStrength').value) || 3;
-    character.attributes.charisma.base = parseInt(document.getElementById('inlineCharisma').value) || 3;
-    character.attributes.intelligence.base = parseInt(document.getElementById('inlineIntelligence').value) || 3;
-    character.attributes.willpower.base = parseInt(document.getElementById('inlineWillpower').value) || 3;
-
-    // Copy to modified
-    Object.keys(character.attributes).forEach(attr => {
-      if (character.attributes[attr].base) {
-        character.attributes[attr].modified = character.attributes[attr].base;
+    try {
+      if (typeof CharacterStorage === 'undefined' || typeof CharacterSchema === 'undefined') {
+        alert('⚠️ Character system not ready');
+        console.error('CharacterStorage or CharacterSchema not defined');
+        return;
       }
-    });
 
-    // Magic
-    if (document.getElementById('inlineAwakened').checked) {
-      character.magic.awakened = true;
-      character.magic.tradition = document.getElementById('inlineTradition').value || null;
-      character.attributes.magic.base = parseInt(document.getElementById('inlineMagicRating').value) || 1;
-      character.attributes.magic.current = character.attributes.magic.base;
-    }
-
-    // Adept
-    if (document.getElementById('inlineAdept').checked) {
-      character.adept.isAdept = true;
-      character.adept.powerPoints = parseInt(document.getElementById('inlinePowerPoints').value) || 0;
-    }
-
-    // Skills
-    document.querySelectorAll('.inline-skill-name').forEach(input => {
-      const name = input.value.trim();
-      if (name) {
-        const rating = input.parentElement.querySelector('input[type="number"]').value;
-        character.skills.push({
-          id: 'skill_' + Date.now() + '_' + Math.random(),
-          baseName: name,
-          concentration: '',
-          specialization: '',
-          ratings: { base: parseInt(rating) || 0, concentration: 0, specialization: 0 }
-        });
+      const charName = document.getElementById('inlineCharName')?.value.trim();
+      if (!charName) {
+        alert('⚠️ Please enter character name');
+        return;
       }
-    });
 
-    // Save
-    const result = CharacterStorage.saveCharacter(character);
+      const character = CharacterSchema.createNewCharacter(charName, document.getElementById('inlineMetatype').value);
 
-    if (result.success) {
-      CharacterStorage.downloadCharacterAsJSON(character);
-      this.renderPlayerListCompact();
-      this.updateCharPreview();
-      alert(`✅ Character "${charName}" saved!\n✓ JSON exported: ${charName}.json`);
-    } else {
-      alert(`❌ Error: ${result.error}`);
+      // Set basics
+      character.balance = parseInt(document.getElementById('inlineBalance').value) || 50000;
+
+      // Set attributes
+      character.attributes.body.base = parseInt(document.getElementById('inlineBody').value) || 3;
+      character.attributes.quickness.base = parseInt(document.getElementById('inlineQuickness').value) || 3;
+      character.attributes.strength.base = parseInt(document.getElementById('inlineStrength').value) || 3;
+      character.attributes.charisma.base = parseInt(document.getElementById('inlineCharisma').value) || 3;
+      character.attributes.intelligence.base = parseInt(document.getElementById('inlineIntelligence').value) || 3;
+      character.attributes.willpower.base = parseInt(document.getElementById('inlineWillpower').value) || 3;
+
+      // Copy to modified
+      Object.keys(character.attributes).forEach(attr => {
+        if (character.attributes[attr].base !== undefined) {
+          character.attributes[attr].modified = character.attributes[attr].base;
+        }
+      });
+
+      // Magic
+      const awakenEl = document.getElementById('inlineAwakened');
+      if (awakenEl?.checked) {
+        character.magic.awakened = true;
+        character.magic.tradition = document.getElementById('inlineTradition')?.value || null;
+        character.attributes.magic.base = parseInt(document.getElementById('inlineMagicRating')?.value || 1);
+        character.attributes.magic.current = character.attributes.magic.base;
+      }
+
+      // Adept
+      const adeptEl = document.getElementById('inlineAdept');
+      if (adeptEl?.checked) {
+        character.adept.isAdept = true;
+        character.adept.powerPoints = parseInt(document.getElementById('inlinePowerPoints')?.value || 0);
+      }
+
+      // Skills
+      const skillRows = document.querySelectorAll('.inline-skill-name');
+      skillRows.forEach(input => {
+        const name = input.value.trim();
+        if (name) {
+          const rating = input.parentElement.querySelector('input[type="number"]')?.value || 0;
+          character.skills.push({
+            id: 'skill_' + Date.now() + '_' + Math.random(),
+            baseName: name,
+            concentration: '',
+            specialization: '',
+            ratings: { base: parseInt(rating) || 0, concentration: 0, specialization: 0 }
+          });
+        }
+      });
+
+      console.log('Saving character:', character);
+
+      // Save to localStorage
+      const result = CharacterStorage.saveCharacter(character);
+
+      if (result.success) {
+        console.log('Character saved successfully');
+
+        // Download JSON file
+        CharacterStorage.downloadCharacterAsJSON(character);
+
+        // Refresh lists
+        this.renderPlayerListCompact();
+        this.updateCharPreview();
+
+        alert(`✅ Character "${charName}" saved!\n✓ JSON exported: ${charName}.json`);
+        console.log(`✓ Character "${charName}" saved and exported`);
+      } else {
+        console.error('Save failed:', result);
+        alert(`❌ Error: ${result.errors ? result.errors.join(', ') : result.error}`);
+      }
+    } catch (err) {
+      console.error('Error saving character:', err);
+      alert(`❌ Error: ${err.message}`);
     }
   },
 
   // Update character preview
   updateCharPreview() {
-    const charName = document.getElementById('inlineCharName').value || '[No name]';
-    const metatype = document.getElementById('inlineMetatype').value;
-    const balance = parseInt(document.getElementById('inlineBalance').value) || 0;
+    try {
+      const charNameEl = document.getElementById('inlineCharName');
+      const metatypeEl = document.getElementById('inlineMetatype');
+      const balanceEl = document.getElementById('inlineBalance');
+      const bodyEl = document.getElementById('inlineBody');
+      const quickEl = document.getElementById('inlineQuickness');
+      const strEl = document.getElementById('inlineStrength');
+      const chaEl = document.getElementById('inlineCharisma');
+      const intEl = document.getElementById('inlineIntelligence');
+      const wilEl = document.getElementById('inlineWillpower');
+      const awakenEl = document.getElementById('inlineAwakened');
+      const adeptEl = document.getElementById('inlineAdept');
+      const magicRatingEl = document.getElementById('inlineMagicRating');
+      const powerPtsEl = document.getElementById('inlinePowerPoints');
+      const previewEl = document.getElementById('charPreview');
 
-    let preview = `
-      <div style="padding: 12px; color: var(--text-bright); font-size: 10px;">
-        <div style="color: var(--primary-neon); font-size: 12px; font-weight: bold; margin-bottom: 8px;">
-          ${charName}
-        </div>
-        <div style="margin-bottom: 8px;">
-          <div style="color: var(--text-muted); font-size: 9px;">METATYPE</div>
-          <div style="color: var(--tertiary-neon);">${metatype}</div>
-        </div>
-        <div style="margin-bottom: 8px;">
-          <div style="color: var(--text-muted); font-size: 9px;">BALANCE</div>
-          <div style="color: var(--primary-neon);">¥${balance.toLocaleString()}</div>
-        </div>
-        <div style="margin-bottom: 8px;">
-          <div style="color: var(--text-muted); font-size: 9px;">ATTRIBUTES</div>
-          <div style="line-height: 1.4;">
-            BOD: ${document.getElementById('inlineBody').value} •
-            QCK: ${document.getElementById('inlineQuickness').value} •
-            STR: ${document.getElementById('inlineStrength').value}<br>
-            CHA: ${document.getElementById('inlineCharisma').value} •
-            INT: ${document.getElementById('inlineIntelligence').value} •
-            WIL: ${document.getElementById('inlineWillpower').value}
-          </div>
-        </div>
-        ${document.getElementById('inlineAwakened')?.checked ? `
-          <div style="margin-bottom: 8px;">
-            <div style="color: var(--text-muted); font-size: 9px;">✨ AWAKENED</div>
-            <div>Magic Rating: ${document.getElementById('inlineMagicRating').value}</div>
-          </div>
-        ` : ''}
-        ${document.getElementById('inlineAdept')?.checked ? `
-          <div style="margin-bottom: 8px;">
-            <div style="color: var(--text-muted); font-size: 9px;">⚡ ADEPT</div>
-            <div>Power Points: ${document.getElementById('inlinePowerPoints').value}</div>
-          </div>
-        ` : ''}
-      </div>
-    `;
+      if (!previewEl) return;
 
-    document.getElementById('charPreview').innerHTML = preview;
+      const charName = charNameEl?.value || '[No name]';
+      const metatype = metatypeEl?.value || 'human';
+      const balance = parseInt(balanceEl?.value || 0);
+
+      let preview = `
+        <div style="padding: 12px; color: var(--text-bright); font-size: 10px;">
+          <div style="color: var(--primary-neon); font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+            ${charName}
+          </div>
+          <div style="margin-bottom: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">METATYPE</div>
+            <div style="color: var(--tertiary-neon);">${metatype}</div>
+          </div>
+          <div style="margin-bottom: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">BALANCE</div>
+            <div style="color: var(--primary-neon);">¥${balance.toLocaleString()}</div>
+          </div>
+          <div style="margin-bottom: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">ATTRIBUTES</div>
+            <div style="line-height: 1.4;">
+              BOD: ${bodyEl?.value || 3} •
+              QCK: ${quickEl?.value || 3} •
+              STR: ${strEl?.value || 3}<br>
+              CHA: ${chaEl?.value || 3} •
+              INT: ${intEl?.value || 3} •
+              WIL: ${wilEl?.value || 3}
+            </div>
+          </div>
+          ${awakenEl?.checked ? `
+            <div style="margin-bottom: 8px;">
+              <div style="color: var(--text-muted); font-size: 9px;">✨ AWAKENED</div>
+              <div>Magic Rating: ${magicRatingEl?.value || 1}</div>
+            </div>
+          ` : ''}
+          ${adeptEl?.checked ? `
+            <div style="margin-bottom: 8px;">
+              <div style="color: var(--text-muted); font-size: 9px;">⚡ ADEPT</div>
+              <div>Power Points: ${powerPtsEl?.value || 0}</div>
+            </div>
+          ` : ''}
+        </div>
+      `;
+
+      previewEl.innerHTML = preview;
+    } catch (err) {
+      console.error('Error updating preview:', err);
+    }
   },
 
   // Handle file import
@@ -601,6 +646,25 @@ const PlayerUI = {
   initCharacterMaker() {
     const skillsList = document.getElementById('skillsList');
     skillsList.innerHTML = '<div style="color: var(--text-muted); padding: 12px;">No skills added yet</div>';
+
+    // Add real-time preview updates
+    const inputIds = ['inlineCharName', 'inlineMetatype', 'inlineBalance', 'inlineBody', 'inlineQuickness', 'inlineStrength', 'inlineCharisma', 'inlineIntelligence', 'inlineWillpower', 'inlineMagicRating', 'inlinePowerPoints'];
+
+    inputIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('input', () => this.updateCharPreview());
+        element.addEventListener('change', () => this.updateCharPreview());
+      }
+    });
+
+    const checkboxIds = ['inlineAwakened', 'inlineAdept'];
+    checkboxIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('change', () => this.updateCharPreview());
+      }
+    });
   },
 
   // Add skill row
