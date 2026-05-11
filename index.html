@@ -2550,12 +2550,26 @@
             }, 1000);
         } catch (error) {
             console.error('Error initializing shop system:', error);
+            const errorMsg = error.message || String(error);
             const shopPage = document.getElementById('shop-page');
             if (shopPage) {
-                shopPage.innerHTML = `<div style="color:#ff4444;padding:20px;font-size:11px;">SHOP ENGINE ERROR: ${error.message}</div>`;
+                shopPage.innerHTML = `<div style="color:#ff4444;padding:20px;font-size:11px;white-space:pre-wrap;word-wrap:break-word;">
+SHOP ENGINE ERROR:
+${errorMsg}
+
+Stack: ${error.stack || 'N/A'}
+                </div>`;
             }
             if (districtSelect) {
                 districtSelect.innerHTML = '<option value="">-- LOAD FAILED --</option>';
+            }
+
+            // Also show in debug panel
+            const debugPanel = document.getElementById('debugPanel');
+            const debugContent = document.getElementById('debugContent');
+            if (debugPanel && debugContent) {
+                debugPanel.style.display = 'block';
+                debugContent.innerHTML += `<div style="color:#ff4444; margin-top: 8px;">❌ Init Error:</div><div style="color:#ffaa00; font-size: 7px;">${errorMsg}</div>`;
             }
         }
     });
