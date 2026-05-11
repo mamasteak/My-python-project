@@ -1607,6 +1607,7 @@
 <script src="time-engine.js"></script>
 <script src="search-engine.js"></script>
 <script src="shop-engine.js"></script>
+<script src="stock-manager.js"></script>
 <script>
     let geoJsonLayers = [];
     let canvas;
@@ -2249,7 +2250,10 @@
     }
 
     function displayShopInventory(shop) {
-        const inventory = ShopEngine.generateShopInventory(shop);
+        const currentMonth = typeof TimeEngine !== 'undefined' && TimeEngine.getCurrentMonth
+            ? TimeEngine.getCurrentMonth()
+            : 'default';
+        const inventory = StockManager.getShopInventory(shop, currentMonth);
         const shopPageDiv = document.getElementById('shop-page');
 
         if (inventory.length === 0) {
@@ -2392,6 +2396,25 @@
         // Update balance
         player.balance -= cartTotal;
 
+        // Update stock in cache - reduce quantities for purchased items
+        if (currentShopData) {
+            const currentMonth = typeof TimeEngine !== 'undefined' && TimeEngine.getCurrentMonth
+                ? TimeEngine.getCurrentMonth()
+                : 'default';
+            const inventory = StockManager.getShopInventory(currentShopData, currentMonth);
+
+            // Reduce stock for each purchased item
+            currentCart.forEach(cartItem => {
+                const invItem = inventory.find(i => i.id == cartItem.id);
+                if (invItem) {
+                    invItem.stock -= cartItem.quantity;
+                }
+            });
+
+            // Save updated inventory to cache
+            StockManager.updateShopInventory(currentShopData.id, currentMonth, inventory);
+        }
+
         // Create receipt
         const itemList = currentCart.map(item => `${item.name} x${item.quantity}`).join('\n');
 
@@ -2419,6 +2442,9 @@
         try {
             // Initialize shop engine and wait for data to load
             await ShopEngine.initialize();
+
+            // Initialize stock manager for persistence and restocking
+            StockManager.initializeStockManager();
 
             // Populate districts dropdown
             const uniqueDistricts = ShopEngine.getUniqueSubDistricts();
@@ -2449,6 +2475,30 @@
                 districtSelect.selectedIndex = 1;
                 updateShops();
             }
+
+            // Monitor for month changes and show notification
+            let lastMonth = typeof TimeEngine !== 'undefined' && TimeEngine.getCurrentMonth
+                ? TimeEngine.getCurrentMonth()
+                : null;
+
+            setInterval(() => {
+                if (typeof TimeEngine === 'undefined' || !TimeEngine.getCurrentMonth) {
+                    return;
+                }
+
+                const currentMonth = TimeEngine.getCurrentMonth();
+                if (currentMonth && currentMonth !== lastMonth && lastMonth !== null) {
+                    console.log('🏪 Shops have been restocked for month ' + currentMonth);
+                    lastMonth = currentMonth;
+
+                    // Refresh current shop display if one is selected
+                    const shopSelect = document.getElementById('shopSelect');
+                    if (shopSelect.value) {
+                        selectShop();
+                    }
+                }
+                lastMonth = currentMonth;
+            }, 1000);
         } catch (error) {
             console.error('Error initializing shop system:', error);
         }
