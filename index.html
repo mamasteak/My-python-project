@@ -1545,15 +1545,11 @@
                         <div class="shop-row">
                             <label>Sub District:</label>
                             <select id="subDistrictSelect" class="shop-select" onchange="updateShops()">
-                                <option value="sukhumvit">Sukhumvit</option>
-                                <option value="silom">Silom</option>
-                                <option value="patpong">Patpong</option>
-                                <option value="chinatown">Chinatown</option>
-                                <option value="lumphini">Lumphini</option>
+                                <option value="">-- SELECT DISTRICT --</option>
                             </select>
                         </div>
                         <div class="shop-row">
-                            <span class="district-info">District: <strong>Sukhumvit</strong> (Bangkok)</span>
+                            <span class="district-info">District: <strong>--</strong> (Bangkok)</span>
                         </div>
                         <div class="shop-row">
                             <label>Available Shops:</label>
@@ -1610,6 +1606,7 @@
 <script src="weather-engine.js"></script>
 <script src="time-engine.js"></script>
 <script src="search-engine.js"></script>
+<script src="shop-engine.js"></script>
 <script>
     let geoJsonLayers = [];
     let canvas;
@@ -2186,72 +2183,14 @@
     }
 
     // ===== SHOP SYSTEM =====
-    const shops = {
-        sukhumvit: [
-            { name: 'Rong Glai Gun Shop', cashier: 'Pom (Owner)' },
-            { name: 'Nakorn Arms Dealer', cashier: 'Som (Cashier)' },
-            { name: 'Street Doc', cashier: 'Dr. Chai (Owner)' }
-        ],
-        silom: [
-            { name: 'Black Market Tech', cashier: 'Nok (Specialist)' },
-            { name: 'Matrix Gear Vendor', cashier: 'Pim (Owner)' },
-            { name: 'Chop Shop', cashier: 'Big Tom (Manager)' }
-        ],
-        patpong: [
-            { name: 'Red Light Dealer', cashier: 'Mai (Owner)' },
-            { name: 'Illegal Mod Shop', cashier: 'Tong (Tech)' }
-        ],
-        chinatown: [
-            { name: 'Jade Garden Shop', cashier: 'Old Wang (Owner)' },
-            { name: 'Black Market Emporium', cashier: 'Moon (Cashier)' }
-        ],
-        lumphini: [
-            { name: 'Corporate Arms Dealer', cashier: 'Mr. Park (Manager)' },
-            { name: 'High Tech Supplies', cashier: 'Lin (Sales)' }
-        ]
-    };
+    // Shop data loaded from shop-engine.js
 
-    const characters = {
-        jax: { name: 'Jax', balance: 50000 },
-        noi: { name: 'Noi', balance: 35000 },
-        roux: { name: 'Roux', balance: 45000 },
-        jazz: { name: 'Jazz', balance: 40000 }
-    };
+    // Initialize characters from shop engine
+    const characters = { ...ShopEngine.getCharacters() };
 
     let currentCart = [];
     let shopInventory = {};
-
-    // Shop inventory data
-    const shopData = {
-        'Rong Glai Gun Shop': [
-            { id: 1, name: 'Ares Monosword', price: 2500, stock: 5, category: 'Melee' },
-            { id: 2, name: 'Walther P99', price: 450, stock: 12, category: 'Pistol' },
-            { id: 3, name: 'Ares Predator', price: 750, stock: 8, category: 'Pistol' },
-            { id: 4, name: 'Smartlink System', price: 3000, stock: 3, category: 'Cyberware' },
-            { id: 5, name: 'Wrist Blade', price: 800, stock: 6, category: 'Melee' },
-            { id: 6, name: 'Armor Vest', price: 2000, stock: 4, category: 'Armor' }
-        ],
-        'Nakorn Arms Dealer': [
-            { id: 7, name: 'Defiance 440', price: 500, stock: 10, category: 'Pistol' },
-            { id: 8, name: 'Browning Ultra Power', price: 1200, stock: 5, category: 'Rifle' },
-            { id: 9, name: 'Combat Knife', price: 350, stock: 15, category: 'Melee' },
-            { id: 10, name: 'Ammo Magazine', price: 50, stock: 50, category: 'Ammo' }
-        ],
-        'Street Doc': [
-            { id: 11, name: 'Medkit', price: 1200, stock: 8, category: 'Medical' },
-            { id: 12, name: 'Respirator', price: 450, stock: 6, category: 'Equipment' },
-            { id: 13, name: 'Trauma Patch', price: 300, stock: 20, category: 'Medical' }
-        ],
-        'Black Market Tech': [
-            { id: 14, name: 'Cyberdeck', price: 5000, stock: 2, category: 'Hacking' },
-            { id: 15, name: 'Memory Chips', price: 800, stock: 12, category: 'Electronics' },
-            { id: 16, name: 'Commlink', price: 2500, stock: 5, category: 'Comm' }
-        ],
-        'Matrix Gear Vendor': [
-            { id: 17, name: 'Fake License', price: 2000, stock: 10, category: 'Documents' },
-            { id: 18, name: 'Black RFID Tag', price: 100, stock: 30, category: 'Electronics' }
-        ]
-    };
+    let currentShopData = null;
 
     function updateRegisterDisplay() {
         const cartTotal = currentCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -2262,26 +2201,20 @@
     }
 
     function updateShops() {
-        const subDistrict = document.getElementById('subDistrictSelect').value;
-        const districtMap = {
-            sukhumvit: 'Sukhumvit',
-            silom: 'Silom',
-            patpong: 'Patpong',
-            chinatown: 'Chinatown',
-            lumphini: 'Lumphini'
-        };
+        const districtThai = document.getElementById('subDistrictSelect').value;
 
         // Update district info
-        document.querySelector('.district-info strong').textContent = districtMap[subDistrict];
+        document.querySelector('.district-info strong').textContent = districtThai;
 
-        // Update shop dropdown
+        // Update shop dropdown with shops from this district
         const shopSelect = document.getElementById('shopSelect');
         shopSelect.innerHTML = '<option value="">-- SELECT SHOP --</option>';
 
-        shops[subDistrict].forEach((shop, index) => {
+        const shopsInDistrict = ShopEngine.getShopsByDistrict(districtThai);
+        shopsInDistrict.forEach((shop) => {
             const option = document.createElement('option');
-            option.value = index;
-            option.textContent = shop.name;
+            option.value = shop.shop_name;
+            option.textContent = shop.shop_name;
             shopSelect.appendChild(option);
         });
 
@@ -2292,26 +2225,31 @@
     }
 
     function selectShop() {
-        const subDistrict = document.getElementById('subDistrictSelect').value;
-        const shopIndex = document.getElementById('shopSelect').value;
+        const shopName = document.getElementById('shopSelect').value;
 
-        if (shopIndex === '') {
+        if (shopName === '') {
             document.getElementById('currentShop').textContent = 'None';
             document.getElementById('cashierName').textContent = '--';
             document.getElementById('shop-page').innerHTML = '<div style="color: var(--text-muted); text-align: center; padding: 40px;">Select a shop to view inventory</div>';
             return;
         }
 
-        const shop = shops[subDistrict][shopIndex];
-        document.getElementById('currentShop').textContent = shop.name;
-        document.getElementById('cashierName').textContent = shop.cashier;
+        const shop = ShopEngine.getShopByName(shopName);
+        if (!shop) {
+            alert('Shop not found');
+            return;
+        }
+
+        document.getElementById('currentShop').textContent = shop.shop_name;
+        document.getElementById('cashierName').textContent = shop.npc_vendor;
+        currentShopData = shop;
 
         // Load and display shop inventory
-        displayShopInventory(shop.name);
+        displayShopInventory(shop);
     }
 
-    function displayShopInventory(shopName) {
-        const inventory = shopData[shopName] || [];
+    function displayShopInventory(shop) {
+        const inventory = ShopEngine.generateShopInventory(shop);
         const shopPageDiv = document.getElementById('shop-page');
 
         if (inventory.length === 0) {
@@ -2477,8 +2415,43 @@
     }
 
     // Initialize shop on load
-    window.addEventListener('load', () => {
-        updateShops();
+    window.addEventListener('load', async () => {
+        try {
+            // Initialize shop engine and wait for data to load
+            await ShopEngine.initialize();
+
+            // Populate districts dropdown
+            const uniqueDistricts = ShopEngine.getUniqueSubDistricts();
+            const districtSelect = document.getElementById('subDistrictSelect');
+            districtSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
+
+            Object.keys(uniqueDistricts).forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+
+            // Populate players dropdown
+            const playerSelect = document.getElementById('playerSelect');
+            const defaultOptions = Array.from(playerSelect.options);
+            playerSelect.innerHTML = '<option value="">-- SELECT CHARACTER --</option>';
+
+            Object.keys(characters).forEach(key => {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = characters[key].name + ' (¥' + characters[key].balance.toLocaleString() + ')';
+                playerSelect.appendChild(option);
+            });
+
+            // Set first district as selected
+            if (districtSelect.options.length > 1) {
+                districtSelect.selectedIndex = 1;
+                updateShops();
+            }
+        } catch (error) {
+            console.error('Error initializing shop system:', error);
+        }
     });
 
     // ===== SIDEBAR & FILE HANDLING =====
