@@ -334,7 +334,8 @@
             gap: 10px;
         }
 
-        .sidebar-content.active {
+        /* Only show content when sidebar is expanded AND content is active */
+        .sidebar.open .sidebar-content.active {
             display: flex;
         }
 
