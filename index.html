@@ -1719,11 +1719,6 @@
                     <p style="color: var(--text-muted);">Combat calculator coming soon...</p>
                 </div>
             </div>
-            <!-- DEBUG PANEL -->
-            <div id="debugPanel" style="position: fixed; bottom: 200px; right: 10px; background: #000; border: 1px solid #ff0080; padding: 8px; font-size: 8px; color: #00ff88; max-width: 200px; display: none; z-index: 999; font-family: monospace;">
-                <div style="margin-bottom: 4px; color: #ffff00;">⚙️ SCRIPT STATUS</div>
-                <div id="debugContent"></div>
-            </div>
         </div>
 
         <div class="controls-bar" id="controlsBar" data-view="map">
@@ -1885,6 +1880,11 @@
                                 <option value="">-- SELECT CHARACTER --</option>
                             </select>
                         </div>
+                        <div class="shop-row" style="display: flex; gap: 4px; flex-wrap: wrap;">
+                            <button id="newCharBtn" class="shop-button" onclick="createNewCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">NEW</button>
+                            <button id="saveCharBtn" class="shop-button" onclick="saveCurrentCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">SAVE</button>
+                            <button id="exportCharBtn" class="shop-button" onclick="exportCurrentCharacter()" style="flex: 1; min-width: 60px; padding: 3px 6px; font-size: 9px;">EXPORT</button>
+                        </div>
                         <div class="shop-row">
                             <span class="balance-info">Balance: <strong id="playerBalance">--</strong></span>
                         </div>
@@ -1919,6 +1919,26 @@
 <script src="weather-engine.js?v=2" onerror="console.error('❌ weather-engine.js failed to load')"></script>
 <script src="time-engine.js?v=2" onerror="console.error('❌ time-engine.js failed to load')"></script>
 <script src="search-engine.js?v=2" onerror="console.error('❌ search-engine.js failed to load')"></script>
+<script>
+// Load character schema and storage modules
+async function loadCharacterModules() {
+    try {
+        const [schemaCode, storageCode] = await Promise.all([
+            fetch('./character-schema.js?v=1').then(r => r.text()),
+            fetch('./character-storage.js?v=1').then(r => r.text())
+        ]);
+
+        console.log('📋 Executing character schema...');
+        eval(schemaCode);
+        console.log('📋 Executing character storage...');
+        eval(storageCode);
+    } catch (e) {
+        console.error('❌ Failed to load character modules:', e);
+    }
+}
+
+loadCharacterModules();
+</script>
 <script>
 // Load shop-engine.js dynamically to bypass caching issues
 fetch('./shop-engine.js?v=100')
@@ -2797,6 +2817,16 @@ loadCharacterModules();
         // Update balance
         player.balance -= cartTotal;
 
+        // Persist balance change to CharacterStorage (Phase 4 Integration)
+        if (typeof CharacterStorage !== 'undefined') {
+            const saved = CharacterStorage.updateBalance(playerKey, -cartTotal);
+            if (saved) {
+                console.log(`✓ Character "${player.name}" balance updated in storage: ¥${saved.balance.toLocaleString()}`);
+                // Update local characters object with persisted balance
+                player.balance = saved.balance;
+            }
+        }
+
         // Update stock in cache - reduce quantities for purchased items
         if (currentShopData) {
             const currentMonth = typeof TimeEngine !== 'undefined' && TimeEngine.getCurrentMonth
@@ -2834,6 +2864,9 @@ loadCharacterModules();
         updateRegisterDisplay();
         updatePlayerBalance();
 
+        // Refresh player dropdown to show updated balance
+        refreshPlayerDropdown();
+
         alert(`Purchase confirmed!\n${player.name} spent ¥${cartTotal.toLocaleString()}\n\nItems:\n${itemList}`);
     }
 
@@ -2843,6 +2876,175 @@ loadCharacterModules();
         document.getElementById('cartTotal').textContent = '¥0';
         updateRegisterDisplay();
         updatePlayerBalance();
+    }
+
+    function refreshPlayerDropdown() {
+        if (typeof CharacterStorage === 'undefined') {
+            console.warn('⚠️ CharacterStorage not available');
+            return;
+        }
+
+        const playerSelect = document.getElementById('playerSelect');
+        const selectedPlayerId = playerSelect.value;
+        const currentOptions = Array.from(playerSelect.querySelectorAll('option'));
+        const defaultOption = currentOptions[0];
+
+        // Clear and rebuild dropdown
+        playerSelect.innerHTML = '';
+        playerSelect.appendChild(defaultOption);
+
+        // Reload characters from storage
+        characters = {};
+        const savedCharacters = CharacterStorage.getAllCharacters();
+        savedCharacters.forEach(character => {
+            characters[character.id] = {
+                id: character.id,
+                name: character.name,
+                balance: character.balance,
+                metatype: character.metatype
+            };
+
+            const option = document.createElement('option');
+            option.value = character.id;
+            option.textContent = character.name + ' (¥' + character.balance.toLocaleString() + ')';
+            playerSelect.appendChild(option);
+        });
+
+        // Restore previous selection if still available
+        if (selectedPlayerId && characters[selectedPlayerId]) {
+            playerSelect.value = selectedPlayerId;
+        }
+
+        console.log('✓ Player dropdown refreshed with updated balances');
+    }
+
+    // Character Management Functions
+    function createNewCharacter() {
+        if (typeof PlayerUI !== 'undefined' && typeof PlayerUI.showPlayerRegistrationModal === 'function') {
+            // Use the full Player UI modal for comprehensive character creation
+            PlayerUI.showPlayerRegistrationModal();
+
+            // Listen for character creation to refresh dropdown
+            const originalInit = PlayerUI.init;
+            PlayerUI.init = function() {
+                originalInit.call(this);
+                // Refresh dropdown after player list updates
+                setTimeout(() => {
+                    refreshPlayerDropdown();
+                }, 500);
+            };
+        } else if (typeof CharacterStorage !== 'undefined' && typeof CharacterSchema !== 'undefined') {
+            // Fallback: simple prompt-based character creation
+            const name = prompt('Enter character name:');
+            if (!name) return;
+
+            const newChar = CharacterSchema.createNewCharacter(name);
+            const result = CharacterStorage.saveCharacter(newChar);
+
+            if (result.success) {
+                characters[newChar.id] = {
+                    id: newChar.id,
+                    name: newChar.name,
+                    balance: newChar.balance,
+                    metatype: newChar.metatype
+                };
+
+                // Refresh dropdown with updated characters
+                refreshPlayerDropdown();
+
+                console.log(`✓ Character "${name}" created`);
+                alert(`Character "${name}" created!`);
+            } else {
+                alert('Failed to create character: ' + (result.errors ? result.errors.join(', ') : result.error));
+            }
+        } else {
+            alert('Character system not ready yet');
+        }
+    }
+
+    function saveCurrentCharacter() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '') {
+            alert('Please select a character first');
+            return;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            alert('Character system not ready yet');
+            return;
+        }
+
+        const player = characters[playerKey];
+        const characterData = {
+            ...CharacterSchema.createNewCharacter(player.name),
+            id: player.id,
+            balance: player.balance,
+            metatype: player.metatype,
+            name: player.name
+        };
+
+        const result = CharacterStorage.saveCharacter(characterData);
+        if (result.success) {
+            alert(`Character "${player.name}" saved!`);
+        } else {
+            alert('Failed to save character: ' + (result.errors ? result.errors.join(', ') : result.error));
+        }
+    }
+
+    function exportCurrentCharacter() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '') {
+            alert('Please select a character first');
+            return;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            alert('Character system not ready yet');
+            return;
+        }
+
+        const player = characters[playerKey];
+        const characterData = {
+            ...CharacterSchema.createNewCharacter(player.name),
+            id: player.id,
+            balance: player.balance,
+            metatype: player.metatype,
+            name: player.name
+        };
+
+        CharacterStorage.downloadCharacterAsJSON(characterData);
+    }
+
+    // Initialize character system - load characters from storage
+    async function initializeCharacterSystem() {
+        let attempts = 0;
+        while (typeof CharacterStorage === 'undefined' && attempts < 50) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            attempts++;
+        }
+
+        if (typeof CharacterStorage === 'undefined') {
+            console.warn('⚠️ CharacterStorage not available, will use empty character list');
+            return {};
+        }
+
+        console.log('📋 Loading characters from storage...');
+        const storedCharacters = CharacterStorage.getAllCharacters();
+        console.log(`📋 Found ${storedCharacters.length} characters in storage`);
+
+        const result = {};
+        storedCharacters.forEach(character => {
+            result[character.id] = {
+                id: character.id,
+                name: character.name,
+                balance: character.balance,
+                metatype: character.metatype
+            };
+        });
+
+        return result;
     }
 
     // Initialize shop - wait for ShopEngine to be available
@@ -2859,6 +3061,12 @@ loadCharacterModules();
 
             if (typeof ShopEngine === 'undefined') {
                 throw new Error('ShopEngine failed to load after waiting — check shop-engine.js is accessible');
+            }
+
+            // Initialize character system and load characters
+            const loadedCharacters = await initializeCharacterSystem();
+            if (Object.keys(loadedCharacters).length > 0) {
+                Object.assign(characters, loadedCharacters);
             }
 
             // Initialize shop engine and wait for data to load
@@ -2921,36 +3129,20 @@ loadCharacterModules();
             }, 1000);
         } catch (error) {
             console.error('Error initializing shop system:', error);
-            const errorMsg = error.message || String(error);
             const shopPage = document.getElementById('shop-page');
             if (shopPage) {
-                shopPage.innerHTML = `<div style="color:#ff4444;padding:20px;font-size:11px;white-space:pre-wrap;word-wrap:break-word;">
-SHOP ENGINE ERROR:
-${errorMsg}
-
-Stack: ${error.stack || 'N/A'}
-                </div>`;
+                shopPage.innerHTML = `<div style="color:#ff4444;padding:20px;font-size:11px;">SHOP ENGINE ERROR: ${error.message}</div>`;
             }
             if (districtSelect) {
                 districtSelect.innerHTML = '<option value="">-- LOAD FAILED --</option>';
             }
-
-            // Also show in debug panel
-            const debugPanel = document.getElementById('debugPanel');
-            const debugContent = document.getElementById('debugContent');
-            if (debugPanel && debugContent) {
-                debugPanel.style.display = 'block';
-                debugContent.innerHTML += `<div style="color:#ff4444; margin-top: 8px;">❌ Init Error:</div><div style="color:#ffaa00; font-size: 7px;">${errorMsg}</div>`;
-            }
         }
     }
 
-    // Start initialization when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeShopSystem);
-    } else {
-        initializeShopSystem();
-    }
+    // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
+    document.addEventListener('DOMContentLoaded', async () => {
+        await initializeShopSystem();
+    });
 
     // ===== SIDEBAR & FILE HANDLING =====
     // Initialize toggle button text
