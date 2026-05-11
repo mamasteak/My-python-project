@@ -242,7 +242,8 @@
             flex-wrap: wrap;
             padding: 0;
             flex-direction: column;
-            min-height: 36px;
+            min-height: auto;
+            flex: 0 0 auto;
         }
 
         .sidebar.open .sidebar-tabs {
@@ -252,7 +253,7 @@
 
         .sidebar-tab {
             flex: 1;
-            padding: 4px 2px;
+            padding: 6px 0;
             background: transparent;
             border: none;
             border-bottom: 1px solid rgba(255, 0, 128, 0.3);
@@ -267,8 +268,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1px;
+            justify-content: center;
+            gap: 0;
             white-space: nowrap;
+            min-height: 36px;
         }
 
         .sidebar.open .sidebar-tab {
@@ -276,6 +279,7 @@
             border-bottom: none;
             border-right: 1px solid rgba(255, 0, 128, 0.3);
             gap: 2px;
+            min-height: auto;
         }
 
         .sidebar-tab:last-child {
@@ -296,9 +300,6 @@
             background: rgba(255, 0, 128, 0.15);
             color: var(--secondary-neon);
             text-shadow: 0 0 6px var(--secondary-neon);
-        }
-
-        .sidebar-tab.active {
             border-bottom-color: var(--secondary-neon);
         }
 
@@ -313,10 +314,11 @@
 
         .sidebar-tab-label {
             font-size: 7px;
+            display: none;
         }
 
-        .sidebar.closed .sidebar-tab-label {
-            display: none;
+        .sidebar.open .sidebar-tab-label {
+            display: block;
         }
 
         .sidebar-header {
@@ -1764,6 +1766,9 @@
     }
 
     // ===== SIDEBAR & FILE HANDLING =====
+    // Initialize toggle button text
+    toggleBtn.textContent = sidebar.classList.contains('open') ? '▼ COLLAPSE' : '▲ EXPAND';
+
     toggleBtn.addEventListener('click', () => {
         sidebar.classList.toggle('open');
         toggleBtn.textContent = sidebar.classList.contains('open') ? '▼ COLLAPSE' : '▲ EXPAND';
