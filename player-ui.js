@@ -197,16 +197,44 @@ const PlayerUI = {
 
     form.innerHTML = formHTML;
 
-    // Setup toggle handlers
-    document.getElementById('inlineAwakened').addEventListener('change', (e) => {
-      document.getElementById('inlineMagicOpts').style.display = e.target.checked ? 'block' : 'none';
+    // Setup toggle handlers with safety checks
+    const awakenCheckbox = document.getElementById('inlineAwakened');
+    if (awakenCheckbox) {
+      awakenCheckbox.addEventListener('change', (e) => {
+        const magicOpts = document.getElementById('inlineMagicOpts');
+        if (magicOpts) {
+          magicOpts.style.display = e.target.checked ? 'block' : 'none';
+          this.updateCharPreview();
+        }
+      });
+    }
+
+    const adeptCheckbox = document.getElementById('inlineAdept');
+    if (adeptCheckbox) {
+      adeptCheckbox.addEventListener('change', (e) => {
+        const adeptOpts = document.getElementById('inlineAdeptOpts');
+        if (adeptOpts) {
+          adeptOpts.style.display = e.target.checked ? 'block' : 'none';
+          this.updateCharPreview();
+        }
+      });
+    }
+
+    // Add event listeners for real-time preview updates
+    const inputIds = ['inlineCharName', 'inlineMetatype', 'inlineBalance', 'inlineBody', 'inlineQuickness', 'inlineStrength', 'inlineCharisma', 'inlineIntelligence', 'inlineWillpower', 'inlineTradition', 'inlineMagicRating', 'inlinePowerPoints'];
+
+    inputIds.forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('input', () => this.updateCharPreview());
+        element.addEventListener('change', () => this.updateCharPreview());
+      }
     });
 
-    document.getElementById('inlineAdept').addEventListener('change', (e) => {
-      document.getElementById('inlineAdeptOpts').style.display = e.target.checked ? 'block' : 'none';
-    });
+    // Initial preview update
+    setTimeout(() => this.updateCharPreview(), 100);
 
-    console.log('✓ Inline character maker initialized');
+    console.log('✓ Inline character maker initialized with event listeners');
   },
 
   // Add inline skill row
@@ -352,6 +380,12 @@ const PlayerUI = {
   // Update character preview
   updateCharPreview() {
     try {
+      const previewEl = document.getElementById('charPreview');
+      if (!previewEl) {
+        console.warn('Preview element not found');
+        return;
+      }
+
       const charNameEl = document.getElementById('inlineCharName');
       const metatypeEl = document.getElementById('inlineMetatype');
       const balanceEl = document.getElementById('inlineBalance');
@@ -365,9 +399,6 @@ const PlayerUI = {
       const adeptEl = document.getElementById('inlineAdept');
       const magicRatingEl = document.getElementById('inlineMagicRating');
       const powerPtsEl = document.getElementById('inlinePowerPoints');
-      const previewEl = document.getElementById('charPreview');
-
-      if (!previewEl) return;
 
       const charName = charNameEl?.value || '[No name]';
       const metatype = metatypeEl?.value || 'human';
