@@ -1,0 +1,145 @@
+{
+  "id": "char_example_001",
+  "name": "Example Runner",
+  "metatype": "human",
+  "details": {
+    "player": "Test Player",
+    "gm": "Test GM",
+    "campaign": "Bangkok Operations",
+    "biography": "A seasoned runner in the streets of Bangkok"
+  },
+  "attributes": {
+    "body": {"base": 4, "modified": 4},
+    "quickness": {"base": 3, "modified": 3},
+    "strength": {"base": 3, "modified": 3},
+    "charisma": {"base": 3, "modified": 3},
+    "intelligence": {"base": 4, "modified": 4},
+    "willpower": {"base": 3, "modified": 3},
+    "reaction": {"base": 3, "modified": 3},
+    "essence": {"base": 6, "current": 5.5},
+    "magic": {"base": 0, "current": 0}
+  },
+  "health": {
+    "physical": {"current": 0, "max": 10},
+    "stun": {"current": 0, "max": 10}
+  },
+  "pools": {
+    "combat": {"current": 5, "max": 5},
+    "spell": {"current": 0, "max": 0},
+    "hacking": {"current": 4, "max": 4},
+    "control": {"current": 0, "max": 0},
+    "task": {"current": 4, "max": 4},
+    "astral": {"current": 0, "max": 0},
+    "karma": {"current": 10, "total": 10}
+  },
+  "initiative": {
+    "base": 6,
+    "dice": 1
+  },
+  "skills": [
+    {
+      "id": "skill_example_001",
+      "baseName": "Firearms",
+      "concentration": "Pistols",
+      "specialization": "Ares Predator",
+      "ratings": {
+        "base": 3,
+        "concentration": 2,
+        "specialization": 1
+      }
+    },
+    {
+      "id": "skill_example_002",
+      "baseName": "Computer",
+      "concentration": "Systems",
+      "specialization": "",
+      "ratings": {
+        "base": 4,
+        "concentration": 2,
+        "specialization": 0
+      }
+    },
+    {
+      "id": "skill_example_003",
+      "baseName": "Stealth",
+      "concentration": "Urban",
+      "specialization": "",
+      "ratings": {
+        "base": 3,
+        "concentration": 1,
+        "specialization": 0
+      }
+    }
+  ],
+  "equipment": {
+    "weapons": [
+      {
+        "id": "weapon_example_001",
+        "name": "Ares Predator",
+        "type": "Pistol",
+        "damage": "3M",
+        "ammo": {"current": 15, "max": 15},
+        "cost": 350,
+        "availability": "Legal"
+      }
+    ],
+    "armor": [
+      {
+        "id": "armor_example_001",
+        "name": "Lined Jacket",
+        "rating": 1,
+        "cost": 100,
+        "availability": "Street"
+      }
+    ],
+    "gear": [
+      {
+        "id": "gear_example_001",
+        "name": "Commlink",
+        "model": "Transys Avalon",
+        "cost": 1500,
+        "availability": "Legal"
+      }
+    ],
+    "cyberware": [
+      {
+        "id": "cyber_example_001",
+        "name": "Cybereye (Rating 1)",
+        "essence": 0.2,
+        "rating": 1,
+        "installed": true,
+        "modifiers": {},
+        "cost": 5000,
+        "availability": "Legal"
+      }
+    ],
+    "bioware": [],
+    "spells": [],
+    "adeptpowers": [],
+    "programs": []
+  },
+  "augmentations": {
+    "totalEssenceLoss": 0.2,
+    "totalBioIndex": 0,
+    "cyberwareModifiers": {},
+    "biowareModifiers": {}
+  },
+  "magic": {
+    "awakened": false,
+    "tradition": null,
+    "spells": []
+  },
+  "adept": {
+    "isAdept": false,
+    "powerPoints": 0,
+    "usedPoints": 0,
+    "powers": []
+  },
+  "balance": 5000,
+  "karma": {
+    "current": 10,
+    "total": 10
+  },
+  "createdAt": "2026-05-11T00:00:00.000Z",
+  "lastModified": "2026-05-11T00:00:00.000Z"
+}
