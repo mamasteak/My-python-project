@@ -2435,7 +2435,6 @@
     // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
     document.addEventListener('DOMContentLoaded', async () => {
         const districtSelect = document.getElementById('subDistrictSelect');
-        const shopStatus = document.getElementById('shop-page');
 
         try {
             if (typeof ShopEngine === 'undefined') {
@@ -2443,15 +2442,13 @@
             }
 
             // Initialize shop engine and wait for data to load
-            const ok = await ShopEngine.initialize();
-            if (!ok) throw new Error('ShopEngine.initialize() failed — shops.json or subdistricts.json may be inaccessible');
+            await ShopEngine.initialize();
 
             // Initialize stock manager for persistence and restocking
             if (typeof StockManager !== 'undefined') StockManager.initializeStockManager();
 
             // Populate districts dropdown
             const uniqueDistricts = ShopEngine.getUniqueSubDistricts();
-            const districtSelect = document.getElementById('subDistrictSelect');
             districtSelect.innerHTML = '<option value="">-- SELECT DISTRICT --</option>';
 
             Object.keys(uniqueDistricts).forEach(district => {

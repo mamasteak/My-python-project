@@ -13,16 +13,18 @@ async function initializeShopEngine() {
 
         // Load shops.json
         const shopsResponse = await fetch('./shops.json');
+        if (!shopsResponse.ok) throw new Error(`shops.json returned ${shopsResponse.status}`);
         const shopsJson = await shopsResponse.json();
-        shopsDatabase = shopsJson.shops;
+        shopsDatabase = shopsJson.shops || [];
         console.log(`✓ Loaded ${shopsDatabase.length} shops`);
 
         // Load subdistricts.json
         const subResponse = await fetch('./subdistricts.json');
+        if (!subResponse.ok) throw new Error(`subdistricts.json returned ${subResponse.status}`);
         subDistrictsData = await subResponse.json();
         console.log(`✓ Loaded ${subDistrictsData.length} subdistricts`);
 
-        // Load SR2 data files for inventory
+        // Load SR2 data files for inventory (non-fatal if they fail)
         await loadSR2Data();
 
         console.log('✓ Shop Engine initialized');
