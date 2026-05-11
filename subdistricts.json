@@ -1,0 +1,678 @@
+[
+  {
+    "subdistrict": "แขวงท่าแร้ง",
+    "district": "เขตบางเขน"
+  },
+  {
+    "subdistrict": "แขวงทรายกองดินใต้",
+    "district": "เขตคลองสามวา"
+  },
+  {
+    "subdistrict": "แขวงทรายกองดิน",
+    "district": "เขตคลองสามวา"
+  },
+  {
+    "subdistrict": "แขวงมักกะสัน",
+    "district": "เขตราชเทวี"
+  },
+  {
+    "subdistrict": "แขวงตลาดยอด",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงบ้านช่างหล่อ",
+    "district": "เขตบางกอกน้อย"
+  },
+  {
+    "subdistrict": "แขวงพระบรมมหาราชวัง",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงทุ่งพญาไท",
+    "district": "เขตราชเทวี"
+  },
+  {
+    "subdistrict": "แขวงวัดสามพระยา",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงบ้านพานถม",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงถนนพญาไท",
+    "district": "เขตราชเทวี"
+  },
+  {
+    "subdistrict": "แขวงชนะสงคราม",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงศิริราช",
+    "district": "เขตบางกอกน้อย"
+  },
+  {
+    "subdistrict": "แขวงบางกะปิ",
+    "district": "เขตห้วยขวาง"
+  },
+  {
+    "subdistrict": "แขวงวัดโสมนัส",
+    "district": "เขตป้อมปราบศัตรูพ่าย"
+  },
+  {
+    "subdistrict": "แขวงสามวาตะวันตก",
+    "district": "เขตคลองสามวา"
+  },
+  {
+    "subdistrict": "แขวงคลองถนน",
+    "district": "เขตสายไหม"
+  },
+  {
+    "subdistrict": "แขวงออเงิน",
+    "district": "เขตสายไหม"
+  },
+  {
+    "subdistrict": "แขวงทุ่งสองห้อง",
+    "district": "เขตหลักสี่"
+  },
+  {
+    "subdistrict": "แขวงหนองจอก",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงอนุสาวรีย์",
+    "district": "เขตบางเขน"
+  },
+  {
+    "subdistrict": "แขวงคู้ฝั่งเหนือ",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงตลาดบางเขน",
+    "district": "เขตหลักสี่"
+  },
+  {
+    "subdistrict": "แขวงบางขุนพรหม",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงบวรนิเวศ",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงบางพรม",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงบางเชือกหนัง",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงบางชัน",
+    "district": "เขตคลองสามวา"
+  },
+  {
+    "subdistrict": "แขวงถนนเพชรบุรี",
+    "district": "เขตราชเทวี"
+  },
+  {
+    "subdistrict": "แขวงกระทุ่มราย",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงโคกแฝด",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงลาดยาว",
+    "district": "เขตจตุจักร"
+  },
+  {
+    "subdistrict": "แขวงเสนานิคม",
+    "district": "เขตจตุจักร"
+  },
+  {
+    "subdistrict": "แขวงรามอินทรา",
+    "district": "เขตคันนายาว"
+  },
+  {
+    "subdistrict": "แขวงแสนแสบ",
+    "district": "เขตมีนบุรี"
+  },
+  {
+    "subdistrict": "แขวงจรเข้บัว",
+    "district": "เขตลาดพร้าว"
+  },
+  {
+    "subdistrict": "แขวงวงศ์สว่าง",
+    "district": "เขตบางซื่อ"
+  },
+  {
+    "subdistrict": "แขวงคลองสิบ",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงดอนเมือง",
+    "district": "เขตดอนเมือง"
+  },
+  {
+    "subdistrict": "แขวงวัดอรุณ",
+    "district": "เขตบางกอกใหญ่"
+  },
+  {
+    "subdistrict": "แขวงป้อมปราบ",
+    "district": "เขตป้อมปราบศัตรูพ่าย"
+  },
+  {
+    "subdistrict": "แขวงคลองขวาง",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงคลองตันเหนือ",
+    "district": "เขตวัฒนา"
+  },
+  {
+    "subdistrict": "แขวงสัมพันธวงศ์",
+    "district": "เขตสัมพันธวงศ์"
+  },
+  {
+    "subdistrict": "แขวงสะพานสอง",
+    "district": "เขตวังทองหลาง"
+  },
+  {
+    "subdistrict": "แขวงศาลาธรรมสพน์",
+    "district": "เขตทวีวัฒนา"
+  },
+  {
+    "subdistrict": "แขวงลำปลาทิว",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงดินแดง",
+    "district": "เขตดินแดง"
+  },
+  {
+    "subdistrict": "แขวงคลองเจ้าคุณสิงห์",
+    "district": "เขตวังทองหลาง"
+  },
+  {
+    "subdistrict": "แขวงฉิมพลี",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงวัดท่าพระ",
+    "district": "เขตบางกอกใหญ่"
+  },
+  {
+    "subdistrict": "แขวงลำผักชี",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงจอมพล",
+    "district": "เขตจตุจักร"
+  },
+  {
+    "subdistrict": "แขวงนวมินทร์",
+    "district": "เขตบึงกุ่ม"
+  },
+  {
+    "subdistrict": "แขวงลำต้อยติ่ง",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงบางซื่อ",
+    "district": "เขตบางซื่อ"
+  },
+  {
+    "subdistrict": "แขวงสมเด็จเจ้าพระยา",
+    "district": "เขตคลองสาน"
+  },
+  {
+    "subdistrict": "แขวงประเวศ",
+    "district": "เขตประเวศ"
+  },
+  {
+    "subdistrict": "แขวงมหาพฤฒาราม",
+    "district": "เขตบางรัก"
+  },
+  {
+    "subdistrict": "แขวงสี่แยกมหานาค",
+    "district": "เขตดุสิต"
+  },
+  {
+    "subdistrict": "แขวงสนามบิน",
+    "district": "เขตดอนเมือง"
+  },
+  {
+    "subdistrict": "แขวงสีกัน",
+    "district": "เขตดอนเมือง"
+  },
+  {
+    "subdistrict": "แขวงคลองสิบสอง",
+    "district": "เขตหนองจอก"
+  },
+  {
+    "subdistrict": "แขวงสายไหม",
+    "district": "เขตสายไหม"
+  },
+  {
+    "subdistrict": "แขวงสวนจิตรลดา",
+    "district": "เขตดุสิต"
+  },
+  {
+    "subdistrict": "แขวงหัวหมาก",
+    "district": "เขตบางกะปิ"
+  },
+  {
+    "subdistrict": "แขวงทับยาว",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงบางขุนศรี",
+    "district": "เขตบางกอกน้อย"
+  },
+  {
+    "subdistrict": "แขวงขุมทอง",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงสี่พระยา",
+    "district": "เขตบางรัก"
+  },
+  {
+    "subdistrict": "แขวงลาดกระบัง",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงบางรัก",
+    "district": "เขตบางรัก"
+  },
+  {
+    "subdistrict": "แขวงบางแคเหนือ",
+    "district": "เขตบางแค"
+  },
+  {
+    "subdistrict": "แขวงนวลจันทร์",
+    "district": "เขตบึงกุ่ม"
+  },
+  {
+    "subdistrict": "แขวงลาดพร้าว",
+    "district": "เขตลาดพร้าว"
+  },
+  {
+    "subdistrict": "แขวงมีนบุรี",
+    "district": "เขตมีนบุรี"
+  },
+  {
+    "subdistrict": "แขวงจันทรเกษม",
+    "district": "เขตจตุจักร"
+  },
+  {
+    "subdistrict": "แขวงจตุจักร",
+    "district": "เขตจตุจักร"
+  },
+  {
+    "subdistrict": "แขวงคลองจั่น",
+    "district": "เขตบางกะปิ"
+  },
+  {
+    "subdistrict": "แขวงคลองกุ่ม",
+    "district": "เขตบึงกุ่ม"
+  },
+  {
+    "subdistrict": "แขวงบางอ้อ",
+    "district": "เขตบางพลัด"
+  },
+  {
+    "subdistrict": "แขวงสามเสนนอก",
+    "district": "เขตห้วยขวาง"
+  },
+  {
+    "subdistrict": "แขวงหนองค้างพลู",
+    "district": "เขตหนองแขม"
+  },
+  {
+    "subdistrict": "แขวงคลองสาน",
+    "district": "เขตคลองสาน"
+  },
+  {
+    "subdistrict": "แขวงหิรัญรูจี",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงบางจาก",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงคลองตัน",
+    "district": "เขตคลองเตย"
+  },
+  {
+    "subdistrict": "แขวงวังใหม่",
+    "district": "เขตปทุมวัน"
+  },
+  {
+    "subdistrict": "แขวงปทุมวัน",
+    "district": "เขตปทุมวัน"
+  },
+  {
+    "subdistrict": "แขวงลุมพินี",
+    "district": "เขตปทุมวัน"
+  },
+  {
+    "subdistrict": "แขวงคลองเตยเหนือ",
+    "district": "เขตวัฒนา"
+  },
+  {
+    "subdistrict": "แขวงวังบูรพาภิรมย์",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงปากคลองภาษีเจริญ",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงสุริยวงศ์",
+    "district": "เขตบางรัก"
+  },
+  {
+    "subdistrict": "แขวงวังทองหลาง",
+    "district": "เขตวังทองหลาง"
+  },
+  {
+    "subdistrict": "แขวงบางด้วน",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงสีลม",
+    "district": "เขตบางรัก"
+  },
+  {
+    "subdistrict": "แขวงถนนนครไชยศรี",
+    "district": "เขตดุสิต"
+  },
+  {
+    "subdistrict": "แขวงตลิ่งชัน",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงสะพานสูง",
+    "district": "เขตสะพานสูง"
+  },
+  {
+    "subdistrict": "แขวงบางพลัด",
+    "district": "เขตบางพลัด"
+  },
+  {
+    "subdistrict": "แขวงสามเสนใน",
+    "district": "เขตพญาไท"
+  },
+  {
+    "subdistrict": "แขวงวัดพระยาไกร",
+    "district": "เขตบางคอแหลม"
+  },
+  {
+    "subdistrict": "แขวงดอกไม้",
+    "district": "เขตประเวศ"
+  },
+  {
+    "subdistrict": "แขวงห้วยขวาง",
+    "district": "เขตห้วยขวาง"
+  },
+  {
+    "subdistrict": "แขวงบางบำหรุ",
+    "district": "เขตบางพลัด"
+  },
+  {
+    "subdistrict": "แขวงท่าข้าม",
+    "district": "เขตบางขุนเทียน"
+  },
+  {
+    "subdistrict": "แขวงดาวคะนอง",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงบางแค",
+    "district": "เขตบางแค"
+  },
+  {
+    "subdistrict": "แขวงหลักสอง",
+    "district": "เขตบางแค"
+  },
+  {
+    "subdistrict": "แขวงบางขุนเทียน",
+    "district": "เขตจอมทอง"
+  },
+  {
+    "subdistrict": "แขวงบางจาก",
+    "district": "เขตพระโขนง"
+  },
+  {
+    "subdistrict": "แขวงบางโคล่",
+    "district": "เขตบางคอแหลม"
+  },
+  {
+    "subdistrict": "แขวงคูหาสวรรค์",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงบางแวก",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงสำราญราษฎร์",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงคลองเตย",
+    "district": "เขตคลองเตย"
+  },
+  {
+    "subdistrict": "แขวงอรุณอัมรินทร์",
+    "district": "เขตบางกอกน้อย"
+  },
+  {
+    "subdistrict": "แขวงวชิรพยาบาล",
+    "district": "เขตดุสิต"
+  },
+  {
+    "subdistrict": "แขวงบางยี่ขัน",
+    "district": "เขตบางพลัด"
+  },
+  {
+    "subdistrict": "แขวงคลองสามประเวศ",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงดุสิต",
+    "district": "เขตดุสิต"
+  },
+  {
+    "subdistrict": "แขวงคลองชักพระ",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงบางระมาด",
+    "district": "เขตตลิ่งชัน"
+  },
+  {
+    "subdistrict": "แขวงคลองสองต้นนุ่น",
+    "district": "เขตลาดกระบัง"
+  },
+  {
+    "subdistrict": "แขวงบางขุนนนท์",
+    "district": "เขตบางกอกน้อย"
+  },
+  {
+    "subdistrict": "แขวงทวีวัฒนา",
+    "district": "เขตทวีวัฒนา"
+  },
+  {
+    "subdistrict": "แขวงรองเมือง",
+    "district": "เขตปทุมวัน"
+  },
+  {
+    "subdistrict": "แขวงบางไผ่",
+    "district": "เขตบางแค"
+  },
+  {
+    "subdistrict": "แขวงวัดเทพศิรินทร์",
+    "district": "เขตป้อมปราบศัตรูพ่าย"
+  },
+  {
+    "subdistrict": "แขวงวัดราชบพิธ",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงสวนหลวง",
+    "district": "เขตสวนหลวง"
+  },
+  {
+    "subdistrict": "แขวงวัดกัลยาณ์",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงตลาดน้อย",
+    "district": "เขตสัมพันธวงศ์"
+  },
+  {
+    "subdistrict": "แขวงแสมดำ",
+    "district": "เขตบางขุนเทียน"
+  },
+  {
+    "subdistrict": "แขวงยานนาวา",
+    "district": "เขตสาทร"
+  },
+  {
+    "subdistrict": "แขวงสำเหร่",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงบางลำภูล่าง",
+    "district": "เขตคลองสาน"
+  },
+  {
+    "subdistrict": "แขวงจักรวรรดิ์",
+    "district": "เขตสัมพันธวงศ์"
+  },
+  {
+    "subdistrict": "แขวงทุ่งวัดดอน",
+    "district": "เขตสาทร"
+  },
+  {
+    "subdistrict": "แขวงคลองมหานาค",
+    "district": "เขตป้อมปราบศัตรูพ่าย"
+  },
+  {
+    "subdistrict": "แขวงศาลเจ้าพ่อเสือ",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงบ้านบาตร",
+    "district": "เขตป้อมปราบศัตรูพ่าย"
+  },
+  {
+    "subdistrict": "แขวงเสาชิงช้า",
+    "district": "เขตพระนคร"
+  },
+  {
+    "subdistrict": "แขวงพระโขนงเหนือ",
+    "district": "เขตวัฒนา"
+  },
+  {
+    "subdistrict": "แขวงพระโขนง",
+    "district": "เขตคลองเตย"
+  },
+  {
+    "subdistrict": "แขวงบางหว้า",
+    "district": "เขตภาษีเจริญ"
+  },
+  {
+    "subdistrict": "แขวงตลาดพลู",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงบางคอแหลม",
+    "district": "เขตบางคอแหลม"
+  },
+  {
+    "subdistrict": "แขวงหนองบอน",
+    "district": "เขตประเวศ"
+  },
+  {
+    "subdistrict": "แขวงจอมทอง",
+    "district": "เขตจอมทอง"
+  },
+  {
+    "subdistrict": "แขวงหนองแขม",
+    "district": "เขตหนองแขม"
+  },
+  {
+    "subdistrict": "แขวงบางโพงพาง",
+    "district": "เขตยานนาวา"
+  },
+  {
+    "subdistrict": "แขวงบางปะกอก",
+    "district": "เขตราษฎร์บูรณะ"
+  },
+  {
+    "subdistrict": "แขวงบางบอน",
+    "district": "เขตบางบอน"
+  },
+  {
+    "subdistrict": "แขวงบางมด",
+    "district": "เขตจอมทอง"
+  },
+  {
+    "subdistrict": "แขวงราษฎร์บูรณะ",
+    "district": "เขตราษฎร์บูรณะ"
+  },
+  {
+    "subdistrict": "แขวงบางนา",
+    "district": "เขตบางนา"
+  },
+  {
+    "subdistrict": "แขวงบุคคโล",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงช่องนนทรีย์",
+    "district": "เขตยานนาวา"
+  },
+  {
+    "subdistrict": "แขวงคลองต้นไทร",
+    "district": "เขตคลองสาน"
+  },
+  {
+    "subdistrict": "แขวงบางยี่เรือ",
+    "district": "เขตธนบุรี"
+  },
+  {
+    "subdistrict": "แขวงทุ่งมหาเมฆ",
+    "district": "เขตสาทร"
+  },
+  {
+    "subdistrict": "แขวงบางค้อ",
+    "district": "เขตจอมทอง"
+  },
+  {
+    "subdistrict": "แขวงทุ่งครุ",
+    "district": "เขตทุ่งครุ"
+  },
+  {
+    "subdistrict": "แขวงคันนายาว",
+    "district": "เขตคันนายาว"
+  },
+  {
+    "subdistrict": "แขวงสามวาตะวันออก",
+    "district": "เขตคลองสามวา"
+  },
+  {
+    "subdistrict": "แขวงพลับพลา",
+    "district": "เขตวังทองหลาง"
+  },
+  {
+    "subdistrict": "แขวงบางมด",
+    "district": "เขตทุ่งครุ"
+  }
+]
