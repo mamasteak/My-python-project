@@ -2182,8 +2182,7 @@
     // ===== SHOP SYSTEM =====
     // Shop data loaded from shop-engine.js
 
-    // Initialize characters from shop engine
-    const characters = { ...ShopEngine.getCharacters() };
+    const characters = typeof ShopEngine !== 'undefined' ? { ...ShopEngine.getCharacters() } : {};
 
     let currentCart = [];
     let shopInventory = {};
@@ -2433,14 +2432,22 @@
         updatePlayerBalance();
     }
 
-    // Initialize shop on load
-    window.addEventListener('load', async () => {
+    // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
+    document.addEventListener('DOMContentLoaded', async () => {
+        const districtSelect = document.getElementById('subDistrictSelect');
+        const shopStatus = document.getElementById('shop-page');
+
         try {
+            if (typeof ShopEngine === 'undefined') {
+                throw new Error('ShopEngine failed to load — check shop-engine.js is accessible');
+            }
+
             // Initialize shop engine and wait for data to load
-            await ShopEngine.initialize();
+            const ok = await ShopEngine.initialize();
+            if (!ok) throw new Error('ShopEngine.initialize() failed — shops.json or subdistricts.json may be inaccessible');
 
             // Initialize stock manager for persistence and restocking
-            StockManager.initializeStockManager();
+            if (typeof StockManager !== 'undefined') StockManager.initializeStockManager();
 
             // Populate districts dropdown
             const uniqueDistricts = ShopEngine.getUniqueSubDistricts();
@@ -2497,6 +2504,13 @@
             }, 1000);
         } catch (error) {
             console.error('Error initializing shop system:', error);
+            const shopPage = document.getElementById('shop-page');
+            if (shopPage) {
+                shopPage.innerHTML = `<div style="color:#ff4444;padding:20px;font-size:11px;">SHOP ENGINE ERROR: ${error.message}</div>`;
+            }
+            if (districtSelect) {
+                districtSelect.innerHTML = '<option value="">-- LOAD FAILED --</option>';
+            }
         }
     });
 

@@ -29,7 +29,7 @@ async function initializeShopEngine() {
         return true;
     } catch (error) {
         console.error('Error initializing shop engine:', error);
-        return false;
+        throw error;
     }
 }
 
