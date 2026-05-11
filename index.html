@@ -977,6 +977,136 @@
             outline: none;
             box-shadow: 0 0 8px var(--primary-neon);
         }
+
+        /* SHOP CONSOLE LAYOUT */
+        .shop-console-layout {
+            display: flex;
+            gap: 12px;
+            height: 100%;
+        }
+
+        .shop-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--secondary-neon);
+            border-radius: 2px;
+            padding: 8px;
+            min-height: 0;
+        }
+
+        .shop-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 8px;
+            color: var(--text-muted);
+        }
+
+        .shop-row label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .shop-select {
+            flex: 1;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--primary-neon);
+            color: var(--primary-neon);
+            padding: 3px 4px;
+            border-radius: 2px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .shop-select:focus {
+            outline: none;
+            box-shadow: 0 0 6px var(--primary-neon);
+        }
+
+        .district-info, .currently-selected, .npc-cashier, .balance-info, .cart-total, .remaining-balance {
+            font-size: 8px;
+            color: var(--text-muted);
+        }
+
+        .district-info strong, .currently-selected strong, .npc-cashier strong,
+        .balance-info strong, .cart-total strong, .remaining-balance strong {
+            color: var(--primary-neon);
+            font-weight: 600;
+        }
+
+        .shop-cart-items {
+            flex: 1;
+            overflow-y: auto;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 2px;
+            padding: 4px;
+            font-size: 8px;
+            color: var(--text-secondary);
+        }
+
+        .shop-cart-items::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .shop-cart-items::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .shop-cart-items::-webkit-scrollbar-thumb {
+            background: var(--secondary-neon);
+            border-radius: 2px;
+        }
+
+        .shop-buttons {
+            display: flex;
+            gap: 4px;
+        }
+
+        .shop-btn {
+            flex: 1;
+            padding: 4px 6px;
+            border: 1px solid var(--primary-neon);
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--primary-neon);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .shop-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 6px rgba(0, 255, 136, 0.3);
+        }
+
+        .shop-btn.confirm {
+            border-color: var(--primary-neon);
+            color: var(--primary-neon);
+        }
+
+        .shop-btn.clear {
+            border-color: var(--secondary-neon);
+            color: var(--secondary-neon);
+            background: rgba(255, 0, 128, 0.1);
+        }
+
+        .shop-btn.clear:hover {
+            background: rgba(255, 0, 128, 0.2);
+            box-shadow: 0 0 6px rgba(255, 0, 128, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -1111,6 +1241,7 @@
                 <button class="console-tab" onclick="switchTab(event, 'reference')">📚 REFERENCE</button>
                 <button class="console-tab" onclick="switchTab(event, 'mission')">📋 MISSION</button>
                 <button class="console-tab" onclick="switchTab(event, 'notes')">📝 NOTES</button>
+                <button class="console-tab" onclick="switchTab(event, 'shop')">🛍️ SHOP</button>
             </div>
 
             <!-- Console Content -->
@@ -1203,6 +1334,78 @@
             <div id="notes-tab" class="console-content">
                 <div style="color: var(--text-muted); font-size: 10px; padding: 20px; text-align: center;">
                     GM notes coming soon...
+                </div>
+            </div>
+
+            <!-- Shop Tab -->
+            <div id="shop-tab" class="console-content">
+                <div class="shop-console-layout">
+                    <!-- BOX 1: DISTRICT & SHOP SELECTOR -->
+                    <div class="shop-box box-1">
+                        <div class="shop-row">
+                            <label>Sub District:</label>
+                            <select id="subDistrictSelect" class="shop-select" onchange="updateShops()">
+                                <option value="sukhumvit">Sukhumvit</option>
+                                <option value="silom">Silom</option>
+                                <option value="patpong">Patpong</option>
+                                <option value="chinatown">Chinatown</option>
+                                <option value="lumphini">Lumphini</option>
+                            </select>
+                        </div>
+                        <div class="shop-row">
+                            <span class="district-info">District: <strong>Sukhumvit</strong> (Bangkok)</span>
+                        </div>
+                        <div class="shop-row">
+                            <label>Available Shops:</label>
+                            <select id="shopSelect" class="shop-select" onchange="selectShop()">
+                                <option value="">-- SELECT SHOP --</option>
+                            </select>
+                        </div>
+                        <div class="shop-row">
+                            <span class="currently-selected">Currently: <strong id="currentShop">None</strong></span>
+                        </div>
+                        <div class="shop-row">
+                            <span class="npc-cashier">NPC Cashier: <strong id="cashierName">--</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- BOX 2: SHOPPING CART & TRANSACTION -->
+                    <div class="shop-box box-2">
+                        <div class="shop-row">
+                            <label>Player:</label>
+                            <select id="playerSelect" class="shop-select" onchange="updatePlayerBalance()">
+                                <option value="">-- SELECT CHARACTER --</option>
+                                <option value="jax">Jax</option>
+                                <option value="noi">Noi</option>
+                                <option value="roux">Roux</option>
+                                <option value="jazz">Jazz</option>
+                            </select>
+                        </div>
+                        <div class="shop-row">
+                            <span class="balance-info">Balance: <strong id="playerBalance">--</strong></span>
+                        </div>
+                        <div class="shop-cart-items">
+                            <div style="color: var(--text-muted); font-size: 8px; text-align: center;">No items in cart</div>
+                        </div>
+                        <div class="shop-row">
+                            <span class="cart-total">Total: <strong id="cartTotal">¥0</strong></span>
+                        </div>
+                        <div class="shop-row">
+                            <span class="remaining-balance">After: <strong id="remainingBalance">--</strong></span>
+                        </div>
+                        <div class="shop-buttons">
+                            <button class="shop-btn confirm" onclick="confirmPurchase()">CONFIRM</button>
+                            <button class="shop-btn clear" onclick="clearCart()">CLEAR</button>
+                        </div>
+                    </div>
+
+                    <!-- BOX 3: PLACEHOLDER -->
+                    <div class="shop-box box-3">
+                        <div style="color: var(--text-muted); font-size: 9px; text-align: center; padding: 12px;">
+                            📊 BOX 3<br/><br/>
+                            (Coming soon...)
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1776,6 +1979,145 @@
         // Activate corresponding page
         document.getElementById(`${pageName}-page`).classList.add('active');
     }
+
+    // ===== SHOP SYSTEM =====
+    const shops = {
+        sukhumvit: [
+            { name: 'Rong Glai Gun Shop', cashier: 'Pom (Owner)' },
+            { name: 'Nakorn Arms Dealer', cashier: 'Som (Cashier)' },
+            { name: 'Street Doc', cashier: 'Dr. Chai (Owner)' }
+        ],
+        silom: [
+            { name: 'Black Market Tech', cashier: 'Nok (Specialist)' },
+            { name: 'Matrix Gear Vendor', cashier: 'Pim (Owner)' },
+            { name: 'Chop Shop', cashier: 'Big Tom (Manager)' }
+        ],
+        patpong: [
+            { name: 'Red Light Dealer', cashier: 'Mai (Owner)' },
+            { name: 'Illegal Mod Shop', cashier: 'Tong (Tech)' }
+        ],
+        chinatown: [
+            { name: 'Jade Garden Shop', cashier: 'Old Wang (Owner)' },
+            { name: 'Black Market Emporium', cashier: 'Moon (Cashier)' }
+        ],
+        lumphini: [
+            { name: 'Corporate Arms Dealer', cashier: 'Mr. Park (Manager)' },
+            { name: 'High Tech Supplies', cashier: 'Lin (Sales)' }
+        ]
+    };
+
+    const characters = {
+        jax: { name: 'Jax', balance: 50000 },
+        noi: { name: 'Noi', balance: 35000 },
+        roux: { name: 'Roux', balance: 45000 },
+        jazz: { name: 'Jazz', balance: 40000 }
+    };
+
+    let currentCart = [];
+
+    function updateShops() {
+        const subDistrict = document.getElementById('subDistrictSelect').value;
+        const districtMap = {
+            sukhumvit: 'Sukhumvit',
+            silom: 'Silom',
+            patpong: 'Patpong',
+            chinatown: 'Chinatown',
+            lumphini: 'Lumphini'
+        };
+
+        // Update district info
+        document.querySelector('.district-info strong').textContent = districtMap[subDistrict];
+
+        // Update shop dropdown
+        const shopSelect = document.getElementById('shopSelect');
+        shopSelect.innerHTML = '<option value="">-- SELECT SHOP --</option>';
+
+        shops[subDistrict].forEach((shop, index) => {
+            const option = document.createElement('option');
+            option.value = index;
+            option.textContent = shop.name;
+            shopSelect.appendChild(option);
+        });
+
+        // Reset selections
+        shopSelect.value = '';
+        document.getElementById('currentShop').textContent = 'None';
+        document.getElementById('cashierName').textContent = '--';
+    }
+
+    function selectShop() {
+        const subDistrict = document.getElementById('subDistrictSelect').value;
+        const shopIndex = document.getElementById('shopSelect').value;
+
+        if (shopIndex === '') {
+            document.getElementById('currentShop').textContent = 'None';
+            document.getElementById('cashierName').textContent = '--';
+            return;
+        }
+
+        const shop = shops[subDistrict][shopIndex];
+        document.getElementById('currentShop').textContent = shop.name;
+        document.getElementById('cashierName').textContent = shop.cashier;
+    }
+
+    function updatePlayerBalance() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '') {
+            document.getElementById('playerBalance').textContent = '--';
+            document.getElementById('remainingBalance').textContent = '--';
+            return;
+        }
+
+        const player = characters[playerKey];
+        const cartTotal = currentCart.reduce((sum, item) => sum + item.price, 0);
+        const remaining = player.balance - cartTotal;
+
+        document.getElementById('playerBalance').textContent = '¥' + player.balance.toLocaleString();
+        document.getElementById('cartTotal').textContent = '¥' + cartTotal.toLocaleString();
+        document.getElementById('remainingBalance').textContent = '¥' + Math.max(0, remaining).toLocaleString();
+    }
+
+    function confirmPurchase() {
+        const playerKey = document.getElementById('playerSelect').value;
+
+        if (playerKey === '' || currentCart.length === 0) {
+            alert('Please select a character and add items to cart');
+            return;
+        }
+
+        const player = characters[playerKey];
+        const cartTotal = currentCart.reduce((sum, item) => sum + item.price, 0);
+
+        if (cartTotal > player.balance) {
+            alert('Insufficient funds! Need ¥' + (cartTotal - player.balance).toLocaleString() + ' more');
+            return;
+        }
+
+        // Update balance
+        player.balance -= cartTotal;
+
+        // Clear cart
+        currentCart = [];
+        document.querySelector('.shop-cart-items').innerHTML = '<div style="color: var(--text-muted); font-size: 8px; text-align: center;">No items in cart</div>';
+
+        // Update display
+        updatePlayerBalance();
+
+        alert(`Purchase confirmed! ${player.name} spent ¥${cartTotal.toLocaleString()}`);
+    }
+
+    function clearCart() {
+        currentCart = [];
+        document.querySelector('.shop-cart-items').innerHTML = '<div style="color: var(--text-muted); font-size: 8px; text-align: center;">No items in cart</div>';
+        document.getElementById('cartTotal').textContent = '¥0';
+        updatePlayerBalance();
+    }
+
+    // Initialize shop on load
+    window.addEventListener('load', () => {
+        updateShops();
+    });
 
     // ===== SIDEBAR & FILE HANDLING =====
     // Initialize toggle button text
