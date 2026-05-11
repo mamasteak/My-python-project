@@ -1422,6 +1422,221 @@
             box-shadow: 0 0 10px var(--primary-neon);
         }
 
+        /* 3-COLUMN PLAYER TAB LAYOUT */
+        .player-tab-content-3col {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 12px;
+            height: 100%;
+            padding: 12px;
+        }
+
+        .player-box-left,
+        .player-box-middle,
+        .player-box-right {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.3) 0%, rgba(13, 15, 45, 0.3) 100%);
+            border: 1px solid var(--tertiary-neon);
+            border-radius: 6px;
+            padding: 12px;
+            overflow-y: auto;
+        }
+
+        .player-section-title {
+            color: var(--primary-neon);
+            font-size: 11px;
+            font-weight: bold;
+            margin: 0 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 6px var(--primary-neon);
+            border-bottom: 1px solid var(--primary-neon);
+            padding-bottom: 6px;
+        }
+
+        .player-load-section {
+            margin-bottom: 12px;
+        }
+
+        .player-btn-file {
+            width: 100%;
+            padding: 10px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid var(--primary-neon);
+            color: var(--primary-neon);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .player-btn-file:hover {
+            background: rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .player-list-box-compact {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .player-list-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .player-item-compact {
+            padding: 8px;
+            background: rgba(0, 212, 255, 0.05);
+            border: 1px solid var(--tertiary-neon);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .player-item-compact:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 8px var(--tertiary-neon);
+        }
+
+        .player-name-compact {
+            color: var(--text-bright);
+            font-size: 10px;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        .player-meta-compact {
+            color: var(--text-muted);
+            font-size: 9px;
+        }
+
+        .player-list-empty {
+            color: var(--text-muted);
+            font-size: 9px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .char-maker-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .maker-form-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .maker-form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .maker-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .maker-label {
+            color: var(--text-muted);
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .maker-input {
+            padding: 6px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--tertiary-neon);
+            color: var(--text-bright);
+            border-radius: 3px;
+            font-size: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .maker-input:focus {
+            outline: none;
+            border-color: var(--primary-neon);
+            box-shadow: 0 0 6px var(--primary-neon);
+        }
+
+        .maker-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-bright);
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .maker-checkbox input[type="checkbox"] {
+            cursor: pointer;
+            width: 14px;
+            height: 14px;
+        }
+
+        .maker-attrs-inline {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .attr-inline {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .attr-inline label {
+            color: var(--text-muted);
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .attr-inline input {
+            padding: 4px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--tertiary-neon);
+            color: var(--primary-neon);
+            text-align: center;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .player-btn-save-inline {
+            padding: 8px;
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
+            border: 2px solid var(--primary-neon);
+            color: var(--primary-neon);
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .player-btn-save-inline:hover {
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.3) 0%, rgba(0, 212, 255, 0.3) 100%);
+            box-shadow: 0 0 8px var(--primary-neon);
+        }
+
+        .char-preview-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-neon);
+            border-radius: 4px;
+            max-height: 450px;
+            overflow-y: auto;
+        }
+
         /* PLAYER MODAL STYLES */
         .player-modal-overlay {
             position: fixed;

@@ -36,35 +36,367 @@ const PlayerUI = {
     }
   },
 
-  // Render main player tab content
+  // Render main player tab content - 3 column layout
   renderPlayerTab() {
     const playerContent = document.getElementById('playerContent');
     if (!playerContent) return;
 
     playerContent.innerHTML = `
-      <div class="player-tab-content">
-        <div class="player-list-container">
-          <h3 class="player-section-title">👥 Saved Characters</h3>
-          <div id="playerListBox" class="player-list-box"></div>
+      <div class="player-tab-content-3col">
+        <!-- LEFT BOX: Load & List -->
+        <div class="player-box-left">
+          <h3 class="player-section-title">📂 LOAD CHARACTER</h3>
+          <div class="player-load-section">
+            <input type="file" id="charFileInput" accept=".json" style="display: none;">
+            <button class="player-btn-file" onclick="document.getElementById('charFileInput').click()">📥 Import JSON File</button>
+          </div>
+
+          <h3 class="player-section-title" style="margin-top: 20px;">👥 SAVED CHARACTERS</h3>
+          <div id="playerListBox" class="player-list-box-compact"></div>
         </div>
 
-        <div class="player-actions">
-          <button id="registerPlayerBtn" class="player-register-btn">
-            ➕ Create New Player
-          </button>
+        <!-- MIDDLE BOX: Character Maker -->
+        <div class="player-box-middle">
+          <h3 class="player-section-title">⚔️ CHARACTER MAKER</h3>
+          <div id="charMakerForm" class="char-maker-form"></div>
+        </div>
+
+        <!-- RIGHT BOX: Preview/Details -->
+        <div class="player-box-right">
+          <h3 class="player-section-title">📋 PREVIEW</h3>
+          <div id="charPreview" class="char-preview-box">
+            <div style="color: var(--text-muted); padding: 12px; text-align: center;">Build character to see preview...</div>
+          </div>
         </div>
       </div>
     `;
 
     // Attach event listeners
-    document.getElementById('registerPlayerBtn').addEventListener('click', () => {
-      this.showPlayerRegistrationModal();
-    });
+    const fileInput = document.getElementById('charFileInput');
+    fileInput.addEventListener('change', (e) => this.handleFileImport(e));
+
+    // Initialize character maker form
+    this.initInlineCharacterMaker();
 
     // Initial render of player list
-    this.renderPlayerList();
+    this.renderPlayerListCompact();
 
-    console.log('✓ Player tab rendered');
+    console.log('✓ Player tab rendered with 3-column layout');
+  },
+
+  // Render compact player list for left box
+  renderPlayerListCompact() {
+    const listBox = document.getElementById('playerListBox');
+    if (!listBox) return;
+
+    if (typeof CharacterStorage === 'undefined') {
+      listBox.innerHTML = '<div class="player-list-empty">⚠️ Character storage unavailable</div>';
+      return;
+    }
+
+    const characters = CharacterStorage.getAllCharacters();
+
+    if (characters.length === 0) {
+      listBox.innerHTML = '<div class="player-list-empty">📭 No characters saved</div>';
+      return;
+    }
+
+    let html = '<div class="player-list-compact">';
+    characters.forEach(char => {
+      const balance = char.balance || 0;
+      html += `
+        <div class="player-item-compact" onclick="PlayerUI.loadCharToMaker('${char.id}')">
+          <div class="player-name-compact">${char.name}</div>
+          <div class="player-meta-compact">${char.metatype || 'Human'} • ¥${balance.toLocaleString()}</div>
+        </div>
+      `;
+    });
+    html += '</div>';
+
+    listBox.innerHTML = html;
+    console.log(`✓ Rendered ${characters.length} characters in compact list`);
+  },
+
+  // Initialize inline character maker form
+  initInlineCharacterMaker() {
+    const form = document.getElementById('charMakerForm');
+    if (!form) return;
+
+    const formHTML = `
+      <div class="maker-form-inline">
+        <!-- Basics Section -->
+        <div class="maker-form-section">
+          <div class="maker-label">Name *</div>
+          <input type="text" id="inlineCharName" class="maker-input" placeholder="Character name" required>
+        </div>
+
+        <div class="maker-form-row">
+          <div class="maker-form-section">
+            <div class="maker-label">Metatype</div>
+            <select id="inlineMetatype" class="maker-input">
+              <option value="human">Human</option>
+              <option value="elf">Elf</option>
+              <option value="dwarf">Dwarf</option>
+              <option value="orc">Orc</option>
+              <option value="troll">Troll</option>
+            </select>
+          </div>
+          <div class="maker-form-section">
+            <div class="maker-label">Balance (¥)</div>
+            <input type="number" id="inlineBalance" class="maker-input" value="50000" min="0">
+          </div>
+        </div>
+
+        <!-- Attributes Section -->
+        <div class="maker-form-section">
+          <div class="maker-label">ATTRIBUTES</div>
+          <div class="maker-attrs-inline">
+            <div class="attr-inline"><label>BOD</label><input type="number" id="inlineBody" min="1" max="10" value="3"></div>
+            <div class="attr-inline"><label>QCK</label><input type="number" id="inlineQuickness" min="1" max="10" value="3"></div>
+            <div class="attr-inline"><label>STR</label><input type="number" id="inlineStrength" min="1" max="10" value="3"></div>
+            <div class="attr-inline"><label>CHA</label><input type="number" id="inlineCharisma" min="1" max="10" value="3"></div>
+            <div class="attr-inline"><label>INT</label><input type="number" id="inlineIntelligence" min="1" max="10" value="3"></div>
+            <div class="attr-inline"><label>WIL</label><input type="number" id="inlineWillpower" min="1" max="10" value="3"></div>
+          </div>
+        </div>
+
+        <!-- Magic/Adept -->
+        <div class="maker-form-row">
+          <div class="maker-form-section">
+            <label class="maker-checkbox">
+              <input type="checkbox" id="inlineAwakened"> Awakened
+            </label>
+            <div id="inlineMagicOpts" style="display: none; margin-top: 6px;">
+              <input type="text" id="inlineTradition" class="maker-input" placeholder="Tradition" style="font-size: 9px; padding: 4px;">
+              <input type="number" id="inlineMagicRating" class="maker-input" min="0" max="6" value="1" placeholder="Rating" style="font-size: 9px; padding: 4px; margin-top: 4px;">
+            </div>
+          </div>
+          <div class="maker-form-section">
+            <label class="maker-checkbox">
+              <input type="checkbox" id="inlineAdept"> Adept
+            </label>
+            <div id="inlineAdeptOpts" style="display: none; margin-top: 6px;">
+              <input type="number" id="inlinePowerPoints" class="maker-input" min="0" max="10" value="0" placeholder="Power Pts" style="font-size: 9px; padding: 4px;">
+            </div>
+          </div>
+        </div>
+
+        <!-- Skills -->
+        <div class="maker-form-section">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="maker-label">SKILLS</div>
+            <button onclick="PlayerUI.addInlineSkill()" style="font-size: 9px; padding: 4px 8px;">+ Add</button>
+          </div>
+          <div id="inlineSkillsList" style="max-height: 100px; overflow-y: auto;"></div>
+        </div>
+
+        <!-- Save Button -->
+        <button onclick="PlayerUI.saveCharacterInline()" class="player-btn-save-inline" style="width: 100%; margin-top: 12px;">💾 SAVE & EXPORT JSON</button>
+      </div>
+    `;
+
+    form.innerHTML = formHTML;
+
+    // Setup toggle handlers
+    document.getElementById('inlineAwakened').addEventListener('change', (e) => {
+      document.getElementById('inlineMagicOpts').style.display = e.target.checked ? 'block' : 'none';
+    });
+
+    document.getElementById('inlineAdept').addEventListener('change', (e) => {
+      document.getElementById('inlineAdeptOpts').style.display = e.target.checked ? 'block' : 'none';
+    });
+
+    console.log('✓ Inline character maker initialized');
+  },
+
+  // Add inline skill row
+  addInlineSkill() {
+    const list = document.getElementById('inlineSkillsList');
+    const skillId = 'inlineSkill_' + Date.now();
+    const html = `
+      <div id="${skillId}" style="display: flex; gap: 4px; margin-bottom: 4px; font-size: 9px;">
+        <input type="text" placeholder="Skill" class="maker-input inline-skill-name" style="flex: 1; padding: 4px;">
+        <input type="number" placeholder="Lvl" min="0" max="6" value="1" style="width: 40px; padding: 4px;">
+        <button onclick="document.getElementById('${skillId}').remove()" style="padding: 4px 6px; width: 24px;">✕</button>
+      </div>
+    `;
+    list.insertAdjacentHTML('beforeend', html);
+  },
+
+  // Load character to maker
+  loadCharToMaker(characterId) {
+    const character = CharacterStorage.loadCharacter(characterId);
+    if (!character) return;
+
+    document.getElementById('inlineCharName').value = character.name;
+    document.getElementById('inlineMetatype').value = character.metatype || 'human';
+    document.getElementById('inlineBalance').value = character.balance;
+    document.getElementById('inlineBody').value = character.attributes.body.base || 3;
+    document.getElementById('inlineQuickness').value = character.attributes.quickness.base || 3;
+    document.getElementById('inlineStrength').value = character.attributes.strength.base || 3;
+    document.getElementById('inlineCharisma').value = character.attributes.charisma.base || 3;
+    document.getElementById('inlineIntelligence').value = character.attributes.intelligence.base || 3;
+    document.getElementById('inlineWillpower').value = character.attributes.willpower.base || 3;
+
+    if (character.magic.awakened) {
+      document.getElementById('inlineAwakened').checked = true;
+      document.getElementById('inlineMagicOpts').style.display = 'block';
+      document.getElementById('inlineTradition').value = character.magic.tradition || '';
+      document.getElementById('inlineMagicRating').value = character.attributes.magic.base || 1;
+    }
+
+    if (character.adept.isAdept) {
+      document.getElementById('inlineAdept').checked = true;
+      document.getElementById('inlineAdeptOpts').style.display = 'block';
+      document.getElementById('inlinePowerPoints').value = character.adept.powerPoints || 0;
+    }
+
+    this.updateCharPreview();
+    console.log(`✓ Loaded character "${character.name}" to maker`);
+  },
+
+  // Save character inline
+  saveCharacterInline() {
+    const charName = document.getElementById('inlineCharName').value.trim();
+    if (!charName) {
+      alert('⚠️ Please enter character name');
+      return;
+    }
+
+    const character = CharacterSchema.createNewCharacter(charName, document.getElementById('inlineMetatype').value);
+
+    // Set basics
+    character.balance = parseInt(document.getElementById('inlineBalance').value) || 50000;
+
+    // Set attributes
+    character.attributes.body.base = parseInt(document.getElementById('inlineBody').value) || 3;
+    character.attributes.quickness.base = parseInt(document.getElementById('inlineQuickness').value) || 3;
+    character.attributes.strength.base = parseInt(document.getElementById('inlineStrength').value) || 3;
+    character.attributes.charisma.base = parseInt(document.getElementById('inlineCharisma').value) || 3;
+    character.attributes.intelligence.base = parseInt(document.getElementById('inlineIntelligence').value) || 3;
+    character.attributes.willpower.base = parseInt(document.getElementById('inlineWillpower').value) || 3;
+
+    // Copy to modified
+    Object.keys(character.attributes).forEach(attr => {
+      if (character.attributes[attr].base) {
+        character.attributes[attr].modified = character.attributes[attr].base;
+      }
+    });
+
+    // Magic
+    if (document.getElementById('inlineAwakened').checked) {
+      character.magic.awakened = true;
+      character.magic.tradition = document.getElementById('inlineTradition').value || null;
+      character.attributes.magic.base = parseInt(document.getElementById('inlineMagicRating').value) || 1;
+      character.attributes.magic.current = character.attributes.magic.base;
+    }
+
+    // Adept
+    if (document.getElementById('inlineAdept').checked) {
+      character.adept.isAdept = true;
+      character.adept.powerPoints = parseInt(document.getElementById('inlinePowerPoints').value) || 0;
+    }
+
+    // Skills
+    document.querySelectorAll('.inline-skill-name').forEach(input => {
+      const name = input.value.trim();
+      if (name) {
+        const rating = input.parentElement.querySelector('input[type="number"]').value;
+        character.skills.push({
+          id: 'skill_' + Date.now() + '_' + Math.random(),
+          baseName: name,
+          concentration: '',
+          specialization: '',
+          ratings: { base: parseInt(rating) || 0, concentration: 0, specialization: 0 }
+        });
+      }
+    });
+
+    // Save
+    const result = CharacterStorage.saveCharacter(character);
+
+    if (result.success) {
+      CharacterStorage.downloadCharacterAsJSON(character);
+      this.renderPlayerListCompact();
+      this.updateCharPreview();
+      alert(`✅ Character "${charName}" saved!\n✓ JSON exported: ${charName}.json`);
+    } else {
+      alert(`❌ Error: ${result.error}`);
+    }
+  },
+
+  // Update character preview
+  updateCharPreview() {
+    const charName = document.getElementById('inlineCharName').value || '[No name]';
+    const metatype = document.getElementById('inlineMetatype').value;
+    const balance = parseInt(document.getElementById('inlineBalance').value) || 0;
+
+    let preview = `
+      <div style="padding: 12px; color: var(--text-bright); font-size: 10px;">
+        <div style="color: var(--primary-neon); font-size: 12px; font-weight: bold; margin-bottom: 8px;">
+          ${charName}
+        </div>
+        <div style="margin-bottom: 8px;">
+          <div style="color: var(--text-muted); font-size: 9px;">METATYPE</div>
+          <div style="color: var(--tertiary-neon);">${metatype}</div>
+        </div>
+        <div style="margin-bottom: 8px;">
+          <div style="color: var(--text-muted); font-size: 9px;">BALANCE</div>
+          <div style="color: var(--primary-neon);">¥${balance.toLocaleString()}</div>
+        </div>
+        <div style="margin-bottom: 8px;">
+          <div style="color: var(--text-muted); font-size: 9px;">ATTRIBUTES</div>
+          <div style="line-height: 1.4;">
+            BOD: ${document.getElementById('inlineBody').value} •
+            QCK: ${document.getElementById('inlineQuickness').value} •
+            STR: ${document.getElementById('inlineStrength').value}<br>
+            CHA: ${document.getElementById('inlineCharisma').value} •
+            INT: ${document.getElementById('inlineIntelligence').value} •
+            WIL: ${document.getElementById('inlineWillpower').value}
+          </div>
+        </div>
+        ${document.getElementById('inlineAwakened')?.checked ? `
+          <div style="margin-bottom: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">✨ AWAKENED</div>
+            <div>Magic Rating: ${document.getElementById('inlineMagicRating').value}</div>
+          </div>
+        ` : ''}
+        ${document.getElementById('inlineAdept')?.checked ? `
+          <div style="margin-bottom: 8px;">
+            <div style="color: var(--text-muted); font-size: 9px;">⚡ ADEPT</div>
+            <div>Power Points: ${document.getElementById('inlinePowerPoints').value}</div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    document.getElementById('charPreview').innerHTML = preview;
+  },
+
+  // Handle file import
+  handleFileImport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const charData = JSON.parse(e.target.result);
+        const result = CharacterStorage.importCharacterFromJSON(JSON.stringify(charData));
+
+        if (result.success) {
+          const saved = CharacterStorage.saveCharacter(result.character);
+          if (saved.success) {
+            this.renderPlayerListCompact();
+            this.loadCharToMaker(result.character.id);
+            alert(`✅ Character imported: ${result.character.name}`);
+          }
+        }
+      } catch (err) {
+        alert(`❌ Error importing file: ${err.message}`);
+      }
+    };
+    reader.readAsText(file);
   },
 
   // Render list of all saved players
