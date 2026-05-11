@@ -2500,13 +2500,20 @@
         updatePlayerBalance();
     }
 
-    // Initialize shop on DOMContentLoaded (faster than load, doesn't wait for images/GeoJSON)
-    document.addEventListener('DOMContentLoaded', async () => {
+    // Initialize shop - wait for ShopEngine to be available
+    async function initializeShopSystem() {
         const districtSelect = document.getElementById('subDistrictSelect');
 
         try {
+            // Wait for ShopEngine to be defined (with timeout)
+            let attempts = 0;
+            while (typeof ShopEngine === 'undefined' && attempts < 50) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                attempts++;
+            }
+
             if (typeof ShopEngine === 'undefined') {
-                throw new Error('ShopEngine failed to load — check shop-engine.js is accessible');
+                throw new Error('ShopEngine failed to load after waiting — check shop-engine.js is accessible');
             }
 
             // Initialize shop engine and wait for data to load
@@ -2591,7 +2598,14 @@ Stack: ${error.stack || 'N/A'}
                 debugContent.innerHTML += `<div style="color:#ff4444; margin-top: 8px;">❌ Init Error:</div><div style="color:#ffaa00; font-size: 7px;">${errorMsg}</div>`;
             }
         }
-    });
+    }
+
+    // Start initialization when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeShopSystem);
+    } else {
+        initializeShopSystem();
+    }
 
     // ===== SIDEBAR & FILE HANDLING =====
     // Initialize toggle button text
