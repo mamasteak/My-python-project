@@ -1109,20 +1109,20 @@
         }
 
         /* DYNAMIC CONTROLS */
-        .controls-view {
+        .map-only {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            visibility: hidden;
-            position: absolute;
-            pointer-events: none;
         }
 
-        .controls-view.active {
-            visibility: visible;
-            position: relative;
-            pointer-events: auto;
+        .shop-only {
+            display: none;
+        }
+
+        .controls-bar.shop-view .map-only {
+            display: none;
+        }
+
+        .controls-bar.shop-view .shop-only {
+            display: flex;
         }
 
         .controls-left, .controls-right {
@@ -1272,33 +1272,21 @@
             </div>
         </div>
 
-        <div class="controls-bar">
-            <!-- MAP VIEW CONTROLS -->
-            <div id="map-controls" class="controls-view active">
-                <div class="controls-left">
-                    <button class="control-btn" onclick="zoomToFit()">📍 FIT VIEW</button>
-                </div>
-                <div class="coords-center">
-                    <div class="coords-display" id="coordsDisplay">X: 0 | Y: 0</div>
-                </div>
-                <div class="controls-right">
-                    <button class="control-btn secondary" onclick="clearMap()">🗑️ CLEAR</button>
+        <div class="controls-bar" id="controlsBar" data-view="map">
+            <div class="controls-left">
+                <button class="control-btn map-only" onclick="zoomToFit()">📍 FIT VIEW</button>
+            </div>
+            <div class="coords-center">
+                <div class="coords-display map-only" id="coordsDisplay">X: 0 | Y: 0</div>
+                <div class="shop-register shop-only" style="display: none;">
+                    <span class="register-total">Cart Total: <strong id="registerTotal">¥0</strong></span>
+                    <span class="register-items">Items: <strong id="registerItems">0</strong></span>
                 </div>
             </div>
-
-            <!-- SHOP VIEW CONTROLS -->
-            <div id="shop-controls" class="controls-view">
-                <div class="controls-left"></div>
-                <div class="coords-center">
-                    <div class="shop-register">
-                        <span class="register-total">Cart Total: <strong id="registerTotal">¥0</strong></span>
-                        <span class="register-items">Items: <strong id="registerItems">0</strong></span>
-                    </div>
-                </div>
-                <div class="controls-right">
-                    <button class="control-btn" onclick="confirmPurchase()" style="background: rgba(0, 255, 136, 0.15); border-color: var(--primary-neon); color: var(--primary-neon);">✓ CHECKOUT</button>
-                    <button class="control-btn secondary" onclick="clearCart()" style="background: rgba(255, 0, 128, 0.15); border-color: var(--secondary-neon); color: var(--secondary-neon);">⊘ CLEAR</button>
-                </div>
+            <div class="controls-right">
+                <button class="control-btn secondary map-only" onclick="clearMap()">🗑️ CLEAR</button>
+                <button class="control-btn shop-only" onclick="confirmPurchase()" style="display: none; background: rgba(0, 255, 136, 0.15); border-color: var(--primary-neon); color: var(--primary-neon);">✓ CHECKOUT</button>
+                <button class="control-btn secondary shop-only" onclick="clearCart()" style="display: none; background: rgba(255, 0, 128, 0.15); border-color: var(--secondary-neon); color: var(--secondary-neon);">⊘ CLEAR</button>
             </div>
         </div>
 
@@ -2035,11 +2023,6 @@
             page.classList.remove('active');
         });
 
-        // Deactivate all controls
-        document.querySelectorAll('.controls-view').forEach(control => {
-            control.classList.remove('active');
-        });
-
         // Activate clicked tab
         event.target.closest('.sidebar-tab').classList.add('active');
 
@@ -2049,12 +2032,13 @@
         // Activate corresponding page
         document.getElementById(`${pageName}-page`).classList.add('active');
 
-        // Activate corresponding controls
-        document.getElementById(`${pageName}-controls`).classList.add('active');
-
-        // Update shop register if switching to shop
+        // Switch control bar view
+        const controlsBar = document.getElementById('controlsBar');
         if (pageName === 'shop') {
+            controlsBar.classList.add('shop-view');
             updateRegisterDisplay();
+        } else {
+            controlsBar.classList.remove('shop-view');
         }
     }
 
