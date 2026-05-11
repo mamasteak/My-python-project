@@ -1608,6 +1608,14 @@
 <script src="time-engine.js?v=2" onerror="console.error('❌ time-engine.js failed to load')"></script>
 <script src="search-engine.js?v=2" onerror="console.error('❌ search-engine.js failed to load')"></script>
 <script src="shop-engine.js?v=3" onerror="console.error('❌ shop-engine.js failed to load')"></script>
+<script>
+    console.log('After shop-engine.js load:');
+    console.log('  typeof ShopEngine:', typeof ShopEngine);
+    console.log('  ShopEngine:', ShopEngine ? 'defined' : 'UNDEFINED');
+    if (typeof ShopEngine !== 'undefined') {
+        console.log('  ShopEngine.initialize:', typeof ShopEngine.initialize);
+    }
+</script>
 <script src="stock-manager.js?v=2" onerror="console.error('❌ stock-manager.js failed to load')"></script>
 <script>
     // Debug: Check if scripts loaded
