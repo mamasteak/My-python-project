@@ -1615,6 +1615,17 @@
     if (typeof ShopEngine !== 'undefined') {
         console.log('  ShopEngine.initialize:', typeof ShopEngine.initialize);
     }
+
+    // Show in debug panel too
+    setTimeout(() => {
+        const debugContent = document.getElementById('debugContent');
+        if (debugContent) {
+            debugContent.innerHTML += `<div style="margin-top: 4px; border-top: 1px solid #666; padding-top: 4px;">
+<div style="color: #00ff88;">After shop-engine:</div>
+<div>ShopEngine: ${typeof ShopEngine !== 'undefined' ? '✓' : '✗'}</div>
+            </div>`;
+        }
+    }, 100);
 </script>
 <script src="stock-manager.js?v=2" onerror="console.error('❌ stock-manager.js failed to load')"></script>
 <script>
