@@ -201,23 +201,31 @@ const PlayerUI = {
     const awakenCheckbox = document.getElementById('inlineAwakened');
     if (awakenCheckbox) {
       awakenCheckbox.addEventListener('change', (e) => {
+        console.log('Awakened toggled:', e.target.checked);
         const magicOpts = document.getElementById('inlineMagicOpts');
         if (magicOpts) {
           magicOpts.style.display = e.target.checked ? 'block' : 'none';
-          this.updateCharPreview();
         }
+        PlayerUI.updateCharPreview();
       });
+      console.log('✓ Awakened checkbox listener attached');
+    } else {
+      console.warn('⚠️ Awakened checkbox not found');
     }
 
     const adeptCheckbox = document.getElementById('inlineAdept');
     if (adeptCheckbox) {
       adeptCheckbox.addEventListener('change', (e) => {
+        console.log('Adept toggled:', e.target.checked);
         const adeptOpts = document.getElementById('inlineAdeptOpts');
         if (adeptOpts) {
           adeptOpts.style.display = e.target.checked ? 'block' : 'none';
-          this.updateCharPreview();
         }
+        PlayerUI.updateCharPreview();
       });
+      console.log('✓ Adept checkbox listener attached');
+    } else {
+      console.warn('⚠️ Adept checkbox not found');
     }
 
     // Add event listeners for real-time preview updates
@@ -226,13 +234,25 @@ const PlayerUI = {
     inputIds.forEach(id => {
       const element = document.getElementById(id);
       if (element) {
-        element.addEventListener('input', () => this.updateCharPreview());
-        element.addEventListener('change', () => this.updateCharPreview());
+        element.addEventListener('input', () => {
+          console.log('Input changed:', id);
+          PlayerUI.updateCharPreview();
+        });
+        element.addEventListener('change', () => {
+          PlayerUI.updateCharPreview();
+        });
+        console.log('✓ Event listener attached to:', id);
+      } else {
+        console.warn('⚠️ Element not found:', id);
       }
     });
 
     // Initial preview update
-    setTimeout(() => this.updateCharPreview(), 100);
+    console.log('Updating preview after 100ms...');
+    setTimeout(() => {
+      console.log('Running initial preview update');
+      PlayerUI.updateCharPreview();
+    }, 100);
 
     console.log('✓ Inline character maker initialized with event listeners');
   },
