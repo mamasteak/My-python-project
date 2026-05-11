@@ -1607,7 +1607,17 @@
 <script src="weather-engine.js?v=2" onerror="console.error('❌ weather-engine.js failed to load')"></script>
 <script src="time-engine.js?v=2" onerror="console.error('❌ time-engine.js failed to load')"></script>
 <script src="search-engine.js?v=2" onerror="console.error('❌ search-engine.js failed to load')"></script>
-<script src="shop-engine.js?v=99" onerror="console.error('❌ shop-engine.js failed to load')"></script>
+<script>
+// Load shop-engine.js dynamically to bypass caching issues
+fetch('./shop-engine.js?v=100')
+    .then(r => r.text())
+    .then(code => {
+        console.log('🏪 shop-engine.js fetched, executing...');
+        eval(code);
+        console.log('✓ shop-engine.js executed');
+    })
+    .catch(e => console.error('❌ Failed to load shop-engine.js:', e));
+</script>
 <script>
     console.log('After shop-engine.js load:');
     console.log('  typeof ShopEngine:', typeof ShopEngine);
