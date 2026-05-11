@@ -9,57 +9,58 @@ let srData = {};
 // Load all data
 async function initializeShopEngine() {
     try {
-        console.log('🏪 Initializing Shop Engine...');
+        console.log('%c🏪 SHOP ENGINE INIT START', 'color: #00ff88; font-weight: bold');
 
         // Load shops.json
-        console.log('Loading shops.json...');
-        const shopsResponse = await fetch('./shops.json');
-        if (!shopsResponse.ok) throw new Error(`shops.json returned ${shopsResponse.status}`);
-        const shopsJson = await shopsResponse.json();
-        shopsDatabase = shopsJson.shops || [];
-        console.log(`✓ Loaded ${shopsDatabase.length} shops`);
+        console.log('%cSTEP 1: Loading shops.json', 'color: #00d4ff');
+        let shopsResponse;
+        try {
+            shopsResponse = await fetch('./shops.json');
+            console.log(`  Response status: ${shopsResponse.status}`);
+            if (!shopsResponse.ok) throw new Error(`shops.json returned ${shopsResponse.status}`);
+            const shopsJson = await shopsResponse.json();
+            shopsDatabase = shopsJson.shops || [];
+            console.log(`  ✓ Loaded ${shopsDatabase.length} shops`);
+        } catch (e) {
+            console.error(`  ❌ SHOPS LOAD FAILED:`, e.message);
+            throw e;
+        }
 
         // Load subdistricts.json
-        console.log('Loading subdistricts.json...');
+        console.log('%cSTEP 2: Loading subdistricts.json', 'color: #00d4ff');
         try {
             const subResponse = await fetch('./subdistricts.json');
+            console.log(`  Response status: ${subResponse.status}`);
             if (!subResponse.ok) throw new Error(`subdistricts.json returned ${subResponse.status}`);
             const subJson = await subResponse.json();
             subDistrictsData = Array.isArray(subJson) ? subJson : subJson.subdistricts || [];
-            console.log(`✓ Loaded ${subDistrictsData.length} subdistricts from file`);
+            console.log(`  ✓ Loaded ${subDistrictsData.length} subdistricts from file`);
         } catch (subError) {
-            console.warn('⚠️ Failed to load subdistricts.json, extracting from shops data:', subError.message);
-            // Fallback: extract subdistricts from shops data
+            console.warn(`  ⚠️ FALLBACK: Extracting from shops:`, subError.message);
             const subDistrictSet = new Set();
-            const districtSet = new Set();
             shopsDatabase.forEach(shop => {
                 if (shop.subdistrict_thai) subDistrictSet.add(shop.subdistrict_thai);
-                if (shop.district_thai) districtSet.add(shop.district_thai);
             });
-            subDistrictsData = Array.from(subDistrictSet).map((subdistrict, index) => {
+            subDistrictsData = Array.from(subDistrictSet).map((subdistrict) => {
                 const matchingShop = shopsDatabase.find(s => s.subdistrict_thai === subdistrict);
                 return {
                     subdistrict: subdistrict,
                     district: matchingShop ? matchingShop.district_thai : 'Unknown'
                 };
             });
-            console.log(`✓ Extracted ${subDistrictsData.length} subdistricts from shops data`);
+            console.log(`  ✓ Extracted ${subDistrictsData.length} subdistricts from shops`);
         }
 
-        if (subDistrictsData.length === 0) {
-            console.warn('⚠️ No subdistricts found - shop system may not work correctly');
-        } else {
-            console.log('Sample subdistricts:', subDistrictsData.slice(0, 2));
-        }
-
-        // Load SR2 data files for inventory (non-fatal if they fail)
+        console.log('%cSTEP 3: Loading SR2 data', 'color: #00d4ff');
         await loadSR2Data();
 
-        console.log('✓ Shop Engine initialized');
+        console.log('%c✓ SHOP ENGINE INITIALIZED SUCCESSFULLY', 'color: #00ff88; font-weight: bold');
+        console.log(`  Shops: ${shopsDatabase.length}, Subdistricts: ${subDistrictsData.length}`);
         return true;
     } catch (error) {
-        console.error('❌ Error initializing shop engine:', error.message);
-        console.error('Full error:', error);
+        console.error('%c❌ SHOP ENGINE INIT FAILED', 'color: #ff0080; font-weight: bold');
+        console.error(`  Error: ${error.message}`);
+        console.error(`  Stack:`, error);
         throw error;
     }
 }
