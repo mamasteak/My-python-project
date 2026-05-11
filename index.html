@@ -334,9 +334,20 @@
             gap: 10px;
         }
 
+        /* Hide ALL content when sidebar is NOT expanded */
+        .sidebar:not(.open) .sidebar-content {
+            display: none !important;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+
         /* Only show content when sidebar is expanded AND content is active */
         .sidebar.open .sidebar-content.active {
             display: flex;
+            visibility: visible;
+            height: auto;
         }
 
         .sidebar-content::-webkit-scrollbar {
