@@ -107,8 +107,395 @@ const PlayerUI = {
     console.log(`✓ Rendered ${characters.length} characters`);
   },
 
-  // Show character creation modal
+  // Show full character maker
+  showFullCharacterMaker() {
+    if (typeof CharacterSchema === 'undefined') {
+      alert('⚠️ Character system not ready');
+      return;
+    }
+
+    const charMakerHTML = `
+      <div id="charMakerOverlay" class="char-maker-overlay">
+        <div class="char-maker-modal">
+          <div class="char-maker-header">
+            <h2>⚔️ FULL CHARACTER MAKER</h2>
+            <button class="char-maker-close" onclick="PlayerUI.closeCharacterMaker()">✕</button>
+          </div>
+
+          <div class="char-maker-tabs">
+            <button class="char-maker-tab-btn active" onclick="PlayerUI.switchMakerTab('basics')">Basics</button>
+            <button class="char-maker-tab-btn" onclick="PlayerUI.switchMakerTab('attributes')">Attributes</button>
+            <button class="char-maker-tab-btn" onclick="PlayerUI.switchMakerTab('skills')">Skills</button>
+            <button class="char-maker-tab-btn" onclick="PlayerUI.switchMakerTab('equipment')">Equipment</button>
+            <button class="char-maker-tab-btn" onclick="PlayerUI.switchMakerTab('magic')">Magic</button>
+            <button class="char-maker-tab-btn" onclick="PlayerUI.switchMakerTab('review')">Review</button>
+          </div>
+
+          <div class="char-maker-content">
+            <!-- BASICS TAB -->
+            <div id="maker-basics" class="char-maker-tab-content active">
+              <div class="maker-section">
+                <label>Character Name *</label>
+                <input type="text" id="makerCharName" placeholder="Enter name" required>
+              </div>
+              <div class="maker-section">
+                <label>Player Name</label>
+                <input type="text" id="makerPlayerName" placeholder="Your name (optional)">
+              </div>
+              <div class="maker-section">
+                <label>Metatype</label>
+                <select id="makerMetatype">
+                  <option value="human">Human</option>
+                  <option value="elf">Elf</option>
+                  <option value="dwarf">Dwarf</option>
+                  <option value="orc">Orc</option>
+                  <option value="troll">Troll</option>
+                </select>
+              </div>
+              <div class="maker-section">
+                <label>Biography</label>
+                <textarea id="makerBiography" placeholder="Character background..." rows="4"></textarea>
+              </div>
+              <div class="maker-section">
+                <label>Starting Balance (¥)</label>
+                <input type="number" id="makerBalance" value="50000" min="0">
+              </div>
+            </div>
+
+            <!-- ATTRIBUTES TAB -->
+            <div id="maker-attributes" class="char-maker-tab-content">
+              <div class="maker-attrs-grid">
+                ${['Body', 'Quickness', 'Strength', 'Charisma', 'Intelligence', 'Willpower'].map((attr, idx) => {
+                  const key = attr.toLowerCase();
+                  return `
+                    <div class="maker-attr-block">
+                      <label>${attr}</label>
+                      <div class="maker-attr-input">
+                        <input type="number" id="maker${attr}" min="1" max="10" value="3">
+                        <span class="maker-attr-value" id="maker${attr}Display">3</span>
+                      </div>
+                      <input type="range" id="maker${attr}Range" min="1" max="10" value="3"
+                        oninput="document.getElementById('maker${attr}').value = this.value; document.getElementById('maker${attr}Display').textContent = this.value;">
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- SKILLS TAB -->
+            <div id="maker-skills" class="char-maker-tab-content">
+              <div class="maker-section">
+                <button onclick="PlayerUI.addSkillRow()" style="padding: 8px 16px; margin-bottom: 12px;">+ Add Skill</button>
+              </div>
+              <div id="skillsList" class="skills-list"></div>
+            </div>
+
+            <!-- EQUIPMENT TAB -->
+            <div id="maker-equipment" class="char-maker-tab-content">
+              <div class="maker-section">
+                <button onclick="PlayerUI.addEquipmentRow('weapons')" style="padding: 8px 16px; margin-bottom: 12px;">+ Add Weapon</button>
+              </div>
+              <div id="weaponsList" class="equipment-list"></div>
+
+              <div class="maker-section" style="margin-top: 20px;">
+                <button onclick="PlayerUI.addEquipmentRow('gear')" style="padding: 8px 16px; margin-bottom: 12px;">+ Add Gear</button>
+              </div>
+              <div id="gearList" class="equipment-list"></div>
+
+              <div class="maker-section" style="margin-top: 20px;">
+                <button onclick="PlayerUI.addEquipmentRow('armor')" style="padding: 8px 16px; margin-bottom: 12px;">+ Add Armor</button>
+              </div>
+              <div id="armorList" class="equipment-list"></div>
+            </div>
+
+            <!-- MAGIC TAB -->
+            <div id="maker-magic" class="char-maker-tab-content">
+              <div class="maker-section">
+                <label>
+                  <input type="checkbox" id="makerAwakened" onchange="document.getElementById('magicSection').style.display = this.checked ? 'block' : 'none';"> Awakened Mage
+                </label>
+              </div>
+              <div id="magicSection" style="display: none;">
+                <div class="maker-section">
+                  <label>Tradition</label>
+                  <select id="makerTradition">
+                    <option value="">None</option>
+                    <option value="shamanism">Shamanism</option>
+                    <option value="hermetic">Hermetic</option>
+                    <option value="voodoo">Voodoo</option>
+                  </select>
+                </div>
+                <div class="maker-section">
+                  <label>Magic Rating (0-6)</label>
+                  <input type="number" id="makerMagicRating" min="0" max="6" value="1">
+                </div>
+              </div>
+
+              <div class="maker-section">
+                <label>
+                  <input type="checkbox" id="makerAdept" onchange="document.getElementById('adeptSection').style.display = this.checked ? 'block' : 'none';"> Adept
+                </label>
+              </div>
+              <div id="adeptSection" style="display: none;">
+                <div class="maker-section">
+                  <label>Power Points (0-10)</label>
+                  <input type="number" id="makerPowerPoints" min="0" max="10" value="0">
+                </div>
+              </div>
+            </div>
+
+            <!-- REVIEW TAB -->
+            <div id="maker-review" class="char-maker-tab-content">
+              <div id="reviewContent" style="padding: 12px; max-height: 400px; overflow-y: auto;">
+                <p style="color: var(--text-muted);">Click "Save & Download" to review and export character...</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="char-maker-footer">
+            <button class="char-maker-btn-cancel" onclick="PlayerUI.closeCharacterMaker()">Cancel</button>
+            <button class="char-maker-btn-save" onclick="PlayerUI.finalizeCharacter()">Save & Download JSON</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', charMakerHTML);
+    this.initCharacterMaker();
+    console.log('✓ Full character maker opened');
+  },
+
+  // Initialize character maker
+  initCharacterMaker() {
+    const skillsList = document.getElementById('skillsList');
+    skillsList.innerHTML = '<div style="color: var(--text-muted); padding: 12px;">No skills added yet</div>';
+  },
+
+  // Add skill row
+  addSkillRow() {
+    const skillsList = document.getElementById('skillsList');
+    if (skillsList.innerHTML.includes('No skills added yet')) {
+      skillsList.innerHTML = '';
+    }
+
+    const skillId = 'skill_' + Date.now();
+    const html = `
+      <div class="skill-row" id="${skillId}">
+        <input type="text" placeholder="Skill name" class="skill-name">
+        <input type="number" placeholder="Rating" min="0" max="6" value="1" class="skill-rating">
+        <input type="text" placeholder="Concentration" class="skill-concentration">
+        <button onclick="document.getElementById('${skillId}').remove()">✕</button>
+      </div>
+    `;
+    skillsList.insertAdjacentHTML('beforeend', html);
+  },
+
+  // Add equipment row
+  addEquipmentRow(type) {
+    const listId = type + 'List';
+    let list = document.getElementById(listId);
+    if (!list) {
+      const container = document.querySelector(`#maker-equipment`);
+      list = document.createElement('div');
+      list.id = listId;
+      list.className = 'equipment-list';
+      container.appendChild(list);
+    }
+
+    if (list.innerHTML.includes('No items') || list.innerHTML === '') {
+      list.innerHTML = '';
+    }
+
+    const itemId = type + '_' + Date.now();
+    const html = `
+      <div class="equipment-row" id="${itemId}">
+        <input type="text" placeholder="Item name" class="equip-name">
+        <input type="number" placeholder="Cost" value="0" class="equip-cost">
+        <input type="text" placeholder="Notes" class="equip-notes">
+        <button onclick="document.getElementById('${itemId}').remove()">✕</button>
+      </div>
+    `;
+    list.insertAdjacentHTML('beforeend', html);
+  },
+
+  // Switch maker tabs
+  switchMakerTab(tabName) {
+    document.querySelectorAll('.char-maker-tab-content').forEach(tab => {
+      tab.classList.remove('active');
+    });
+    document.querySelectorAll('.char-maker-tab-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+
+    document.getElementById('maker-' + tabName).classList.add('active');
+    event.target.classList.add('active');
+
+    if (tabName === 'review') {
+      this.updateReview();
+    }
+  },
+
+  // Update review
+  updateReview() {
+    const charName = document.getElementById('makerCharName').value || '[Unnamed]';
+    const metatype = document.getElementById('makerMetatype').value;
+    const balance = document.getElementById('makerBalance').value;
+
+    let reviewHTML = `
+      <div style="color: var(--primary-neon); margin-bottom: 12px;">
+        <strong>${charName}</strong> (${metatype}) • ¥${parseInt(balance).toLocaleString()}
+      </div>
+      <div style="font-size: 10px; color: var(--text-bright); line-height: 1.6;">
+    `;
+
+    // Attributes
+    reviewHTML += '<div style="margin-bottom: 8px;"><strong>Attributes:</strong> ';
+    ['Body', 'Quickness', 'Strength', 'Charisma', 'Intelligence', 'Willpower'].forEach(attr => {
+      const val = document.getElementById('maker' + attr).value;
+      reviewHTML += `${attr.substring(0,3)} ${val} • `;
+    });
+    reviewHTML += '</div>';
+
+    // Skills
+    const skillRows = document.querySelectorAll('.skill-row');
+    if (skillRows.length > 0) {
+      reviewHTML += '<div style="margin-bottom: 8px;"><strong>Skills:</strong><br>';
+      skillRows.forEach(row => {
+        const name = row.querySelector('.skill-name').value;
+        const rating = row.querySelector('.skill-rating').value;
+        if (name) reviewHTML += `  ${name} (${rating})<br>`;
+      });
+      reviewHTML += '</div>';
+    }
+
+    document.getElementById('reviewContent').innerHTML = reviewHTML + '</div>';
+  },
+
+  // Finalize and download character
+  finalizeCharacter() {
+    const charName = document.getElementById('makerCharName').value.trim();
+    if (!charName) {
+      alert('⚠️ Please enter a character name');
+      return;
+    }
+
+    // Create character object
+    const character = CharacterSchema.createNewCharacter(charName, document.getElementById('makerMetatype').value);
+
+    // Set basic info
+    character.details.player = document.getElementById('makerPlayerName').value || '';
+    character.details.biography = document.getElementById('makerBiography').value || '';
+    character.balance = parseInt(document.getElementById('makerBalance').value) || 50000;
+
+    // Set attributes
+    ['Body', 'Quickness', 'Strength', 'Charisma', 'Intelligence', 'Willpower'].forEach(attr => {
+      const key = attr.toLowerCase();
+      const val = parseInt(document.getElementById('maker' + attr).value) || 3;
+      character.attributes[key].base = val;
+      character.attributes[key].modified = val;
+    });
+
+    // Add skills
+    document.querySelectorAll('.skill-row').forEach(row => {
+      const name = row.querySelector('.skill-name').value;
+      const rating = parseInt(row.querySelector('.skill-rating').value) || 0;
+      const conc = row.querySelector('.skill-concentration').value || '';
+
+      if (name) {
+        character.skills.push({
+          id: 'skill_' + Date.now() + '_' + Math.random(),
+          baseName: name,
+          concentration: conc,
+          specialization: '',
+          ratings: { base: rating, concentration: 0, specialization: 0 }
+        });
+      }
+    });
+
+    // Add weapons
+    document.querySelectorAll('#weaponsList .equipment-row').forEach(row => {
+      const name = row.querySelector('.equip-name').value;
+      if (name) {
+        character.equipment.weapons.push({
+          id: 'weapon_' + Date.now() + '_' + Math.random(),
+          name: name,
+          cost: parseInt(row.querySelector('.equip-cost').value) || 0,
+          notes: row.querySelector('.equip-notes').value || ''
+        });
+      }
+    });
+
+    // Add gear
+    document.querySelectorAll('#gearList .equipment-row').forEach(row => {
+      const name = row.querySelector('.equip-name').value;
+      if (name) {
+        character.equipment.gear.push({
+          id: 'gear_' + Date.now() + '_' + Math.random(),
+          name: name,
+          cost: parseInt(row.querySelector('.equip-cost').value) || 0,
+          notes: row.querySelector('.equip-notes').value || ''
+        });
+      }
+    });
+
+    // Add armor
+    document.querySelectorAll('#armorList .equipment-row').forEach(row => {
+      const name = row.querySelector('.equip-name').value;
+      if (name) {
+        character.equipment.armor.push({
+          id: 'armor_' + Date.now() + '_' + Math.random(),
+          name: name,
+          cost: parseInt(row.querySelector('.equip-cost').value) || 0,
+          notes: row.querySelector('.equip-notes').value || ''
+        });
+      }
+    });
+
+    // Handle magic
+    if (document.getElementById('makerAwakened').checked) {
+      character.magic.awakened = true;
+      character.magic.tradition = document.getElementById('makerTradition').value || null;
+      character.attributes.magic.base = parseInt(document.getElementById('makerMagicRating').value) || 1;
+      character.attributes.magic.current = character.attributes.magic.base;
+    }
+
+    // Handle adept
+    if (document.getElementById('makerAdept').checked) {
+      character.adept.isAdept = true;
+      character.adept.powerPoints = parseInt(document.getElementById('makerPowerPoints').value) || 0;
+    }
+
+    // Save to localStorage
+    const result = CharacterStorage.saveCharacter(character);
+
+    if (result.success) {
+      // Download JSON
+      CharacterStorage.downloadCharacterAsJSON(character);
+
+      this.closeCharacterMaker();
+      this.renderPlayerList();
+
+      alert(`✅ Character "${charName}" created!\n✓ Saved to localStorage\n✓ JSON file downloaded`);
+      console.log(`✓ Character "${charName}" finalized and exported`);
+    } else {
+      alert(`❌ Failed to save character: ${result.error}`);
+    }
+  },
+
+  // Close character maker
+  closeCharacterMaker() {
+    const modal = document.getElementById('charMakerOverlay');
+    if (modal) {
+      modal.remove();
+    }
+  },
+
+  // Show character creation modal (LEGACY - kept for compatibility)
   showPlayerRegistrationModal() {
+    // Now calls the full character maker instead
+    this.showFullCharacterMaker();
+    return;
+
     if (typeof CharacterSchema === 'undefined') {
       alert('⚠️ Character system not ready');
       return;
