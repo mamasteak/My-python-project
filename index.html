@@ -2280,23 +2280,33 @@
     }
 
     function addToCart(itemId, itemName, itemPrice, stock) {
+        // Ensure itemId is a string for consistency
+        const stringItemId = String(itemId);
+
         // Check if item already in cart
-        const existingItem = currentCart.find(item => item.id == itemId);
+        const existingItem = currentCart.find(item => item.id === stringItemId);
 
         if (existingItem) {
-            existingItem.quantity = Math.min(existingItem.quantity + 1, stock);
+            const currentStock = getItemCurrentStock(stringItemId);
+            existingItem.quantity = Math.min(existingItem.quantity + 1, currentStock);
         } else {
             currentCart.push({
-                id: itemId,
+                id: stringItemId,
                 name: itemName,
                 price: itemPrice,
-                stock: stock,
                 quantity: 1
             });
         }
 
         updateCartDisplay();
         updatePlayerBalance();
+    }
+
+    function getItemCurrentStock(itemId) {
+        if (!shopInventory || !shopInventory[itemId]) {
+            return 0;
+        }
+        return shopInventory[itemId].stock;
     }
 
     function updateCartDisplay() {
@@ -2323,16 +2333,17 @@
     function editQuantity(index) {
         const item = currentCart[index];
         const qtySpan = document.getElementById(`qty-${index}`);
+        const currentStock = getItemCurrentStock(item.id);
 
         const input = document.createElement('input');
         input.type = 'number';
         input.className = 'cart-item-qty-input';
         input.min = '1';
-        input.max = item.stock;
+        input.max = currentStock;
         input.value = item.quantity;
 
         input.onblur = () => {
-            const newQty = Math.min(Math.max(parseInt(input.value) || 1, 1), item.stock);
+            const newQty = Math.min(Math.max(parseInt(input.value) || 1, 1), currentStock);
             item.quantity = newQty;
             updateCartDisplay();
             updatePlayerBalance();
@@ -2400,14 +2411,21 @@
 
             // Reduce stock for each purchased item
             currentCart.forEach(cartItem => {
-                const invItem = inventory.find(i => i.id == cartItem.id);
+                const invItem = inventory.find(i => i.id === cartItem.id);
                 if (invItem) {
                     invItem.stock -= cartItem.quantity;
+                    if (invItem.stock < 0) {
+                        console.warn(`⚠️ Stock went negative for item "${invItem.name}"`);
+                        invItem.stock = 0;
+                    }
                 }
             });
 
             // Save updated inventory to cache
             StockManager.updateShopInventory(currentShopData.id, currentMonth, inventory);
+
+            // Refresh the inventory display to show updated stock
+            displayShopInventory(currentShopData);
         }
 
         // Create receipt

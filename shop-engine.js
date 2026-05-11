@@ -87,9 +87,20 @@ function generateShopInventory(shop) {
     const inventory = [];
     const inventory_categories = shop.inventory_categories || [];
 
+    if (inventory_categories.length === 0) {
+        console.warn(`⚠️ Shop "${shop.shop_name}" has no inventory categories defined`);
+        inventoryCache[shop.id] = inventory;
+        return inventory;
+    }
+
     // Fetch items from SR2 data based on categories
     inventory_categories.forEach(category => {
         const items = extractItemsFromCategory(category);
+
+        if (items.length === 0) {
+            console.warn(`⚠️ No items found for category "${category}" in shop "${shop.shop_name}"`);
+            return;
+        }
 
         // Randomly select 5-10 items from this category
         const itemCount = Math.floor(Math.random() * 6) + 5;
@@ -97,7 +108,7 @@ function generateShopInventory(shop) {
 
         selectedItems.forEach((item, index) => {
             inventory.push({
-                id: inventory.length + 1,
+                id: String(inventory.length + 1),
                 name: item.name || item.Name || 'Unknown Item',
                 price: parseInt(item.price || item.Cost || item.cost || item.Price || 1000),
                 stock: Math.floor(Math.random() * 15) + 3,
@@ -117,57 +128,83 @@ function generateShopInventory(shop) {
 // Extract items from SR2 data by category
 function extractItemsFromCategory(category) {
     const items = [];
+    const categoryLower = category.toLowerCase().trim();
 
-    switch(category.toLowerCase()) {
-        case 'bioware':
-            if (srData.bioware && srData.bioware.STANDARD) {
-                items.push(...srData.bioware.STANDARD);
-            }
-            break;
+    try {
+        switch(categoryLower) {
+            case 'bioware':
+                if (srData.bioware && srData.bioware.STANDARD) {
+                    items.push(...srData.bioware.STANDARD);
+                } else {
+                    console.debug(`Bioware data not available or missing STANDARD property`);
+                }
+                break;
 
-        case 'vehicles':
-            if (srData.vehicles) {
-                const vArray = Array.isArray(srData.vehicles) ? srData.vehicles : Object.values(srData.vehicles);
-                items.push(...vArray.slice(0, 50));
-            }
-            break;
+            case 'vehicles':
+                if (srData.vehicles) {
+                    const vArray = Array.isArray(srData.vehicles) ? srData.vehicles : Object.values(srData.vehicles);
+                    items.push(...vArray.slice(0, 50));
+                } else {
+                    console.debug(`Vehicles data not available`);
+                }
+                break;
 
-        case 'vehicle modifications':
-            if (srData.vehicles) {
-                const vArray = Array.isArray(srData.vehicles) ? srData.vehicles : Object.values(srData.vehicles);
-                items.push(...vArray.slice(50, 100));
-            }
-            break;
+            case 'vehicle modifications':
+                if (srData.vehicles) {
+                    const vArray = Array.isArray(srData.vehicles) ? srData.vehicles : Object.values(srData.vehicles);
+                    items.push(...vArray.slice(50, 100));
+                } else {
+                    console.debug(`Vehicles data not available for modifications`);
+                }
+                break;
 
-        case 'cyberware':
-        case 'firearms':
-        case 'ammunition':
-        case 'explosives':
-        case 'edged weapon':
-        case 'clothing and armor':
-        case 'surveillance and security':
-        case 'drugs':
-        case 'lifestyle':
-        case 'magical equipment':
-        case 'stuff with ratings':
-            if (srData.gear && srData.gear[capitalizeWords(category)]) {
-                items.push(...srData.gear[capitalizeWords(category)].entries || []);
-            }
-            break;
+            case 'cyberware':
+            case 'firearms':
+            case 'ammunition':
+            case 'explosives':
+            case 'edged weapon':
+            case 'clothing and armor':
+            case 'surveillance and security':
+            case 'drugs':
+            case 'lifestyle':
+            case 'magical equipment':
+            case 'stuff with ratings':
+                if (srData.gear) {
+                    const capitalizedCategory = capitalizeWords(category);
+                    const categoryData = srData.gear[capitalizedCategory];
+                    if (categoryData) {
+                        items.push(...(categoryData.entries || categoryData || []));
+                    } else {
+                        console.debug(`Category "${capitalizedCategory}" not found in gear data`);
+                    }
+                } else {
+                    console.debug(`Gear data not available`);
+                }
+                break;
 
-        case 'programs':
-            if (srData.programs) {
-                const pArray = Array.isArray(srData.programs) ? srData.programs : Object.values(srData.programs);
-                items.push(...pArray);
-            }
-            break;
+            case 'programs':
+                if (srData.programs) {
+                    const pArray = Array.isArray(srData.programs) ? srData.programs : Object.values(srData.programs);
+                    items.push(...pArray);
+                } else {
+                    console.debug(`Programs data not available`);
+                }
+                break;
 
-        case 'cyberdecks':
-            if (srData.cyberdeck) {
-                const cArray = Array.isArray(srData.cyberdeck) ? srData.cyberdeck : Object.values(srData.cyberdeck);
-                items.push(...cArray);
-            }
-            break;
+            case 'cyberdecks':
+                if (srData.cyberdeck) {
+                    const cArray = Array.isArray(srData.cyberdeck) ? srData.cyberdeck : Object.values(srData.cyberdeck);
+                    items.push(...cArray);
+                } else {
+                    console.debug(`Cyberdecks data not available`);
+                }
+                break;
+
+            default:
+                console.warn(`⚠️ Unknown inventory category: "${category}"`);
+        }
+    } catch (error) {
+        console.error(`Error extracting items from category "${category}":`, error);
     }
 
     return items;
