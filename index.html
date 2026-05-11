@@ -1107,6 +1107,54 @@
             background: rgba(255, 0, 128, 0.2);
             box-shadow: 0 0 6px rgba(255, 0, 128, 0.3);
         }
+
+        /* DYNAMIC CONTROLS */
+        .controls-view {
+            display: none;
+            flex: 1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .controls-view.active {
+            display: flex;
+        }
+
+        .controls-left, .controls-right {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .coords-center {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .shop-register {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-neon);
+            padding: 6px 12px;
+            border-radius: 2px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .register-total, .register-items {
+            color: var(--text-muted);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .register-total strong, .register-items strong {
+            color: var(--primary-neon);
+            text-shadow: 0 0 6px var(--primary-neon);
+        }
     </style>
 </head>
 <body>
@@ -1222,14 +1270,32 @@
         </div>
 
         <div class="controls-bar">
-            <div class="controls-left">
-                <button class="control-btn" onclick="zoomToFit()">📍 FIT VIEW</button>
+            <!-- MAP VIEW CONTROLS -->
+            <div id="map-controls" class="controls-view active">
+                <div class="controls-left">
+                    <button class="control-btn" onclick="zoomToFit()">📍 FIT VIEW</button>
+                </div>
+                <div class="coords-center">
+                    <div class="coords-display" id="coordsDisplay">X: 0 | Y: 0</div>
+                </div>
+                <div class="controls-right">
+                    <button class="control-btn secondary" onclick="clearMap()">🗑️ CLEAR</button>
+                </div>
             </div>
-            <div class="coords-center">
-                <div class="coords-display" id="coordsDisplay">X: 0 | Y: 0</div>
-            </div>
-            <div class="controls-right">
-                <button class="control-btn secondary" onclick="clearMap()">🗑️ CLEAR</button>
+
+            <!-- SHOP VIEW CONTROLS -->
+            <div id="shop-controls" class="controls-view">
+                <div class="controls-left"></div>
+                <div class="coords-center">
+                    <div class="shop-register">
+                        <span class="register-total">Cart Total: <strong id="registerTotal">¥0</strong></span>
+                        <span class="register-items">Items: <strong id="registerItems">0</strong></span>
+                    </div>
+                </div>
+                <div class="controls-right">
+                    <button class="control-btn" onclick="confirmPurchase()" style="background: rgba(0, 255, 136, 0.15); border-color: var(--primary-neon); color: var(--primary-neon);">✓ CHECKOUT</button>
+                    <button class="control-btn secondary" onclick="clearCart()" style="background: rgba(255, 0, 128, 0.15); border-color: var(--secondary-neon); color: var(--secondary-neon);">⊘ CLEAR</button>
+                </div>
             </div>
         </div>
 
@@ -1392,10 +1458,6 @@
                         </div>
                         <div class="shop-row">
                             <span class="remaining-balance">After: <strong id="remainingBalance">--</strong></span>
-                        </div>
-                        <div class="shop-buttons">
-                            <button class="shop-btn confirm" onclick="confirmPurchase()">CONFIRM</button>
-                            <button class="shop-btn clear" onclick="clearCart()">CLEAR</button>
                         </div>
                     </div>
 
@@ -1970,6 +2032,11 @@
             page.classList.remove('active');
         });
 
+        // Deactivate all controls
+        document.querySelectorAll('.controls-view').forEach(control => {
+            control.classList.remove('active');
+        });
+
         // Activate clicked tab
         event.target.closest('.sidebar-tab').classList.add('active');
 
@@ -1978,6 +2045,14 @@
 
         // Activate corresponding page
         document.getElementById(`${pageName}-page`).classList.add('active');
+
+        // Activate corresponding controls
+        document.getElementById(`${pageName}-controls`).classList.add('active');
+
+        // Update shop register if switching to shop
+        if (pageName === 'shop') {
+            updateRegisterDisplay();
+        }
     }
 
     // ===== SHOP SYSTEM =====
@@ -2014,6 +2089,14 @@
     };
 
     let currentCart = [];
+
+    function updateRegisterDisplay() {
+        const cartTotal = currentCart.reduce((sum, item) => sum + item.price, 0);
+        const itemCount = currentCart.length;
+
+        document.getElementById('registerTotal').textContent = '¥' + cartTotal.toLocaleString();
+        document.getElementById('registerItems').textContent = itemCount;
+    }
 
     function updateShops() {
         const subDistrict = document.getElementById('subDistrictSelect').value;
@@ -2076,6 +2159,9 @@
         document.getElementById('playerBalance').textContent = '¥' + player.balance.toLocaleString();
         document.getElementById('cartTotal').textContent = '¥' + cartTotal.toLocaleString();
         document.getElementById('remainingBalance').textContent = '¥' + Math.max(0, remaining).toLocaleString();
+
+        // Update register display
+        updateRegisterDisplay();
     }
 
     function confirmPurchase() {
@@ -2102,6 +2188,7 @@
         document.querySelector('.shop-cart-items').innerHTML = '<div style="color: var(--text-muted); font-size: 8px; text-align: center;">No items in cart</div>';
 
         // Update display
+        updateRegisterDisplay();
         updatePlayerBalance();
 
         alert(`Purchase confirmed! ${player.name} spent ¥${cartTotal.toLocaleString()}`);
@@ -2111,6 +2198,7 @@
         currentCart = [];
         document.querySelector('.shop-cart-items').innerHTML = '<div style="color: var(--text-muted); font-size: 8px; text-align: center;">No items in cart</div>';
         document.getElementById('cartTotal').textContent = '¥0';
+        updateRegisterDisplay();
         updatePlayerBalance();
     }
 
